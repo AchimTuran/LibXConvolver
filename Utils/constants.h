@@ -35,7 +35,7 @@
 #define E_p6	1000000.0				//Meg
 #define E_p9	1000000000.0			//Gig
 #define E_p12	1000000000000.0			//Tera
-#define E_p12	1000000000000000.0		//Peta
+#define E_p15	1000000000000000.0		//Peta
 
 
 //negative exponents
@@ -50,4 +50,4 @@
 #define Ef_p6	1000000.0f				//Meg
 #define Ef_p9	1000000000.0f			//Gig
 #define Ef_p12	1000000000000.0f		//Tera
-#define Ef_p12	1000000000000000.0f		//Peta
+#define Ef_p15	1000000000000000.0f		//Peta
