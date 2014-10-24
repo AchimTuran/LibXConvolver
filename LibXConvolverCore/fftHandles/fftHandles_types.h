@@ -57,7 +57,7 @@ typedef struct
 	LXC_ERROR_CODE	(*fmtc_fft_TO_external)(LXC_FFT_PLAN *fftHandle_in, void *Out, uint Size);						// fft format to outside LXC format
 	LXC_ERROR_CODE	(*fmtc_external_TO_fft_2Ch)(void *In1, void *In2, LXC_FFT_PLAN *fftHandle_out, uint Size);		// outside LXC format to fft format (2 Channels)
 	LXC_ERROR_CODE	(*fmtc_fft_TO_external_2Ch)(LXC_FFT_PLAN *fftHandle_in, void *Out1, void *Out2, uint Size);		// fft format to outside LXC format (2 Channels)
-	LXC_ERROR_CODE	(*fmtc_interal_TO_fft)(void *In, LXC_FFT_PLAN *fftHandle_out, uint Size);						// intern LXC format to fft format
+	LXC_ERROR_CODE	(*fmtc_internal_TO_fft)(void *In, LXC_FFT_PLAN *fftHandle_out, uint Size);						// intern LXC format to fft format
 	LXC_ERROR_CODE	(*fmtc_fft_TO_internal)(LXC_FFT_PLAN *fftHandle_in, void *Out, uint Size);						// fft format to intern LXC format
 } LXC_FFT_CALLBACKS;
 

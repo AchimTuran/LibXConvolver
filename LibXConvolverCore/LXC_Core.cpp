@@ -439,7 +439,7 @@ LXC_ERROR_CODE LXC_Core_convolve(LXC_HANDLE *LXCHandle, float *x, float *z)
 	}
 
 	// do inverse fast fourier transform
-	fft->fmtc_interal_TO_fft(Z, fftPlan, freqFrameLength);
+	fft->fmtc_internal_TO_fft(Z, fftPlan, freqFrameLength);
 	fft->ifft(fftPlan);
 	fft->fmtc_fft_TO_external(fftPlan, z, timeFrameLength);
 
@@ -524,7 +524,7 @@ LXC_ERROR_CODE LXC_Core_convolve2Ch(LXC_HANDLE *LXCHandle, float *x, float *y, f
 	}
 
 	// do inverse fast fourier transform
-	fft->fmtc_interal_TO_fft(Z, fftPlan, freqFrameLength);
+	fft->fmtc_internal_TO_fft(Z, fftPlan, freqFrameLength);
 	fft->ifft(fftPlan);
 	fft->fmtc_fft_TO_external_2Ch(fftPlan, z1, z2, timeFrameLength);
 
@@ -558,7 +558,7 @@ void LXC_Core_clearHandle(LXC_HANDLE *LXCHandle)
 		LXCHandle->fftHandle.fftCallbacks.fmtc_fft_TO_external				= NULL;
 		LXCHandle->fftHandle.fftCallbacks.fmtc_fft_TO_external_2Ch			= NULL;
 		LXCHandle->fftHandle.fftCallbacks.fmtc_fft_TO_internal				= NULL;
-		LXCHandle->fftHandle.fftCallbacks.fmtc_interal_TO_fft				= NULL;
+		LXCHandle->fftHandle.fftCallbacks.fmtc_internal_TO_fft				= NULL;
 		LXCHandle->fftHandle.fftCallbacks.ifft								= NULL;
 
 		LXCHandle->fftHandle.fftModule										= LXC_fftModule_Min;

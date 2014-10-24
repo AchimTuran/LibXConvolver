@@ -44,14 +44,14 @@ LXC_ERROR_CODE get_fftwfHandleCallbacks(LXC_FFT_CALLBACKS *Callbacks, LXC_OPTIMI
 	{
 	#if defined(USE_LXC_NATIVE)
 		case LXC_OPT_NATIVE:
-			Callbacks->fmtc_interal_TO_fft  = fmtc_LXCcpxFloat_TO_fftwf;
+			Callbacks->fmtc_internal_TO_fft  = fmtc_LXCcpxFloat_TO_fftwf;
 			Callbacks->fmtc_fft_TO_internal = fmtc_fftwf_TO_LXCcpxFloat;
 		break;
 	#endif
 
 	#if defined(USE_LXC_SSE3)
 		case LXC_OPT_SSE3:
-			Callbacks->fmtc_interal_TO_fft  = fmtc_LXCcpxSSE3Float_TO_fftwf_SSE3_K2;
+			Callbacks->fmtc_internal_TO_fft  = fmtc_LXCcpxSSE3Float_TO_fftwf_SSE3_K2;
 			Callbacks->fmtc_fft_TO_internal = fmtc_fftwf_TO_LXCcpxSSE3Float_SSE3_K2;
 		break;
 	#endif
