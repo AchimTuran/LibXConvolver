@@ -26,10 +26,12 @@ using namespace std;
 
 #include "sndfile.hh"
 
-#include "../utils/timer/CPUTimer.h"
-#include "../utils/signal/wavLoader.h"
-#include "../utils/errorHandle/errorHandle.h"
-#include "../utils/errorHandle/errorCout.h"
+#include "../Utils/timer/CPUTimer.h"
+#include "../Utils/signal/wavLoader.h"
+#include "../Utils/errorHandle/errorHandle.h"
+#include "../Utils/errorHandle/errorCout.h"
+#include "../Utils/constants.h"
+#include "../Utils/system/LXC_OptimizationTranslator.h"
 
 #include "LXC_Core.h"
 #include "../LXCHandles/LXC_SSE3/LXC_SSE3Buffer.h"
@@ -37,12 +39,14 @@ using namespace std;
 #include "../LXCHandles/LXC_SSE3/LXC_SSE3_types.h"
 #include "../LXCHandles/LXC_Native/LXC_Native.h"
 #include "../fftHandles/fftwf/fftwfHandle.h"
-#include "../../utils/system/LXC_OptimizationTranslator.h"
+
 
 LXC_ERROR_CODE test_LXC_SSE3Kernels(uint MaxSamples, uint MaxLoops, bool ShowAllResults=false);
 LXC_ERROR_CODE test_LXC_Convolver(LXC_OPTIMIZATION_MODULE Module);
-double test_LXC_ConvolverWav(string wavFilename, string InSigFilename, LXC_OPTIMIZATION_MODULE Module);
-LXC_ERROR_CODE test_SSE3vsNative();
+double test_LXC_ConvolverWav(string filterFilename, string InSigFilename, 
+							 LXC_OPTIMIZATION_MODULE Module, 
+							 uint InputFrameLength = 1024);
+LXC_ERROR_CODE test_SSE3vsNative(uint inputFramelength);
 
 LXC_ERROR_CODE test_LXC_Convolver(LXC_OPTIMIZATION_MODULE Module)
 {
@@ -91,7 +95,9 @@ LXC_ERROR_CODE test_LXC_Convolver(LXC_OPTIMIZATION_MODULE Module)
 	return LXC_Core_destroy(lxcHandle);
 }
 
-double test_LXC_ConvolverWav(string wavFilename, string InSigFilename, LXC_OPTIMIZATION_MODULE Module)
+double test_LXC_ConvolverWav(string filterFilename, string InSigFilename, 
+							 LXC_OPTIMIZATION_MODULE Module, 
+							 uint InputFrameLength)
 {
 	CPUTimer timer;
 	double elapsedTime = 0.0;
@@ -102,12 +108,13 @@ double test_LXC_ConvolverWav(string wavFilename, string InSigFilename, LXC_OPTIM
 	// load test filter
 	WavStruct filter;
 	filter.samples = NULL;
-	if(CWavLoader::openWavFile(wavFilename, &filter) == 0)
+	if(CWavLoader::openWavFile(filterFilename, &filter) == 0)
 	{
-		throw EXCEPTION_COUT_HANDLER("Can't load " + wavFilename);
+		throw EXCEPTION_COUT_HANDLER("Can't load " + filterFilename);
 	}
 	if( filter.maxChannels > 1 )
 	{
+		cout << "2 channel filter loaded" << endl;
 		CWavLoader::reorderChannels(&filter);
 	}
 
@@ -127,7 +134,7 @@ double test_LXC_ConvolverWav(string wavFilename, string InSigFilename, LXC_OPTIM
 	// create LXC_[OPT] Convolver
 	float *h1 = filter.samples;
 	float *h2 = filter.samples + filter.maxSamples;
-	const uint inputFrameLength = 1024;
+	const uint inputFrameLength = InputFrameLength;
 	LXC_ptrFilterHandle *lxc_filterHandle = LXC_Core_createFilter2Ch(h1, filter.maxSamples, h2, filter.maxSamples, (uint)filter.sampleFrequency);
 	if(!lxc_filterHandle)
 	{
@@ -180,7 +187,12 @@ double test_LXC_ConvolverWav(string wavFilename, string InSigFilename, LXC_OPTIM
 	const uint blocks = inputSignal.maxSamples/inputFrameLength;
 	const double percentageSteps = 5;
 	double currentPercentageStep = 1;
-	printf("processing: [");
+	cout << "max samples: " << blocks*inputFrameLength << endl;
+	cout << "sample frequency: " << inputSignal.sampleFrequency << "Hz" << endl;
+	cout << "input framelength: " << inputFrameLength << endl;
+	cout << "I/O-delay: " << ((double)inputFrameLength)/((double)inputSignal.sampleFrequency) << "[s]" << endl;
+	cout << "filter taps: " << filter.maxSamples << endl;
+	printf("-->processing: [");
 	for(uint ii=0; ii < blocks; ii++)
 	{
 		const uint pos = ii*inputFrameLength;
@@ -216,6 +228,9 @@ double test_LXC_ConvolverWav(string wavFilename, string InSigFilename, LXC_OPTIM
 		}
 	}
 	printf("]\n");
+	cout << "RTI: " << 
+		elapsedTime*100.0/(((double)(blocks*inputFrameLength)) / ((double)inputSignal.sampleFrequency)) 
+		<< "%" << endl;
 
 	CWavLoader::deleteWav(&inputSignal);
 	CWavLoader::deleteWav(&filter);
@@ -465,18 +480,29 @@ LXC_ERROR_CODE test_LXC_SSE3()
 	return err;
 }
 
-LXC_ERROR_CODE test_SSE3vsNative()
+LXC_ERROR_CODE test_SSE3vsNative(uint inputFramelength)
 {
 	LXC_ERROR_CODE err = LXC_NO_ERR;
-	cout << "Testing LXC_Native" << endl;
-	double elapsedTime_Native = test_LXC_ConvolverWav("tyndall_bruce_ortf.wav", "Hitman.wav", LXC_OPT_NATIVE);
+	cout << "====Testing LXC_Native====" << endl;
+	double elapsedTime_Native = test_LXC_ConvolverWav("Noise.wav", "Hitman.wav", LXC_OPT_NATIVE, inputFramelength);
 	cout << "Processing time for LXC_Native: " << elapsedTime_Native << "s" << endl;
 
-	cout << endl << "Testing LXC_SSE3" << endl;
-	double elapsedTime_SSE3 = test_LXC_ConvolverWav("tyndall_bruce_ortf.wav", "Hitman.wav", LXC_OPT_SSE3);
+	cout << endl << "====Testing LXC_SSE3====" << endl;
+	double elapsedTime_SSE3 = test_LXC_ConvolverWav("Noise.wav", "Hitman.wav", LXC_OPT_SSE3, inputFramelength);
 	cout << "Processing time for LXC_SSE3: " << elapsedTime_SSE3 << "s" << endl;
 
-	cout << endl << "Speed up: " << elapsedTime_Native / elapsedTime_SSE3 << endl;
+	cout << endl << "-->Speed up: " << elapsedTime_Native / elapsedTime_SSE3 << endl << endl << endl;
+
+
+	cout << "====Testing LXC_Native====" << endl;
+	elapsedTime_Native = test_LXC_ConvolverWav("tyndall_bruce_ortf.wav", "Hitman.wav", LXC_OPT_NATIVE, inputFramelength);
+	cout << "Processing time for LXC_Native: " << elapsedTime_Native << "s" << endl;
+
+	cout << endl << "====Testing LXC_SSE3====" << endl;
+	elapsedTime_SSE3 = test_LXC_ConvolverWav("tyndall_bruce_ortf.wav", "Hitman.wav", LXC_OPT_SSE3, inputFramelength);
+	cout << "Processing time for LXC_SSE3: " << elapsedTime_SSE3 << "s" << endl;
+
+	cout << endl << "-->Speed up: " << elapsedTime_Native / elapsedTime_SSE3 << endl << endl << endl;
 
 	return err;
 }
@@ -517,7 +543,7 @@ int main()
 
 		cout << endl << endl;
 		cout << "====Testing LXC_SSE3 convolution vs. LXC_Native convolution====" << endl;
-		err = test_SSE3vsNative();
+		err = test_SSE3vsNative(512);
 		if(err != LXC_NO_ERR)
 			return err;
 	
@@ -526,6 +552,8 @@ int main()
 		cout << endl << endl;
 		system("PAUSE");
 	#endif
+
+		LXC_Core_close();
 
 		return err;
 	}
