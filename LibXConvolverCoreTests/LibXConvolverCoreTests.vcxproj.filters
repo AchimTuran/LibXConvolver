@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="LibXConvolverCoreTests.cpp" />
+    <ClCompile Include="..\utils\signal\wavLoader.cpp">
+      <Filter>utils\signal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\utils\timer\CPUTimer.cpp">
+      <Filter>utils\timer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\utils\errorHandle\errorHandle.cpp">
+      <Filter>utils\errorHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\utils\errorHandle\errorCout.cpp">
+      <Filter>utils\errorHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\utils\logging\LXC_LoggingFile.cpp">
+      <Filter>utils\logging</Filter>
+    </ClCompile>
+    <ClCompile Include="..\utils\logging\LXC_LoggingPrintf.cpp">
+      <Filter>utils\logging</Filter>
+    </ClCompile>
+    <ClCompile Include="..\utils\system\LXC_OptimizationTranslator.cpp">
+      <Filter>utils\system</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="utils">
+      <UniqueIdentifier>{41a9d1b2-2524-4fd5-b75b-b066f3f155fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="utils\signal">
+      <UniqueIdentifier>{c59e8fd2-1ab8-4b79-ac72-dcb6c689c896}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="utils\timer">
+      <UniqueIdentifier>{a23b82f4-8390-49a3-8abe-d45c79891d67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="utils\errorHandle">
+      <UniqueIdentifier>{7dcf4c24-2264-49bb-a3ea-d74c7f72096a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="utils\system">
+      <UniqueIdentifier>{20265ec6-fd07-4d7b-97f0-f420ed16d058}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="utils\system\windows">
+      <UniqueIdentifier>{0f72baa3-0665-4afc-9f56-a5976b6d8084}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="utils\logging">
+      <UniqueIdentifier>{5cd3d71b-5780-4dde-bc96-d1b2fba6fe9a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\utils\signal\wavLoader.h">
+      <Filter>utils\signal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\utils\timer\CPUTimer.h">
+      <Filter>utils\timer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\utils\errorHandle\errorHandle.h">
+      <Filter>utils\errorHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\utils\errorHandle\errorCout.h">
+      <Filter>utils\errorHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\utils\system\windows\windows_definitions.h">
+      <Filter>utils\system\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\utils\logging\LXC_Logging_config.h">
+      <Filter>utils\logging</Filter>
+    </ClInclude>
+    <ClInclude Include="..\utils\logging\LXC_Logging.h">
+      <Filter>utils\logging</Filter>
+    </ClInclude>
+    <ClInclude Include="..\utils\system\LXC_OptimizationTranslator.h">
+      <Filter>utils\system</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

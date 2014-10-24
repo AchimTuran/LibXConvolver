@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{0F97AF29-2C8C-4F26-A33F-B9571714CD8E}</ProjectGuid>
+    <RootNamespace>LibXConvolverCore</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)Libs\</OutDir>
+    <TargetExt>.lib</TargetExt>
+    <TargetName>$(ProjectName)_d</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)Libs\</OutDir>
+    <TargetExt>.lib</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>USE_LXC_NATIVE;USE_LXC_SSE3;USE_LXC_LOGGING_FILE;TARGET_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)Libs\includes\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)Libs\includes\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>USE_LXC_NATIVE;USE_LXC_SSE3;USE_LXC_LOGGING_FILE;TARGET_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="fftHandles\fftHandles.h" />
+    <ClInclude Include="fftHandles\fftHandles_types.h" />
+    <ClInclude Include="fftHandles\fftwf\fftwfHandle.h" />
+    <ClInclude Include="fftHandles\fftwf\fftwfHandle_types.h" />
+    <ClInclude Include="fftHandles\fftwf\fftwf_fmtc.h" />
+    <ClInclude Include="include\common_types.h" />
+    <ClInclude Include="include\LXC_Core.h" />
+    <ClInclude Include="include\LXC_Core_config.h" />
+    <ClInclude Include="include\LXC_Core_helper.h" />
+    <ClInclude Include="include\LXC_Core_types.h" />
+    <ClInclude Include="LXCHandles\LXC_Native\LXC_Native.h" />
+    <ClInclude Include="LXCHandles\LXC_Native\LXC_NativeBuffer.h" />
+    <ClInclude Include="LXCHandles\LXC_Native\LXC_NativeRingBuffer.h" />
+    <ClInclude Include="LXCHandles\LXC_Native\LXC_Native_types.h" />
+    <ClInclude Include="LXCHandles\LXC_SSE3\LXC_SSE3.h" />
+    <ClInclude Include="LXCHandles\LXC_SSE3\LXC_SSE3Buffer.h" />
+    <ClInclude Include="LXCHandles\LXC_SSE3\LXC_SSE3Helper.h" />
+    <ClInclude Include="LXCHandles\LXC_SSE3\LXC_SSE3RingBuffer.h" />
+    <ClInclude Include="LXCHandles\LXC_SSE3\LXC_SSE3_types.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="fftHandles\fftHandles.cpp" />
+    <ClCompile Include="fftHandles\fftwf\fftwfHandle.cpp" />
+    <ClCompile Include="fftHandles\fftwf\fftwf_fmtc.cpp" />
+    <ClCompile Include="LXCHandles\LXC_SSE3\LXC_SSE3.cpp" />
+    <ClCompile Include="LXCHandles\LXC_SSE3\LXC_SSE3Buffer.cpp" />
+    <ClCompile Include="LXCHandles\LXC_SSE3\LXC_SSE3RingBuffer.cpp" />
+    <ClCompile Include="LXC_Core.cpp" />
+    <ClCompile Include="LXCHandles\LXC_Native\LXC_Native.cpp" />
+    <ClCompile Include="LXCHandles\LXC_Native\LXC_NativeBuffer.cpp" />
+    <ClCompile Include="LXCHandles\LXC_Native\LXC_NativeRingBuffer.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

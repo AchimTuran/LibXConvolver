@@ -181,3 +181,16 @@ UpgradeLog*.htm
 
 # Microsoft Fakes
 FakesAssemblies/
+buildDependencies/
+Libs/
+LibXConvolverCore/fftHandles/clFFT/Documents/
+LibXConvolverCore/fftHandles/GFFT/Documents/
+LibXConvolverCore/LXCHandles/LXC_SSE3/Documents/
+LibXConvolverCore/LXCHandles/LXC_ARM_VFP/Documents/
+LibXConvolverCoreTests/fftw_wisdom_file
+LibXConvolverCoreTests/out_ch1_LXC_Native.wav
+LibXConvolverCoreTests/out_ch1_LXC_SSE3.wav
+LibXConvolverCoreTests/out_ch2_LXC_Native.wav
+LibXConvolverCoreTests/out_ch2_LXC_SSE3.wav
+LibXConvolverCoreTests/tyndall_bruce_ortf.wav
+LibXConvolverCoreTests/Hitman.wav

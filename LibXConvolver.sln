@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LibXConvolverCore", "LibXConvolverCore\LibXConvolverCore.vcxproj", "{0F97AF29-2C8C-4F26-A33F-B9571714CD8E}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LibXConvolverCoreTests", "LibXConvolverCoreTests\LibXConvolverCoreTests.vcxproj", "{E40CC568-89C3-44D4-9DA7-B6412BEA888F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0F97AF29-2C8C-4F26-A33F-B9571714CD8E} = {0F97AF29-2C8C-4F26-A33F-B9571714CD8E}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Debug|x64 = Debug|x64
+		Release|Win32 = Release|Win32
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0F97AF29-2C8C-4F26-A33F-B9571714CD8E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{0F97AF29-2C8C-4F26-A33F-B9571714CD8E}.Debug|Win32.Build.0 = Debug|Win32
+		{0F97AF29-2C8C-4F26-A33F-B9571714CD8E}.Debug|x64.ActiveCfg = Debug|Win32
+		{0F97AF29-2C8C-4F26-A33F-B9571714CD8E}.Release|Win32.ActiveCfg = Release|Win32
+		{0F97AF29-2C8C-4F26-A33F-B9571714CD8E}.Release|Win32.Build.0 = Release|Win32
+		{0F97AF29-2C8C-4F26-A33F-B9571714CD8E}.Release|x64.ActiveCfg = Release|Win32
+		{E40CC568-89C3-44D4-9DA7-B6412BEA888F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E40CC568-89C3-44D4-9DA7-B6412BEA888F}.Debug|Win32.Build.0 = Debug|Win32
+		{E40CC568-89C3-44D4-9DA7-B6412BEA888F}.Debug|x64.ActiveCfg = Debug|Win32
+		{E40CC568-89C3-44D4-9DA7-B6412BEA888F}.Release|Win32.ActiveCfg = Release|Win32
+		{E40CC568-89C3-44D4-9DA7-B6412BEA888F}.Release|Win32.Build.0 = Release|Win32
+		{E40CC568-89C3-44D4-9DA7-B6412BEA888F}.Release|x64.ActiveCfg = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
