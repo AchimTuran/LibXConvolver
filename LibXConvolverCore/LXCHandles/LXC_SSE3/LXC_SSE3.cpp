@@ -139,19 +139,41 @@ LXC_ERROR_CODE LXC_SSE3CpxMul_K2(uint Size, void *X, void *H, void *Z)
 		// load values into __m128
 		val1 = _mm_load_ps(&m_X[ii]);			// _mm_load_ps:		src{ a1, b1, a2, b2 } --> val1 { a1, b1, a2, b2 }
 		val2 = _mm_load_ps(&m_H[ii]);			// _mm_load_ps:		src{ c1, d1, c2, d2 } --> val2 { c1, d1, c2, d2 }
-
-		// duplicate values
-		val3 = _mm_moveldup_ps(val1);			// _mm_moveldup_ps: src{ a1, b1, a2, b2 } --> val2 { a1, a1, a2, a2 }
-		val4 = _mm_movehdup_ps(val1);			// _mm_movehdup_ps:	src{ a1, b1, a2, b2 } --> val3 { b1, b1, b2, b2 }
-
-		// sse3 multiply
-		val1 = _mm_mul_ps(val3, val2);			// calc { a1*c1, a1*d1, a2*c2, a2*d2 }
-		// reorder im and re numbers { c1, d1, c2, d2 } --> { d1, c1, d2, c2 } and multiply { b1*d1, b1*c1, b2*d2, b2*c2 }
-		val3 = _mm_mul_ps(val4, _mm_shuffle_ps(val2, val2, _MM_SHUFFLE(2,3,0,1)));
 	
 		// add/subtract, scale and store operations
-		val3 = _mm_addsub_ps(val1, val3);		// _mm_addsub_ps: ret { a1*c1 - b1*d1, j(a1*d1 + b1*c1), a2*c2 - b2*d2, j(a2*d2 + b2*c2) }
-		_mm_store_ps(&m_Z[ii], val3);			// _mm_store_ps: C[0] = result0, C[1] = result1, C[2] = result2, C[3] = result3
+		// duplicate values
+		// _A1 = _mm_moveldup_ps: src{ a1, b1, a2, b2 } --> val2 { a1, a1, a2, a2 }
+		// _A2 = _mm_movehdup_ps:	src{ a1, b1, a2, b2 } --> val3 { b1, b1, b2, b2 }
+		// a = calc { a1*c1, a1*d1, a2*c2, a2*d2 } --> sse3 multiply
+		// b = reorder im and re numbers { c1, d1, c2, d2 } --> { d1, c1, d2, c2 } and multiply { b1*d1, b1*c1, b2*d2, b2*c2 }
+		// A = _mm_addsub_ps: ret { a1*c1 - b1*d1, j(a1*d1 + b1*c1), a2*c2 - b2*d2, j(a2*d2 + b2*c2) }
+		// _mm_store_ps: C[0] = result0, C[1] = result1, C[2] = result2, C[3] = result3
+		_mm_store_ps(&m_Z[ii], _mm_addsub_ps(_mm_mul_ps(_mm_moveldup_ps(val1), val2), _mm_mul_ps(_mm_movehdup_ps(val1), _mm_shuffle_ps(val2, val2, _MM_SHUFFLE(2,3,0,1)))));
+
+
+		// old loop
+		//// local variables
+		//__m128 val1;
+		//__m128 val2;
+		//__m128 val3;
+		//__m128 val4;
+
+		//// load values into __m128
+		//val1 = _mm_load_ps(&m_X[ii]);			// _mm_load_ps:		src{ a1, b1, a2, b2 } --> val1 { a1, b1, a2, b2 }
+		//val2 = _mm_load_ps(&m_H[ii]);			// _mm_load_ps:		src{ c1, d1, c2, d2 } --> val2 { c1, d1, c2, d2 }
+
+		//// duplicate values
+		//val3 = _mm_moveldup_ps(val1);			// _mm_moveldup_ps: src{ a1, b1, a2, b2 } --> val2 { a1, a1, a2, a2 }
+		//val4 = _mm_movehdup_ps(val1);			// _mm_movehdup_ps:	src{ a1, b1, a2, b2 } --> val3 { b1, b1, b2, b2 }
+
+		//// sse3 multiply
+		//val1 = _mm_mul_ps(val3, val2);			// calc { a1*c1, a1*d1, a2*c2, a2*d2 }
+		//// reorder im and re numbers { c1, d1, c2, d2 } --> { d1, c1, d2, c2 } and multiply { b1*d1, b1*c1, b2*d2, b2*c2 }
+		//val3 = _mm_mul_ps(val4, _mm_shuffle_ps(val2, val2, _MM_SHUFFLE(2,3,0,1)));
+	
+		//// add/subtract, scale and store operations
+		//val3 = _mm_addsub_ps(val1, val3);		// _mm_addsub_ps: ret { a1*c1 - b1*d1, j(a1*d1 + b1*c1), a2*c2 - b2*d2, j(a2*d2 + b2*c2) }
+		//_mm_store_ps(&m_Z[ii], val3);			// _mm_store_ps: C[0] = result0, C[1] = result1, C[2] = result2, C[3] = result3
 	}
 
 	return LXC_NO_ERR;
@@ -428,9 +450,13 @@ LXC_ERROR_CODE LXC_SSE3CpxAdd(LXC_BUFFER *ResultBuffer, char Scale)
 		{
 			//Z0[ii][0] += Zi[ii][0];
 			//Z0[ii][1] += Zi[ii][1];
-			__m128 _Zi = _mm_load_ps(&Zi[ii]);
-			__m128 _Z0 = _mm_load_ps(&Z0[ii]);
-			_mm_store_ps(&Z0[ii], _mm_add_ps(_Z0, _Zi));
+			//__m128 _Zi = _mm_load_ps(&Zi[ii]);
+			//__m128 _Z0 = _mm_load_ps(&Z0[ii]);
+			//_mm_store_ps(&Z0[ii], _mm_add_ps(_Z0, _Zi));
+			
+			//__m128 _Zi = _mm_load_ps(&Zi[ii]);
+			//__m128 _Z0 = _mm_load_ps(&Z0[ii]);
+			_mm_store_ps(&Z0[ii], _mm_add_ps(_mm_load_ps(&Z0[ii]), _mm_load_ps(&Zi[ii])));
 		}
 	}
 
@@ -473,10 +499,10 @@ LXC_ERROR_CODE LXC_SSE3FreqCombine2Ch(uint Size, void *X, void *Y, void *Z)
 		//m_Z[ii][1] = (m_X[ii][1] + m_Y[ii][0])*scaleFactor;
 		//m_Z[ii][0] = (m_X[ii+1][0] - m_Y[ii+1][1])*scaleFactor;
 		//m_Z[ii][1] = (m_X[ii+1][1] + m_Y[ii+1][0])*scaleFactor;
-		__m128 A = _mm_load_ps(&m_X[ii]);
+		//__m128 A = _mm_load_ps(&m_X[ii]);
 		__m128 B = _mm_load_ps(&m_Y[ii]);
 		B = _mm_shuffle_ps(B, B, LXC_MM_SHUFFLE(1,0,3,2));
-		__m128 addRes = _mm_addsub_ps (A, B);
+		__m128 addRes = _mm_addsub_ps (_mm_load_ps(&m_X[ii]), B);
 		_mm_store_ps(&m_Z[ii], _mm_mul_ps(addRes, _scale));
 	}
 
