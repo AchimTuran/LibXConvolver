@@ -117,6 +117,13 @@ LXC_ERROR_CODE LXC_get_SSE3ConvolutionCallbacks(LXC_CALLBACKS *Callbacks)
 //-----------------------------------------------------------------------------------------
 // SSE3 complex multiplication with different kernel sizes
 //-----------------------------------------------------------------------------------------
+// SSE3 2x complex multiplication (for details see example 6-9 in Intel 64 and IA-32 Architectures Optimization Reference Manual)
+// complex multiplication is defined as: (a+jb)*(c+jd) = a*c - b*d + j(a*d + b*c)
+// z1 = a1*c1 - b1*d1 + j(a1*d1 + b1*c1)
+// z2 = a2*c2 - b2*d2 + j(a2*d2 + b2*c2)
+// A = { a1, jb1, c1, jd1 }
+// B = { a2, jb2, c2, jd2 }
+// C = { Re{z1}, Im{z1}, Re{z2}, Im{z2} } = { a1*c1 - b1*d1, j(a1*d1 + b1*c1), a2*c2 - b2*d2, j(a2*d2 + b2*c2) }
 LXC_ERROR_CODE LXC_SSE3CpxMul_K2(uint Size, void *X, void *H, void *Z)
 {
 	if(!X || !H || !Z)
