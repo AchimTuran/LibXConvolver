@@ -82,7 +82,7 @@ LXC_ERROR_CODE fmtc_fftwf_TO_float(LXC_FFT_PLAN *fftHandle_in, void *Out, uint S
 	// copy samples to external format
 	if(Size == inputFramelength)
 	{
-		out += fftHandle_in->fftZeros;
+		in += fftHandle_in->fftZeros;
 		for(uint ii=0; ii < inputFramelength; ii++)
 		{
 			out[ii] = in[ii][0];
