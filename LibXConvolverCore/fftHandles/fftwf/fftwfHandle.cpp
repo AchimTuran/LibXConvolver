@@ -27,7 +27,6 @@
 #include "fftwfHandle_types.h"
 #include "fftwf_fmtc.h"
 #include "../../LXCHandles/LXC_SSE3/LXC_SSE3_types.h"
-#include "../../utils/logging/LXC_Logging.h"
 
 #include "fftw3.h"
 #include <malloc.h>

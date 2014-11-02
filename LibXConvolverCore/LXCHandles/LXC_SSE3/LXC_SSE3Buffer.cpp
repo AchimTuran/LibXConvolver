@@ -27,7 +27,6 @@
 #include "LXC_SSE3Buffer.h"
 #include "LXC_SSE3_types.h"
 #include "../../include/LXC_Core_helper.h"
-#include "../../utils/logging/LXC_Logging.h"
 
 void* LXC_SSE3Buffer_getPart(LXC_BUFFER *Buffer, uint Part)
 {

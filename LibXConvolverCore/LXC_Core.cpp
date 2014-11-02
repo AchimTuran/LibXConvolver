@@ -37,7 +37,7 @@
 	#include "LXCHandles/LXC_SSE3/LXC_SSE3.h"
 #endif
 
-#include "../utils/logging/LXC_Logging.h"
+#include "../LibXConvolverUtils/logging/LXC_Logging.h"
 
 const char LXC_CoreAPIVersionStr[1024] = LXC_CORE_API_VERSION_STR;
 char LXC_Core_OptimizationStr[1024];
