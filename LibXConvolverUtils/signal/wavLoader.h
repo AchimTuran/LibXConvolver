@@ -25,6 +25,7 @@
 
 #include "sndfile.hh"
 #include "sndfile.h"
+#include "../../LibXConvolverCore/include/common_types.h"
 
 #include <string>
 
@@ -32,7 +33,7 @@
 
 typedef struct
 {
-	float sampleFrequency;
+	uint sampleFrequency;
 	unsigned int maxSamples;
 	unsigned int maxChannels;
 	float *samples;

@@ -62,7 +62,9 @@ unsigned int CWavLoader::openWavFile(string WavFile, WavStruct *WavHandle)
 	{
 		string sndErrorStr(sf_error_number(sndError));
 		deleteWav(WavHandle);
-		throw EXCEPTION_COUT_HANDLER("Wav file " + WavFile + " not found!" + " libsndfile error: " + sndErrorStr);
+    // ToDo show some error message
+    return 0;
+		//throw EXCEPTION_COUT_HANDLER("Wav file " + WavFile + " not found!" + " libsndfile error: " + sndErrorStr);
 	}
 
 	// get channels of the file
@@ -80,7 +82,7 @@ unsigned int CWavLoader::openWavFile(string WavFile, WavStruct *WavHandle)
 		deleteWav(WavHandle);
 		throw EXCEPTION_COUT_HANDLER("Samplerate from the filter file was < 1! Invalid input filter file!");
 	}
-	WavHandle->sampleFrequency = (float)sndSampleFrequency;
+	WavHandle->sampleFrequency = (uint)sndSampleFrequency;
 
 	// get length (taps) of the filter file
 	sf_count_t filterSize = wavFile.frames();
