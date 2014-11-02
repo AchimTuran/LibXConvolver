@@ -22,10 +22,11 @@
 
 
 #include "wavLoader.h"
-#include "../../utils/errorHandle/errorCout.h"
+#include "../../LibXConvolverUtils/errorHandle/errorCout.h"
+
 
 #include <string>
-#include "../../utils/logging/LXC_Logging.h"
+#include "../../LibXConvolverUtils/logging/LXC_Logging.h"
 using namespace std;
 
 CWavLoader::CWavLoader()

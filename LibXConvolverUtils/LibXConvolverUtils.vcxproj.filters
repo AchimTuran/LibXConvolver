@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="errorHandle">
+      <UniqueIdentifier>{e0e00109-837a-4fdf-8d5e-bc5b26b55a43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="logging">
+      <UniqueIdentifier>{5cf9152d-d761-4369-80c0-3be04c54865d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="timer">
+      <UniqueIdentifier>{afc92d66-6eee-4588-a680-04745b0988fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="signal">
+      <UniqueIdentifier>{6082a0d2-9006-4946-947f-efdcbb273c1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="system">
+      <UniqueIdentifier>{a82b61ff-f86e-4dc8-a455-ea01ed611608}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="system\windows">
+      <UniqueIdentifier>{903d7df1-dc87-4f57-afde-a69486925dc3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="constants.h" />
+    <ClInclude Include="errorHandle\errorCout.h">
+      <Filter>errorHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="errorHandle\errorHandle.h">
+      <Filter>errorHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="logging\LXC_Logging.h">
+      <Filter>logging</Filter>
+    </ClInclude>
+    <ClInclude Include="logging\LXC_Logging_config.h">
+      <Filter>logging</Filter>
+    </ClInclude>
+    <ClInclude Include="signal\wavLoader.h">
+      <Filter>signal</Filter>
+    </ClInclude>
+    <ClInclude Include="system\LXC_OptimizationTranslator.h">
+      <Filter>system</Filter>
+    </ClInclude>
+    <ClInclude Include="system\windows\windows_definitions.h">
+      <Filter>system\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="timer\CPUTimer.h">
+      <Filter>timer</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="errorHandle\errorHandle.cpp">
+      <Filter>errorHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="errorHandle\errorCout.cpp">
+      <Filter>errorHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="logging\LXC_LoggingFile.cpp">
+      <Filter>logging</Filter>
+    </ClCompile>
+    <ClCompile Include="logging\LXC_LoggingPrintf.cpp">
+      <Filter>logging</Filter>
+    </ClCompile>
+    <ClCompile Include="signal\wavLoader.cpp">
+      <Filter>signal</Filter>
+    </ClCompile>
+    <ClCompile Include="system\LXC_OptimizationTranslator.cpp">
+      <Filter>system</Filter>
+    </ClCompile>
+    <ClCompile Include="timer\CPUTimer.cpp">
+      <Filter>timer</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

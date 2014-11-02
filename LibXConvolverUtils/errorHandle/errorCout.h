@@ -29,7 +29,7 @@
 #include <string>
 
 #if defined(TARGET_WINDOWS)
-	#include "../../utils/system/windows/windows_definitions.h"
+	#include "../../LibXConvolverUtils/system/windows/windows_definitions.h"
 #endif
 
 class errorCout : public errorHandle
