@@ -27,3 +27,4 @@
 
 #define LXC_SSE3_ALIGN			16
 typedef __declspec(align(LXC_SSE3_ALIGN))float LXC_SSE3cpxFloat[2];
+typedef __declspec(align(LXC_SSE3_ALIGN))float LXC_SSE3Float;
