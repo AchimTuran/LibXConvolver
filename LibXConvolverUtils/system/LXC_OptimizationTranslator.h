@@ -23,7 +23,7 @@
 
 
 
-#include "LXC_Core_types.h"
+#include "../../LibXConvolverCore/include/LXC_Core_types.h"
 #include <string>
 
 std::string LXC_OptimizationToString(LXC_OPTIMIZATION_MODULE Module);

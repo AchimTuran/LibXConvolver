@@ -27,10 +27,14 @@
 #include "fftwfHandle_types.h"
 #include "fftwf_fmtc.h"
 #include "../../LXCHandles/LXC_SSE3/LXC_SSE3_types.h"
+#include "../../../LibXConvolverUtils/logging/LXC_Logging.h"
 
 #include "fftw3.h"
 #include <malloc.h>
+#include <string.h>
 
+extern char *g_LXC_HomePath;
+char g_FirstPlan = 1;
 
 LXC_ERROR_CODE get_fftwfHandleCallbacks(LXC_FFT_CALLBACKS *Callbacks, LXC_OPTIMIZATION_MODULE LXC_module)
 {
