@@ -42,10 +42,12 @@
     <OutDir>$(SolutionDir)Libs\</OutDir>
     <TargetExt>.lib</TargetExt>
     <TargetName>$(ProjectName)_d</TargetName>
+    <IntDir>LibXConvolverCore\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)Libs\</OutDir>
     <TargetExt>.lib</TargetExt>
+    <IntDir>LibXConvolverCore\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -54,6 +56,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>USE_LXC_NATIVE;USE_LXC_SSE3;USE_LXC_LOGGING_FILE;TARGET_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)Libs\includes\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -68,6 +71,7 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)Libs\includes\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>USE_LXC_NATIVE;USE_LXC_SSE3;USE_LXC_LOGGING_FILE;TARGET_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

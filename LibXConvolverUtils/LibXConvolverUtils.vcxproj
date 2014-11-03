@@ -16,6 +16,7 @@
     <ClInclude Include="errorHandle\errorHandle.h" />
     <ClInclude Include="logging\LXC_Logging.h" />
     <ClInclude Include="logging\LXC_Logging_config.h" />
+    <ClInclude Include="signal\resampler.h" />
     <ClInclude Include="signal\wavLoader.h" />
     <ClInclude Include="system\LXC_OptimizationTranslator.h" />
     <ClInclude Include="system\windows\windows_definitions.h" />
@@ -26,6 +27,7 @@
     <ClCompile Include="errorHandle\errorHandle.cpp" />
     <ClCompile Include="logging\LXC_LoggingFile.cpp" />
     <ClCompile Include="logging\LXC_LoggingPrintf.cpp" />
+    <ClCompile Include="signal\resampler.cpp" />
     <ClCompile Include="signal\wavLoader.cpp" />
     <ClCompile Include="system\LXC_OptimizationTranslator.cpp" />
     <ClCompile Include="timer\CPUTimer.cpp" />
@@ -59,13 +61,15 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(SolutionDir)..\Libs\</OutDir>
+    <OutDir>$(SolutionDir)Libs\</OutDir>
     <TargetExt>.lib</TargetExt>
     <TargetName>$(ProjectName)_d</TargetName>
+    <IntDir>LibXConvolverUtils\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>$(SolutionDir)..\Libs\</OutDir>
+    <OutDir>$(SolutionDir)Libs\</OutDir>
     <TargetExt>.lib</TargetExt>
+    <IntDir>LibXConvolverUtils\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -73,7 +77,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>USE_LXC_NATIVE;USE_LXC_SSE3;USE_LXC_LOGGING_FILE;TARGET_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\Libs\includes\;$(SolutionDir)..\LibXConvolverCore\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Libs\includes\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -87,7 +91,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\Libs\includes\;$(SolutionDir)..\LibXConvolverCore\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Libs\includes\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>USE_LXC_NATIVE;USE_LXC_SSE3;USE_LXC_LOGGING_FILE;TARGET_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>

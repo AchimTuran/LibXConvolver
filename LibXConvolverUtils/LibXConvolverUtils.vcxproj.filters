@@ -46,6 +46,9 @@
     <ClInclude Include="timer\CPUTimer.h">
       <Filter>timer</Filter>
     </ClInclude>
+    <ClInclude Include="signal\resampler.h">
+      <Filter>signal</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="errorHandle\errorHandle.cpp">
@@ -68,6 +71,9 @@
     </ClCompile>
     <ClCompile Include="timer\CPUTimer.cpp">
       <Filter>timer</Filter>
+    </ClCompile>
+    <ClCompile Include="signal\resampler.cpp">
+      <Filter>signal</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

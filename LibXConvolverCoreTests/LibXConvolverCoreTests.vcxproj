@@ -61,11 +61,12 @@
       <UndefinePreprocessorDefinitions>
       </UndefinePreprocessorDefinitions>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">TARGET_WINDOWS;LXC_SSE3_USE_KERNELS=1;_CRT_SECURE_NO_WARNINGS;USE_LXC_LOGGING_FILE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)LibXConvolverCore\include\;$(SolutionDir)Libs\fftw-3.3.4\api;$(SolutionDir)Libs\includes\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Libs\includes\</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>LibXConvolverCore_d.lib;libfftw3f-3.lib;libsndfile-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>LibXConvolverCore_d.lib;LibXConvolverUtils_d.lib;libfftw3f-3.lib;libsndfile-1.lib;%(AdditionalDependencies);samplerate.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -78,34 +79,18 @@
       <UndefinePreprocessorDefinitions>
       </UndefinePreprocessorDefinitions>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">TARGET_WINDOWS;LXC_SSE3_USE_KERNELS=1;_CRT_SECURE_NO_WARNINGS;USE_LXC_LOGGING_FILE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)LibXConvolverCore\include\;$(SolutionDir)Libs\fftw-3.3.4\api;$(SolutionDir)Libs\includes\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Libs\includes\</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>LibXConvolverCore.lib;libfftw3f-3.lib;libsndfile-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>LibXConvolverCore.lib;LibXConvolverUtils.lib;libfftw3f-3.lib;libsndfile-1.lib;%(AdditionalDependencies);samplerate.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\utils\errorHandle\errorCout.cpp" />
-    <ClCompile Include="..\utils\errorHandle\errorHandle.cpp" />
-    <ClCompile Include="..\utils\logging\LXC_LoggingFile.cpp" />
-    <ClCompile Include="..\utils\logging\LXC_LoggingPrintf.cpp" />
-    <ClCompile Include="..\utils\signal\wavLoader.cpp" />
-    <ClCompile Include="..\utils\system\LXC_OptimizationTranslator.cpp" />
-    <ClCompile Include="..\utils\timer\CPUTimer.cpp" />
     <ClCompile Include="LibXConvolverCoreTests.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\utils\errorHandle\errorCout.h" />
-    <ClInclude Include="..\utils\errorHandle\errorHandle.h" />
-    <ClInclude Include="..\utils\logging\LXC_Logging.h" />
-    <ClInclude Include="..\utils\logging\LXC_Logging_config.h" />
-    <ClInclude Include="..\utils\signal\wavLoader.h" />
-    <ClInclude Include="..\utils\system\LXC_OptimizationTranslator.h" />
-    <ClInclude Include="..\utils\system\windows\windows_definitions.h" />
-    <ClInclude Include="..\utils\timer\CPUTimer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
