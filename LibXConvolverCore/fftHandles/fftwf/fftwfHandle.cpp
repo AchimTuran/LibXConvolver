@@ -47,6 +47,7 @@ LXC_ERROR_CODE get_fftwfHandleCallbacks(LXC_FFT_CALLBACKS *Callbacks, LXC_OPTIMI
 	{
 	#if defined(USE_LXC_NATIVE)
 		case LXC_OPT_NATIVE:
+      LXC_LOG_INFO("Get fftwf module with Native format conversion functions.");
 			Callbacks->fmtc_internal_TO_fft  = fmtc_LXCcpxFloat_TO_fftwf;
 			Callbacks->fmtc_fft_TO_internal = fmtc_fftwf_TO_LXCcpxFloat;
 		break;
@@ -54,12 +55,14 @@ LXC_ERROR_CODE get_fftwfHandleCallbacks(LXC_FFT_CALLBACKS *Callbacks, LXC_OPTIMI
 
 	#if defined(USE_LXC_SSE3)
 		case LXC_OPT_SSE3:
+      LXC_LOG_INFO("Get fftwf module with SSE3 format conversion functions.");
 			Callbacks->fmtc_internal_TO_fft  = fmtc_LXCcpxSSE3Float_TO_fftwf_SSE3_K2;
 			Callbacks->fmtc_fft_TO_internal = fmtc_fftwf_TO_LXCcpxSSE3Float_SSE3_K2;
 		break;
 	#endif
 
 		default:
+      LXC_LOG_ERROR("Selected unsupported format conversion functions!");
 			return LXC_ERR_UNSUPPORTED_FFT_FMTC;
 		break;
 	}
@@ -91,13 +94,17 @@ LXC_ERROR_CODE create_fftwf(LXC_FFT_PLAN *fftPlan, uint FreqSize, uint TimeSize)
 	fftPlan->fftSize = 0;
 
 	// reset fftw library
-	fftwf_cleanup();
+  if (g_FirstPlan)
+  {
+    fftwf_cleanup();
+    g_FirstPlan = 0;
+  }
 
 	FFTWF_HANDLE* fftwfHandle = (FFTWF_HANDLE*)malloc(sizeof(FFTWF_HANDLE));
 	if(!fftwfHandle)
 	{
 		// ToDo: show some error message
-		return NULL;
+    return LXC_ERR_DYNAMIC_MEMORY;
 	}
 	fftwfHandle->x_in	  = NULL;
 	fftwfHandle->x_out	  = NULL;
@@ -114,7 +121,7 @@ LXC_ERROR_CODE create_fftwf(LXC_FFT_PLAN *fftPlan, uint FreqSize, uint TimeSize)
 	{
 		// ToDo: show some error message
 		free(fftwfHandle);
-		return NULL;
+		return LXC_ERR_DYNAMIC_MEMORY;
 	}
 
 	fftwf_complex *x_out = fftwf_alloc_complex(FreqSize);
@@ -123,7 +130,7 @@ LXC_ERROR_CODE create_fftwf(LXC_FFT_PLAN *fftPlan, uint FreqSize, uint TimeSize)
 		// ToDo: show some error message
 		fftwf_free(x_in);
 		free(fftwfHandle);
-		return NULL;
+    return LXC_ERR_DYNAMIC_MEMORY;
 	}
 
 	fftwf_complex *X = fftwf_alloc_complex(FreqSize);
@@ -133,7 +140,7 @@ LXC_ERROR_CODE create_fftwf(LXC_FFT_PLAN *fftPlan, uint FreqSize, uint TimeSize)
 		fftwf_free(x_in);
 		fftwf_free(x_out);
 		free(fftwfHandle);
-		return NULL;
+    return LXC_ERR_DYNAMIC_MEMORY;
 	}
 
 	// initialize fft buffers
@@ -151,11 +158,22 @@ LXC_ERROR_CODE create_fftwf(LXC_FFT_PLAN *fftPlan, uint FreqSize, uint TimeSize)
 
 	char newPlans = 0;
 
+  size_t strHomeLen = strlen(g_LXC_HomePath);
+  strHomeLen++;
+  size_t strWisdomLen = strlen(FFTW_WISDOM_FILENAME);
+  char *wisdomPath = (char*)malloc(sizeof(char)*(strHomeLen + strWisdomLen));
+  if (!wisdomPath)
+  {
+    return LXC_ERR_DYNAMIC_MEMORY;
+  }
+  strncpy(wisdomPath, g_LXC_HomePath, strHomeLen);
+  strcat(wisdomPath, FFTW_WISDOM_FILENAME);
+
 	// init fftw library and plans
 	// fftwf wisdom http://www.fftw.org/doc/Words-of-Wisdom_002dSaving-Plans.html
 	// save plan to file "int fftw_export_wisdom_to_filename(const char *filename);" returns non 0 on success
 	// load plans from file "int fftw_import_wisdom_from_filename(const char *filename);" returns non 0 on success
-	if( fftwf_import_wisdom_from_filename(FFTW_WISDOM_FILENAME) )
+  if (fftwf_import_wisdom_from_filename(wisdomPath))
 	{// create fftw plan with wisdom informations
 		// for detailed description of the planar flags see http://www.fftw.org/doc/Planner-Flags.html
 		// FFTW_PATIENT use this to get the best algorithm to create the fastest fftw plan
@@ -196,21 +214,23 @@ LXC_ERROR_CODE create_fftwf(LXC_FFT_PLAN *fftPlan, uint FreqSize, uint TimeSize)
 		fftwf_free(x_out);
 		fftwf_free(X);
 		free(fftwfHandle);
-		return NULL;
+    free(wisdomPath);
+    return LXC_ERR_FFTWF_PLAN_CREATION;
 	}
 
 	if( newPlans > 0 )
 	{// save that measured plans in the file
 		// save fftwf plan with wisdom
-		if( !fftwf_export_wisdom_to_filename(FFTW_WISDOM_FILENAME) )
+    if (!fftwf_export_wisdom_to_filename(wisdomPath))
 		{
-			// ToDo: show some error message
+			// ToDo: show some warning
+
 			//cout << "can't save fftw plans to wisdom file: " << FFTW_WISDOM_FILENAME << endl;
-			fftwf_free(x_in);
-			fftwf_free(x_out);
-			fftwf_free(X);
-			free(fftwfHandle);
-			return NULL;
+			//fftwf_free(x_in);
+			//fftwf_free(x_out);
+			//fftwf_free(X);
+			//free(fftwfHandle);
+   //   return LXC_ERR_FFTWF_WISDOM_EXPORT;
 		}
 		else
 		{
@@ -230,6 +250,7 @@ LXC_ERROR_CODE create_fftwf(LXC_FFT_PLAN *fftPlan, uint FreqSize, uint TimeSize)
 	fftPlan->maxInputFrameLength = TimeSize;
 	fftPlan->fftZeros = FreqSize - fftPlan->maxInputFrameLength;
 	fftPlan->scaleFactor = 1.0f/((float)FreqSize);
+  free(wisdomPath);
 
 	return LXC_NO_ERR;
 }
