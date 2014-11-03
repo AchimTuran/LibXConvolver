@@ -100,6 +100,7 @@ LXC_ERROR_CODE LXC_NativeRingbuffer_create(LXC_RINGBUFFER *Ringbuffer)
 
 	// set this to max buffer pointer --> so we get the first element when we write data to the buffer
 	Ringbuffer->currentElement = Ringbuffer->maxElements;
+	Ringbuffer->isEmpty	= 1;
 	Ringbuffer->buffer = (void*)p;
 
 	return LXC_NO_ERR;
