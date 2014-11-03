@@ -26,15 +26,18 @@
 #include "LXC_Core_types.h"
 #include "common_types.h"
 
-LXC_ERROR_CODE LXC_Core_init();
+LXC_ERROR_CODE LXC_Core_init(const char *HomePath);
 LXC_ERROR_CODE LXC_Core_close();
 LXC_ERROR_CODE LXC_get_Properties(LXC_PROPERTIES *LXC_properties);
 LXC_ERROR_CODE LXC_Core_destroy(LXC_HANDLE *LXCHandle);
 LXC_ERROR_CODE LXC_Core_getProperties(LXC_PROPERTIES *LXC_properties);
 LXC_HANDLE* LXC_Core_getConvolver(LXC_ptrFilterHandle *Filter, uint InputFrameLength, LXC_OPTIMIZATION_MODULE LXC_module, LXC_FFT_MODULE LXC_fftModule);
+LXC_ERROR_CODE LXC_Core_getModuleCallbacks(LXC_CALLBACKS *Callbacks, LXC_BUFFER_CALLBACKS *Buffer, LXC_RINGBUFFER_CALLBACKS *Ringbuffer, LXC_OPTIMIZATION_MODULE LXC_module);
 LXC_ptrFilterHandle* LXC_Core_createFilter(float *h, uint Size_h, uint SampleFreq);
 LXC_ptrFilterHandle* LXC_Core_createFilter2Ch(float *h1, uint Size_h1, float *h2, uint Size_h2, uint SampleFreq);
 LXC_ERROR_CODE LXC_Core_getLastError();
+char LXC_Core_checkPowerOfTwo(uint Number, uint *NextPowerOfTwo);
+uint LXC_Core_calcMaxFilterParts(uint MaxFilterLength, uint MaxFilterPartLength);
 
 LXC_ERROR_CODE LXC_Core_convolve(LXC_HANDLE *LXCHandle, float *x, float *z);
 LXC_ERROR_CODE LXC_Core_convolve2Ch(LXC_HANDLE *LXCHandle, float *x, float *y, float *z1, float *z2);

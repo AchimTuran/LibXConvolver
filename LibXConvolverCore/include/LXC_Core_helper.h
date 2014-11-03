@@ -26,4 +26,3 @@
 #include "LXC_Core_types.h"
 
 void LXC_Core_setLastError(LXC_ERROR_CODE err);
-LXC_ERROR_CODE LXC_Core_getLastError();
