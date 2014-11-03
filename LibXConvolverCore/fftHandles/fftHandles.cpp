@@ -24,6 +24,7 @@
 #include "fftwf/fftwfHandle.h"
 #include "fftHandles_types.h"
 #include "../include/LXC_Core_types.h"
+#include "../../LibXConvolverUtils/logging/LXC_Logging.h"
 #include <stdio.h>
 #include <malloc.h>
 
@@ -45,10 +46,12 @@ LXC_ERROR_CODE LXC_get_fftHandle(LXC_FFT_HANDLE *LXC_fftHandle, LXC_FFT_MODULE f
 	switch(fftModule)
 	{
 		case LXC_fftModule_fftwf:
+      LXC_LOG_INFO("Trying to get LXC fftModule: fftwf.");
 			err = get_fftwfHandleCallbacks(&(LXC_fftHandle->fftCallbacks), LXC_module);
 		break;
 
 		default:
+      LXC_LOG_ERROR("Selected unsupported LXC fftModule!");
 			err = LXC_ERR_UNSUPPORTED_FFT_MODULE;
 		break;
 	}
@@ -65,5 +68,6 @@ LXC_ERROR_CODE LXC_get_fftHandle(LXC_FFT_HANDLE *LXC_fftHandle, LXC_FFT_MODULE f
 		return err;
 	}
 	
+  LXC_LOG_INFO("Successful initialize LXC_fftModule.");
 	return err;
 }
