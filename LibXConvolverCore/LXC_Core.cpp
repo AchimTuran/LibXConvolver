@@ -44,6 +44,7 @@ char LXC_Core_OptimizationStr[1024];
 uint LXC_Core_OptimizationBits;
 LXC_ERROR_CODE LXC_Core_status = 0;
 LXC_ERROR_CODE g_LXC_Core_lastError = LXC_NO_ERR;
+char *g_LXC_HomePath = NULL;
 
 // ------------------------------------
 // Helper functions
@@ -66,12 +67,25 @@ LXC_ERROR_CODE LXC_Core_initializeFilter( LXC_BUFFER_CALLBACKS *BufferCallbacks,
 										  float *TempSamples );
 
 
-LXC_ERROR_CODE LXC_Core_init()
+LXC_ERROR_CODE LXC_Core_init(const char* HomePath)
 {
-	strcat(LXC_Core_OptimizationStr, "");
+  if (!HomePath)
+  {
+    return LXC_ERR_INVALID_INPUT;
+  }
+
+  size_t strHomeLen = strlen(HomePath);
+  strHomeLen++;
+  g_LXC_HomePath = (char*)malloc(sizeof(char)*strHomeLen);
+  if (!g_LXC_HomePath)
+  {
+    return LXC_ERR_DYNAMIC_MEMORY;
+  }
+  strncpy(g_LXC_HomePath, HomePath, strHomeLen);
+
+  strcat(LXC_Core_OptimizationStr, "");
 	LXC_Core_OptimizationBits = 0;
 
-	LXC_LOG_OPEN();
 	LXC_LOG_INFO("Get LXC module properties.");
 
 #if defined(USE_LXC_NATIVE)
@@ -100,7 +114,13 @@ LXC_ERROR_CODE LXC_Core_init()
 
 LXC_ERROR_CODE LXC_Core_close()
 {
-	LXC_LOG_CLOSE();
+	LXC_LOG_DESTROY();
+
+  if (g_LXC_HomePath)
+  {
+    free(g_LXC_HomePath);
+    g_LXC_HomePath = NULL;
+  }
 	
 	return LXC_NO_ERR;
 }
