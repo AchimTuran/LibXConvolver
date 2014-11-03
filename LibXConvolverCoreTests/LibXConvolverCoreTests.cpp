@@ -26,37 +26,78 @@ using namespace std;
 
 #include "sndfile.hh"
 
-#include "../Utils/timer/CPUTimer.h"
-#include "../Utils/signal/wavLoader.h"
-#include "../Utils/errorHandle/errorHandle.h"
-#include "../Utils/errorHandle/errorCout.h"
-#include "../Utils/constants.h"
-#include "../Utils/system/LXC_OptimizationTranslator.h"
+#include "../LibXConvolverUtils/timer/CPUTimer.h"
+#include "../LibXConvolverUtils/signal/wavLoader.h"
+#include "../LibXConvolverUtils/errorHandle/errorHandle.h"
+#include "../LibXConvolverUtils/errorHandle/errorCout.h"
+#include "../LibXConvolverUtils/constants.h"
+#include "../LibXConvolverUtils/system/LXC_OptimizationTranslator.h"
 
-#include "LXC_Core.h"
-#include "../LXCHandles/LXC_SSE3/LXC_SSE3Buffer.h"
-#include "../LXCHandles/LXC_SSE3/LXC_SSE3.h"
-#include "../LXCHandles/LXC_SSE3/LXC_SSE3_types.h"
-#include "../LXCHandles/LXC_Native/LXC_Native.h"
-#include "../fftHandles/fftwf/fftwfHandle.h"
+#include "../LibXConvolverCore/include/LXC_Core.h"
+#include "../LibXConvolverCore/LXCHandles/LXC_SSE3/LXC_SSE3Buffer.h"
+#include "../LibXConvolverCore/LXCHandles/LXC_SSE3/LXC_SSE3.h"
+#include "../LibXConvolverCore/LXCHandles/LXC_SSE3/LXC_SSE3_types.h"
+#include "../LibXConvolverCore/LXCHandles/LXC_Native/LXC_Native.h"
+#include "../LibXConvolverCore/fftHandles/fftwf/fftwfHandle.h"
 
 
 LXC_ERROR_CODE test_LXC_SSE3Kernels(uint MaxSamples, uint MaxLoops, bool ShowAllResults=false);
-LXC_ERROR_CODE test_LXC_Convolver(LXC_OPTIMIZATION_MODULE Module);
+LXC_ERROR_CODE test_LXC_Convolver_2Ch(LXC_OPTIMIZATION_MODULE Module);
+LXC_ERROR_CODE test_LXC_Convolver_1Ch(LXC_OPTIMIZATION_MODULE Module);
 double test_LXC_ConvolverWav(string filterFilename, string InSigFilename, 
 							 LXC_OPTIMIZATION_MODULE Module, 
 							 uint InputFrameLength = 1024);
 LXC_ERROR_CODE test_SSE3vsNative(uint inputFramelength);
 
-LXC_ERROR_CODE test_LXC_Convolver(LXC_OPTIMIZATION_MODULE Module)
+LXC_ERROR_CODE test_LXC_Convolver_1Ch(LXC_OPTIMIZATION_MODULE Module)
 {
 	LXC_ERROR_CODE err = LXC_NO_ERR;
 
 	// create 2 channel test filter
 	float h1[] = {1,1,1,1, 1,1,1,1, 1,1,1,1};
+	const uint sizeH1 = sizeof(h1)/sizeof(float);
+	const uint inputFrameLength = 5;
+	LXC_ptrFilterHandle *lxc_filterHandle = LXC_Core_createFilter(h1, sizeH1, 44100);
+	if(!lxc_filterHandle)
+		return LXC_Core_getLastError();
+
+	// get LXC_Native convolver
+	LXC_HANDLE *lxcHandle = LXC_Core_getConvolver(lxc_filterHandle, inputFrameLength, Module, LXC_fftModule_fftwf);
+	if(!lxcHandle)
+		return LXC_Core_getLastError();
+
+	// convolve with x1 and x2
+	float x[] = {1,1,1,1, 1,1,1,1, 0,0,0,0, 0,0,0,0};
+	float z1[] = {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0};
+	const uint blocks = sizeof(x)/sizeof(float)/inputFrameLength;
+
+	for(uint ii=0; ii < blocks && err == LXC_NO_ERR; ii++)
+	{
+		const uint pos = ii*inputFrameLength;
+		LXC_Core_convolve(lxcHandle, &x[pos], &z1[pos]);
+	}
+
+	printf("z1=");
+	for(uint ii=0; ii < sizeof(z1)/sizeof(float) -1; ii++)
+	{
+		printf("%.1f; ", z1[ii]);
+	}
+	printf("%.1f\n", z1[sizeof(z1)/sizeof(float)-1]);
+
+	return LXC_Core_destroy(lxcHandle);
+}
+
+LXC_ERROR_CODE test_LXC_Convolver_2Ch(LXC_OPTIMIZATION_MODULE Module)
+{
+	LXC_ERROR_CODE err = LXC_NO_ERR;
+
+	// create 2 channel test filter
+	float h1[] = {1,1,1,1, 1,1,1,1, 1,1,1,1};
+	const uint sizeH1 = sizeof(h1)/sizeof(float);
 	float h2[] = {1,1,1,1, 1,1,1,1};
+	const uint sizeH2 = sizeof(h2)/sizeof(float);
 	const uint inputFrameLength = 4;
-	LXC_ptrFilterHandle *lxc_filterHandle = LXC_Core_createFilter2Ch(h1, 12, h2, 8, 44100);
+	LXC_ptrFilterHandle *lxc_filterHandle = LXC_Core_createFilter2Ch(h1, sizeH1, h2, sizeH2, 44100);
 	if(!lxc_filterHandle)
 		return LXC_Core_getLastError();
 
@@ -513,7 +554,7 @@ int main()
 	try
 	{
 		// init LXC library
-		LXC_ERROR_CODE err = LXC_Core_init();
+		LXC_ERROR_CODE err = LXC_Core_init("");
 		if(err != LXC_NO_ERR)
 			return err;
 
@@ -523,15 +564,24 @@ int main()
 		if(err != LXC_NO_ERR)
 			return err;
 
-		cout << endl << endl;
-		cout << "====Testing LXC_Native convolution====" << endl;
-		err = test_LXC_Convolver(LXC_OPT_NATIVE);
+		cout << "====Testing LXC_Native 1 channel convolution====" << endl;
+		err = test_LXC_Convolver_1Ch(LXC_OPT_NATIVE);
+		if(err != LXC_NO_ERR)
+			return err;
+
+		cout << "====Testing LXC_SSE3 1 channel convolution====" << endl;
+		err = test_LXC_Convolver_1Ch(LXC_OPT_SSE3);
 		if(err != LXC_NO_ERR)
 			return err;
 
 		cout << endl << endl;
-		cout << "====Testing LXC_SSE3 convolution====" << endl;
-		err = test_LXC_Convolver(LXC_OPT_SSE3);
+		cout << "====Testing LXC_Native 2 channel convolution====" << endl;
+		err = test_LXC_Convolver_2Ch(LXC_OPT_NATIVE);
+		if(err != LXC_NO_ERR)
+			return err;
+
+		cout << "====Testing LXC_SSE3 2 channel convolution====" << endl;
+		err = test_LXC_Convolver_2Ch(LXC_OPT_SSE3);
 		if(err != LXC_NO_ERR)
 			return err;
 
