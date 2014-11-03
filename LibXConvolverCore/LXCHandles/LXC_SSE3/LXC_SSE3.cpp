@@ -64,6 +64,23 @@ LXC_ERROR_CODE LXC_get_SSE3AllCallbacks(LXC_HANDLE *LXCHandle)
 	return LXC_NO_ERR;
 }
 
+LXC_ERROR_CODE LXC_get_SSE3ConvolutionCallbacks(LXC_CALLBACKS *Callbacks)
+{
+  if (!Callbacks)
+  {
+    // ToDo: show some error message
+    return LXC_ERR_INVALID_INPUT;
+  }
+
+  // get LXC callbacks
+  Callbacks->LXC_CpxMul = LXC_SSE3CpxMul_K2;
+  Callbacks->LXC_CpxAdd = LXC_SSE3CpxAdd;
+  Callbacks->LXC_FreqCombine2Ch = LXC_SSE3FreqCombine2Ch;
+  Callbacks->LXC_FreqSplit2Ch = LXC_SSE3FreqSplit2Ch;
+
+  return LXC_NO_ERR;
+}
+
 LXC_ERROR_CODE LXC_get_SSE3BufferCallbacks(LXC_BUFFER_CALLBACKS *Buffer)
 {
 	if(!Buffer)
@@ -97,23 +114,6 @@ LXC_ERROR_CODE LXC_get_SSE3RingbufferCallbacks(LXC_RINGBUFFER_CALLBACKS *Ringbuf
 	return LXC_NO_ERR;
 }
 
-LXC_ERROR_CODE LXC_get_SSE3ConvolutionCallbacks(LXC_CALLBACKS *Callbacks)
-{
-	if(!Callbacks)
-	{
-		// ToDo: show some error message
-		return LXC_ERR_INVALID_INPUT;
-	}
-
-	// get LXC callbacks
-	Callbacks->LXC_CpxMul = LXC_SSE3CpxMul_K2;
-	Callbacks->LXC_CpxAdd = LXC_SSE3CpxAdd;
-	Callbacks->LXC_FreqCombine2Ch = LXC_SSE3FreqCombine2Ch;
-	Callbacks->LXC_FreqSplit2Ch = LXC_SSE3FreqSplit2Ch;
-
-	return LXC_NO_ERR;
-}
-
 //-----------------------------------------------------------------------------------------
 // SSE3 complex multiplication with different kernel sizes
 //-----------------------------------------------------------------------------------------
@@ -140,8 +140,8 @@ LXC_ERROR_CODE LXC_SSE3CpxMul_K2(uint Size, void *X, void *H, void *Z)
 		// local variables
 		__m128 val1;
 		__m128 val2;
-		__m128 val3;
-		__m128 val4;
+		//__m128 val3;
+		//__m128 val4;
 
 		// load values into __m128
 		val1 = _mm_load_ps(&m_X[ii]);			// _mm_load_ps:		src{ a1, b1, a2, b2 } --> val1 { a1, b1, a2, b2 }
@@ -438,7 +438,7 @@ LXC_ERROR_CODE LXC_SSE3CpxMul_K128(uint Size, void *X, void *H, void *Z)
 	return LXC_NO_ERR;
 }
 
-LXC_ERROR_CODE LXC_SSE3CpxAdd(LXC_BUFFER *ResultBuffer, char Scale)
+LXC_ERROR_CODE LXC_SSE3CpxAdd(LXC_BUFFER *ResultBuffer, float ScaleFactor)
 {
 	if(!ResultBuffer)
 	{
@@ -467,9 +467,10 @@ LXC_ERROR_CODE LXC_SSE3CpxAdd(LXC_BUFFER *ResultBuffer, char Scale)
 		}
 	}
 
-	if(Scale)
+  if (ScaleFactor != 1.0f)
 	{
-		const __declspec(align(LXC_SSE3_ALIGN)) float  scaleFactor = 1.0f / ((float)partSize);
+		//const LXC_SSE3Float scaleFactor = 1.0f / ((float)partSize);
+    const LXC_SSE3Float scaleFactor = ScaleFactor;
 		__m128 _scale = _mm_load1_ps(&scaleFactor);
 		for(uint ii=0; ii < size; ii+=4)
 		{

@@ -32,7 +32,7 @@
 
 #include "LXC_NativeBuffer.h"
 
-LXC_ERROR_CODE LXC_get_NativeCallbacks(LXC_HANDLE *LXCHandle)
+LXC_ERROR_CODE LXC_get_NativeAllCallbacks(LXC_HANDLE *LXCHandle)
 {
 	if(!LXCHandle)
 	{
@@ -40,24 +40,77 @@ LXC_ERROR_CODE LXC_get_NativeCallbacks(LXC_HANDLE *LXCHandle)
 		return LXC_ERR_INVALID_INPUT;
 	}
 
-	// get LXC callbacks
-	LXCHandle->LXC_callbacks.LXC_CpxMul = LXC_NativeCpxMul;
-	LXCHandle->LXC_callbacks.LXC_CpxAdd = LXC_NativeCpxAdd;
-	LXCHandle->LXC_callbacks.LXC_FreqCombine2Ch = LXC_NativeFreqCombine2Ch;
-	LXCHandle->LXC_callbacks.LXC_FreqSplit2Ch = LXC_NativeFreqSplit2Ch;
+  LXC_ERROR_CODE err = LXC_get_NativeConvolutionCallbacks(&(LXCHandle->LXC_callbacks));
+  if (err != LXC_NO_ERR)
+  {
+    return err;
+  }
 
-	// get buffer callbacks
-	LXCHandle->LXCHandle.bufferCallbacks.LXC_Buffer_getPart = LXC_NativeBuffer_getPart;
-	LXCHandle->LXCHandle.bufferCallbacks.LXC_Buffer_create = LXC_NativeBuffer_create;
-	LXCHandle->LXCHandle.bufferCallbacks.LXC_Buffer_destroy = LXC_NativeBuffer_destroy;
+  // get buffer callbacks
+  err = LXC_get_NativeBufferCallbacks(&(LXCHandle->LXCHandle.bufferCallbacks));
+  if (err != LXC_NO_ERR)
+  {
+    return err;
+  }
 
-	// get ringbuffer callbacks
-	LXCHandle->LXCHandle.ringbufferCallbacks.LXC_Ringbuffer_getPart = LXC_NativeRingbuffer_getPart;
-	LXCHandle->LXCHandle.ringbufferCallbacks.LXC_Ringbuffer_getNextPart = LXC_NativeRingbuffer_getNextPart;
-	LXCHandle->LXCHandle.ringbufferCallbacks.LXC_Ringbuffer_create = LXC_NativeRingbuffer_create;
-	LXCHandle->LXCHandle.ringbufferCallbacks.LXC_Ringbuffer_destroy = LXC_NativeRingbuffer_destroy;
+  // get ringbuffer callbacks
+  err = LXC_get_NativeRingbufferCallbacks(&(LXCHandle->LXCHandle.ringbufferCallbacks));
+  if (err != LXC_NO_ERR)
+  {
+    return err;
+  }
 
 	return LXC_NO_ERR;
+}
+
+LXC_ERROR_CODE LXC_get_NativeConvolutionCallbacks(LXC_CALLBACKS *Callbacks)
+{
+  if (!Callbacks)
+  {
+    // ToDo: show some error message
+    return LXC_ERR_INVALID_INPUT;
+  }
+
+  // get LXC callbacks
+  Callbacks->LXC_CpxMul = LXC_NativeCpxMul;
+  Callbacks->LXC_CpxAdd = LXC_NativeCpxAdd;
+  Callbacks->LXC_FreqCombine2Ch = LXC_NativeFreqCombine2Ch;
+  Callbacks->LXC_FreqSplit2Ch = LXC_NativeFreqSplit2Ch;
+
+  return LXC_NO_ERR;
+}
+
+LXC_ERROR_CODE LXC_get_NativeBufferCallbacks(LXC_BUFFER_CALLBACKS *Buffer)
+{
+  if (!Buffer)
+  {
+    // ToDo: show some error message
+    return LXC_ERR_INVALID_INPUT;
+  }
+
+  // get buffer callbacks
+  Buffer->LXC_Buffer_getPart = LXC_NativeBuffer_getPart;
+  Buffer->LXC_Buffer_create = LXC_NativeBuffer_create;
+  Buffer->LXC_Buffer_destroy = LXC_NativeBuffer_destroy;
+
+  return LXC_NO_ERR;
+}
+
+LXC_ERROR_CODE LXC_get_NativeRingbufferCallbacks(LXC_RINGBUFFER_CALLBACKS *Ringbuffer)
+{
+  if (!Ringbuffer)
+  {
+    // ToDo: show some error message
+    return LXC_ERR_INVALID_INPUT;
+  }
+
+  // get ringbuffer callbacks
+  Ringbuffer->LXC_Ringbuffer_getPart = LXC_NativeRingbuffer_getPart;
+  Ringbuffer->LXC_Ringbuffer_getNextPart = LXC_NativeRingbuffer_getNextPart;
+  Ringbuffer->LXC_Ringbuffer_create = LXC_NativeRingbuffer_create;
+  Ringbuffer->LXC_Ringbuffer_destroy = LXC_NativeRingbuffer_destroy;
+
+  return LXC_NO_ERR;
 }
 
 LXC_ERROR_CODE LXC_NativeCpxMul(uint Size, void *X, void *H, void *Y)
@@ -79,7 +132,7 @@ LXC_ERROR_CODE LXC_NativeCpxMul(uint Size, void *X, void *H, void *Y)
 	return LXC_NO_ERR;
 }
 
-LXC_ERROR_CODE LXC_NativeCpxAdd(LXC_BUFFER *ResultBuffer, char Scale)
+LXC_ERROR_CODE LXC_NativeCpxAdd(LXC_BUFFER *ResultBuffer, float ScaleFactor)
 {
 	if(!ResultBuffer)
 	{
@@ -100,13 +153,13 @@ LXC_ERROR_CODE LXC_NativeCpxAdd(LXC_BUFFER *ResultBuffer, char Scale)
 		}
 	}
 
-	if(Scale)
+  if (ScaleFactor != 1.0f)
 	{
-		const float scaleFactor = 1.0f / ((float)partSize);
+		//const float scaleFactor = 1.0f / ((float)partSize);
 		for(uint ii=0; ii < partSize; ii++)
 		{
-			Z0[ii][0] *= scaleFactor;
-			Z0[ii][1] *= scaleFactor;
+      Z0[ii][0] *= ScaleFactor;
+      Z0[ii][1] *= ScaleFactor;
 		}
 	}
 

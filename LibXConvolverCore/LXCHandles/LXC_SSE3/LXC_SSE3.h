@@ -27,10 +27,11 @@
 #include "../../include/LXC_Core_types.h"
 
 LXC_ERROR_CODE LXC_get_SSE3AllCallbacks(LXC_HANDLE *LXCHandle);
+LXC_ERROR_CODE LXC_get_SSE3ConvolutionCallbacks(LXC_CALLBACKS *Callbacks);
 LXC_ERROR_CODE LXC_get_SSE3BufferCallbacks(LXC_BUFFER_CALLBACKS *Buffer);
 LXC_ERROR_CODE LXC_get_SSE3RingbufferCallbacks(LXC_RINGBUFFER_CALLBACKS *Ringbuffer);
-LXC_ERROR_CODE LXC_get_SSE3ConvolutionCallbacks(LXC_CALLBACKS *Callbacks);
-LXC_ERROR_CODE LXC_SSE3CpxAdd(LXC_BUFFER *ResultBuffer, char Scale);
+
+LXC_ERROR_CODE LXC_SSE3CpxAdd(LXC_BUFFER *ResultBuffer, float ScaleFactor=1.0f);
 LXC_ERROR_CODE LXC_SSE3FreqCombine2Ch(uint Size, void *X, void *Y, void *Z);
 LXC_ERROR_CODE LXC_SSE3FreqSplit2Ch(uint Size, void *Z, void *X, void *Y);
 

@@ -27,8 +27,12 @@
 #include "../../include/LXC_Core_types.h"
 #include "LXC_Native_types.h"
 
-LXC_ERROR_CODE LXC_get_NativeCallbacks(LXC_HANDLE *LXCHandle);
+LXC_ERROR_CODE LXC_get_NativeAllCallbacks(LXC_HANDLE *LXCHandle);
+LXC_ERROR_CODE LXC_get_NativeConvolutionCallbacks(LXC_CALLBACKS *Callbacks);
+LXC_ERROR_CODE LXC_get_NativeBufferCallbacks(LXC_BUFFER_CALLBACKS *Buffer);
+LXC_ERROR_CODE LXC_get_NativeRingbufferCallbacks(LXC_RINGBUFFER_CALLBACKS *Ringbuffer);
+
 LXC_ERROR_CODE LXC_NativeCpxMul(const uint Size, void *X, void *H, void *Y);
-LXC_ERROR_CODE LXC_NativeCpxAdd(LXC_BUFFER *ResultBuffer, char Scale);
+LXC_ERROR_CODE LXC_NativeCpxAdd(LXC_BUFFER *ResultBuffer, float ScaleFactor=1.0f);
 LXC_ERROR_CODE LXC_NativeFreqCombine2Ch(const uint Size, void *X, void *Y, void *Z);
 LXC_ERROR_CODE LXC_NativeFreqSplit2Ch(const uint Size, void *Z, void *X, void *Y);
