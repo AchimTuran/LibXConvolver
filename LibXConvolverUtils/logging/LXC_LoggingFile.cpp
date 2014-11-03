@@ -23,24 +23,60 @@
 
 
 #include <time.h>
-
 #include <stdio.h>
-#include <time.h>
+#include <malloc.h>
 #include <stdarg.h>
+#include <string.h>
 
 #include "LXC_Logging.h"
 
 FILE *g_loggingFilePtr = NULL;
 char g_FallbackToPrintf = 0;
+char g_FirstLine = 1;
+extern char *g_LXC_HomePath;
+char *g_LXC_LoggingPath = NULL;
 
 void LXC_LoggingFile_open()
 {
+  if (!g_LXC_LoggingPath)
+  {
+    if (g_LXC_HomePath)
+    {
+      size_t strHomeLen = strlen(g_LXC_HomePath);
+      strHomeLen++;
 #if defined(LXC_LOGGING_FILE_NAME)
-	g_loggingFilePtr = fopen(LXC_LOGGING_FILE_NAME, "w");
+      const char* loggingFilename = LXC_LOGGING_FILE_NAME;      
 #else
-	g_loggingFilePtr = fopen("LXC.log", "w");
+      const char* loggingFilename = LXC.log;
 #endif
+      
+      size_t strFileLen = strlen(loggingFilename);
 
+      g_LXC_LoggingPath = (char*)malloc(sizeof(char)*(strHomeLen + strFileLen));
+      if (!g_LXC_LoggingPath)
+      {
+        g_FallbackToPrintf = 1;
+      }
+
+      strncpy(g_LXC_LoggingPath, g_LXC_HomePath, strHomeLen);
+      strcat(g_LXC_LoggingPath, loggingFilename);
+    }
+    else
+    {
+      g_FallbackToPrintf = 1;
+    }
+  }
+
+  if (g_FirstLine)
+  {
+    g_loggingFilePtr = fopen(g_LXC_LoggingPath, "w");
+    g_FirstLine = 0;
+  }
+  else
+  {
+    g_loggingFilePtr = fopen(g_LXC_LoggingPath, "a");
+  }
+  
 	if(!g_loggingFilePtr)
 	{
 		g_FallbackToPrintf = 1;
@@ -103,4 +139,15 @@ void LXC_LoggingFile_close()
 
 		g_loggingFilePtr = NULL;
 	}
+}
+
+void LXC_LoggingFile_destroy()
+{
+  LXC_LoggingFile_close();
+
+  if (g_LXC_LoggingPath)
+  {
+    free(g_LXC_LoggingPath);
+    g_LXC_LoggingPath = NULL;
+  }
 }
