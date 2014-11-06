@@ -27,17 +27,17 @@
 
 #include "include/LXC_Core.h"
 #include "include/LXC_Core_config.h"
-#include "fftHandles/fftHandles.h"
+#include "LXC_fftHandles/LXC_fftHandles.h"
 #include "include/LXC_Core_helper.h"
 
 #if defined(USE_LXC_NATIVE)
-	#include "LXCHandles/LXC_Native/LXC_Native.h"
+	#include "LXC_Handles/LXC_Native/LXC_Native.h"
 #endif
 #if defined(USE_LXC_SSE3)
-	#include "LXCHandles/LXC_SSE3/LXC_SSE3.h"
+	#include "LXC_Handles/LXC_SSE3/LXC_SSE3.h"
 #endif
 
-#include "../LibXConvolverUtils/logging/LXC_Logging.h"
+#include "../LibXConvolverUtils/LXC_Logging/LXC_Logging.h"
 
 const char LXC_CoreAPIVersionStr[1024] = LXC_CORE_API_VERSION_STR;
 char LXC_Core_OptimizationStr[1024];
@@ -258,10 +258,10 @@ LXC_HANDLE* LXC_Core_getConvolver(LXC_ptrFilterHandle *Filter, uint InputFrameLe
 	uint freqSize = 0;
 	LXC_Core_checkPowerOfTwo(InputFrameLength*2, &freqSize);
 	// get fft module
-	err = LXC_get_fftHandle(&(LXCHandle->fftHandle), LXC_fftModule, LXC_module, freqSize, InputFrameLength);
+	err = LXC_get_fftHandle(&(LXCHandle->LXC_fftHandle), LXC_fftModule, LXC_module, freqSize, InputFrameLength);
 	if(err != LXC_NO_ERR)
 	{
-		LXCHandle->fftHandle.fftCallbacks.destroy_fft(&(LXCHandle->fftHandle.fftPlan));
+		LXCHandle->LXC_fftHandle.LXC_fftCallbacks.LXC_destroy_fft(&(LXCHandle->LXC_fftHandle.LXC_fftPlan));
 		free(LXCHandle);
 		LXC_Core_setLastError(err);
 		return NULL;
@@ -271,7 +271,7 @@ LXC_HANDLE* LXC_Core_getConvolver(LXC_ptrFilterHandle *Filter, uint InputFrameLe
 	err = LXC_Core_getOptimizationModule(LXCHandle, LXC_module);
 	if(err != LXC_NO_ERR)
 	{
-		LXCHandle->fftHandle.fftCallbacks.destroy_fft(&(LXCHandle->fftHandle.fftPlan));
+		LXCHandle->LXC_fftHandle.LXC_fftCallbacks.LXC_destroy_fft(&(LXCHandle->LXC_fftHandle.LXC_fftPlan));
 		free(LXCHandle);
 		LXC_Core_setLastError(err);
 		return NULL;
@@ -281,7 +281,7 @@ LXC_HANDLE* LXC_Core_getConvolver(LXC_ptrFilterHandle *Filter, uint InputFrameLe
 	err = LXC_Core_storeFilter(LXCHandle, (LXC_FILTER_HANDLE_CH*)Filter);
 	if(err != LXC_NO_ERR)
 	{
-		LXCHandle->fftHandle.fftCallbacks.destroy_fft(&(LXCHandle->fftHandle.fftPlan));
+		LXCHandle->LXC_fftHandle.LXC_fftCallbacks.LXC_destroy_fft(&(LXCHandle->LXC_fftHandle.LXC_fftPlan));
 		free(LXCHandle);
 		LXC_Core_setLastError(err);
 		return NULL;
@@ -390,16 +390,16 @@ LXC_ERROR_CODE LXC_Core_storeFilter(LXC_HANDLE *LXCHandle, LXC_FILTER_HANDLE_CH 
 
 	LXC_ERROR_CODE err = LXC_NO_ERR;
 	
-	float *tempSamples = (float*)malloc(sizeof(float)*LXCHandle->fftHandle.fftPlan.fftSize);
+	float *tempSamples = (float*)malloc(sizeof(float)*LXCHandle->LXC_fftHandle.LXC_fftPlan.LXC_fftSize);
 	if(!tempSamples)
 	{
 		return LXC_ERR_DYNAMIC_MEMORY;
 	}
 
-	LXC_BUFFER_CALLBACKS *bufferCallbacks = &(LXCHandle->LXCHandle.bufferCallbacks);
-	LXC_RINGBUFFER_CALLBACKS *ringbufferCallbacks = &(LXCHandle->LXCHandle.ringbufferCallbacks);
-	LXC_FFT_CALLBACKS *fftCallbacks = &(LXCHandle->fftHandle.fftCallbacks);
-	LXC_FFT_PLAN *fftPlan = &(LXCHandle->fftHandle.fftPlan);
+	LXC_BUFFER_CALLBACKS *bufferCallbacks = &(LXCHandle->LXC_Handle.LXC_bufferCallbacks);
+	LXC_RINGBUFFER_CALLBACKS *ringbufferCallbacks = &(LXCHandle->LXC_Handle.LXC_ringbufferCallbacks);
+	LXC_FFT_CALLBACKS *fftCallbacks = &(LXCHandle->LXC_fftHandle.LXC_fftCallbacks);
+	LXC_FFT_PLAN *fftPlan = &(LXCHandle->LXC_fftHandle.LXC_fftPlan);
 	LXC_CONFIG *lxcConfig = &(LXCHandle->LXC_config);
 	
 	
@@ -410,8 +410,8 @@ LXC_ERROR_CODE LXC_Core_storeFilter(LXC_HANDLE *LXCHandle, LXC_FILTER_HANDLE_CH 
 	{
 		lxcConfig->LXC_maxChannels++;
 		err = LXC_Core_initializeFilter( bufferCallbacks, ringbufferCallbacks, fftCallbacks,
-										 &(LXCHandle->fftHandle), &(LXCHandle->LXCHandle.H1), 
-										 &(LXCHandle->LXCHandle.results_H1), &(LXCHandle->LXCHandle.IN_H1),
+										 &(LXCHandle->LXC_fftHandle), &(LXCHandle->LXC_Handle.H1), 
+										 &(LXCHandle->LXC_Handle.results_H1), &(LXCHandle->LXC_Handle.IN_H1),
 										 Filter->h1, Filter->LXC_filterConfig.maxFilterLength_h1, 
 										 Filter->LXC_filterConfig.sampleFrequency, tempSamples);
 		if(err != LXC_NO_ERR)
@@ -425,8 +425,8 @@ LXC_ERROR_CODE LXC_Core_storeFilter(LXC_HANDLE *LXCHandle, LXC_FILTER_HANDLE_CH 
 	{
 		lxcConfig->LXC_maxChannels++;
 		err = LXC_Core_initializeFilter( bufferCallbacks, ringbufferCallbacks, fftCallbacks,
-										 &(LXCHandle->fftHandle), &(LXCHandle->LXCHandle.H2), 
-										 &(LXCHandle->LXCHandle.results_H2), &(LXCHandle->LXCHandle.IN_H2),
+										 &(LXCHandle->LXC_fftHandle), &(LXCHandle->LXC_Handle.H2), 
+										 &(LXCHandle->LXC_Handle.results_H2), &(LXCHandle->LXC_Handle.IN_H2),
 										 Filter->h2, Filter->LXC_filterConfig.maxFilterLength_h2, 
 										 Filter->LXC_filterConfig.sampleFrequency, tempSamples);
 		if(err != LXC_NO_ERR)
@@ -437,15 +437,15 @@ LXC_ERROR_CODE LXC_Core_storeFilter(LXC_HANDLE *LXCHandle, LXC_FILTER_HANDLE_CH 
 	}
 
 	free(tempSamples);
-	if((!LXCHandle->LXCHandle.H1.buffer && !LXCHandle->LXCHandle.H2.buffer) || 
-		!LXCHandle->LXCHandle.H1.buffer ||
+	if((!LXCHandle->LXC_Handle.H1.buffer && !LXCHandle->LXC_Handle.H2.buffer) || 
+		!LXCHandle->LXC_Handle.H1.buffer ||
 		!lxcConfig->LXC_maxChannels )
 	{
 		return LXC_ERR_INVALID_INPUT;
 	}
 
 	
-	err = fftCallbacks->clearBuffers(&(LXCHandle->fftHandle.fftPlan));
+	err = fftCallbacks->LXC_clearBuffers(&(LXCHandle->LXC_fftHandle.LXC_fftPlan));
 
 	return err;
 }
@@ -456,17 +456,17 @@ LXC_ERROR_CODE LXC_Core_destroy(LXC_HANDLE *LXCHandle)
   if (LXCHandle)
   {
     // destroy specific fft plan
-    LXC_ERROR_CODE err = LXCHandle->fftHandle.fftCallbacks.destroy_fft(&(LXCHandle->fftHandle.fftPlan));
+    LXC_ERROR_CODE err = LXCHandle->LXC_fftHandle.LXC_fftCallbacks.LXC_destroy_fft(&(LXCHandle->LXC_fftHandle.LXC_fftPlan));
 
     // destroy buffers
-    err = LXCHandle->LXCHandle.bufferCallbacks.LXC_Buffer_destroy(&(LXCHandle->LXCHandle.H1));
-    err = LXCHandle->LXCHandle.bufferCallbacks.LXC_Buffer_destroy(&(LXCHandle->LXCHandle.H2));
-    err = LXCHandle->LXCHandle.bufferCallbacks.LXC_Buffer_destroy(&(LXCHandle->LXCHandle.results_H1));
-    err = LXCHandle->LXCHandle.bufferCallbacks.LXC_Buffer_destroy(&(LXCHandle->LXCHandle.results_H2));
+    err = LXCHandle->LXC_Handle.LXC_bufferCallbacks.LXC_Buffer_destroy(&(LXCHandle->LXC_Handle.H1));
+    err = LXCHandle->LXC_Handle.LXC_bufferCallbacks.LXC_Buffer_destroy(&(LXCHandle->LXC_Handle.H2));
+    err = LXCHandle->LXC_Handle.LXC_bufferCallbacks.LXC_Buffer_destroy(&(LXCHandle->LXC_Handle.results_H1));
+    err = LXCHandle->LXC_Handle.LXC_bufferCallbacks.LXC_Buffer_destroy(&(LXCHandle->LXC_Handle.results_H2));
 
     // destroy ringbuffers
-    err = LXCHandle->LXCHandle.ringbufferCallbacks.LXC_Ringbuffer_destroy(&(LXCHandle->LXCHandle.IN_H1));
-    err = LXCHandle->LXCHandle.ringbufferCallbacks.LXC_Ringbuffer_destroy(&(LXCHandle->LXCHandle.IN_H2));
+    err = LXCHandle->LXC_Handle.LXC_ringbufferCallbacks.LXC_Ringbuffer_destroy(&(LXCHandle->LXC_Handle.IN_H1));
+    err = LXCHandle->LXC_Handle.LXC_ringbufferCallbacks.LXC_Ringbuffer_destroy(&(LXCHandle->LXC_Handle.IN_H2));
   }
 
 	return err;
@@ -480,22 +480,22 @@ LXC_ERROR_CODE LXC_Core_convolve(LXC_HANDLE *LXCHandle, float *x, float *z)
 	}
 
 	// get all specific buffers, callbacks and handles
-	LXC_FFT_PLAN *fftPlan = &(LXCHandle->fftHandle.fftPlan);
-	LXC_FFT_CALLBACKS *fft = &(LXCHandle->fftHandle.fftCallbacks);
+	LXC_FFT_PLAN *fftPlan = &(LXCHandle->LXC_fftHandle.LXC_fftPlan);
+	LXC_FFT_CALLBACKS *fft = &(LXCHandle->LXC_fftHandle.LXC_fftCallbacks);
 	const uint timeFrameLength = LXCHandle->LXC_config.LXC_maxInputFrameLength;
-	const uint freqFrameLength = fftPlan->fftSize;
-	LXC_BUFFER *H = &(LXCHandle->LXCHandle.H1);
-	LXC_BUFFER *results_H = &(LXCHandle->LXCHandle.results_H1);
-	LXC_RINGBUFFER *in_H = &(LXCHandle->LXCHandle.IN_H1);
-	LXC_BUFFER_CALLBACKS *bufferCallbacks = &(LXCHandle->LXCHandle.bufferCallbacks);
-	LXC_RINGBUFFER_CALLBACKS *ringbufferCallbacks = &(LXCHandle->LXCHandle.ringbufferCallbacks);
+	const uint freqFrameLength = fftPlan->LXC_fftSize;
+	LXC_BUFFER *H = &(LXCHandle->LXC_Handle.H1);
+	LXC_BUFFER *results_H = &(LXCHandle->LXC_Handle.results_H1);
+	LXC_RINGBUFFER *in_H = &(LXCHandle->LXC_Handle.IN_H1);
+	LXC_BUFFER_CALLBACKS *bufferCallbacks = &(LXCHandle->LXC_Handle.LXC_bufferCallbacks);
+	LXC_RINGBUFFER_CALLBACKS *ringbufferCallbacks = &(LXCHandle->LXC_Handle.LXC_ringbufferCallbacks);
 	LXC_CALLBACKS *lxcCallbacks = &(LXCHandle->LXC_callbacks);
 
 	// convert format external, fft, convert format internal
-	fft->fmtc_external_TO_fft(x, fftPlan, timeFrameLength);
-	fft->fft(fftPlan);
+	fft->LXC_fmtc_external_TO_fft(x, fftPlan, timeFrameLength);
+	fft->LXC_fft(fftPlan);
 	void *X = ringbufferCallbacks->LXC_Ringbuffer_getNextPart(in_H);
-	fft->fmtc_fft_TO_internal(fftPlan, X, freqFrameLength);
+	fft->LXC_fmtc_fft_TO_internal(fftPlan, X, freqFrameLength);
 	
 	// convolution in frequency domain is only a complex multiplication
 	// convolve channel1
@@ -512,7 +512,7 @@ LXC_ERROR_CODE LXC_Core_convolve(LXC_HANDLE *LXCHandle, float *x, float *z)
 	}
 
 	// sum all samples
-	lxcCallbacks->LXC_CpxAdd(results_H, fftPlan->scaleFactor);
+	lxcCallbacks->LXC_CpxAdd(results_H, fftPlan->LXC_scaleFactor);
 
 	void* Z = bufferCallbacks->LXC_Buffer_getPart(results_H, 0);
 	if(!Z)
@@ -521,9 +521,9 @@ LXC_ERROR_CODE LXC_Core_convolve(LXC_HANDLE *LXCHandle, float *x, float *z)
 	}
 
 	// do inverse fast fourier transform
-	fft->fmtc_internal_TO_fft(Z, fftPlan, freqFrameLength);
-	fft->ifft(fftPlan);
-	fft->fmtc_fft_TO_external(fftPlan, z, timeFrameLength);
+	fft->LXC_fmtc_internal_TO_fft(Z, fftPlan, freqFrameLength);
+	fft->LXC_ifft(fftPlan);
+	fft->LXC_fmtc_fft_TO_external(fftPlan, z, timeFrameLength);
 
 	return LXC_NO_ERR;
 }
@@ -536,25 +536,25 @@ LXC_ERROR_CODE LXC_Core_convolve2Ch(LXC_HANDLE *LXCHandle, float *x, float *y, f
 	}
 
 	// get all specific buffers, callbacks and handles
-	LXC_FFT_PLAN *fftPlan = &(LXCHandle->fftHandle.fftPlan);
-	LXC_FFT_CALLBACKS *fft = &(LXCHandle->fftHandle.fftCallbacks);
+	LXC_FFT_PLAN *fftPlan = &(LXCHandle->LXC_fftHandle.LXC_fftPlan);
+	LXC_FFT_CALLBACKS *fft = &(LXCHandle->LXC_fftHandle.LXC_fftCallbacks);
 	const uint timeFrameLength = LXCHandle->LXC_config.LXC_maxInputFrameLength;
-	const uint freqFrameLength = fftPlan->fftSize;
-	LXC_BUFFER *H1 = &(LXCHandle->LXCHandle.H1);
-	LXC_BUFFER *H2 = &(LXCHandle->LXCHandle.H2);
-	LXC_BUFFER *results_H1 = &(LXCHandle->LXCHandle.results_H1);
-	LXC_BUFFER *results_H2 = &(LXCHandle->LXCHandle.results_H2);
-	LXC_RINGBUFFER *in_H1 = &(LXCHandle->LXCHandle.IN_H1);
-	LXC_RINGBUFFER *in_H2 = &(LXCHandle->LXCHandle.IN_H2);
-	LXC_BUFFER_CALLBACKS *bufferCallbacks = &(LXCHandle->LXCHandle.bufferCallbacks);
-	LXC_RINGBUFFER_CALLBACKS *ringbufferCallbacks = &(LXCHandle->LXCHandle.ringbufferCallbacks);
+	const uint freqFrameLength = fftPlan->LXC_fftSize;
+	LXC_BUFFER *H1 = &(LXCHandle->LXC_Handle.H1);
+	LXC_BUFFER *H2 = &(LXCHandle->LXC_Handle.H2);
+	LXC_BUFFER *results_H1 = &(LXCHandle->LXC_Handle.results_H1);
+	LXC_BUFFER *results_H2 = &(LXCHandle->LXC_Handle.results_H2);
+	LXC_RINGBUFFER *in_H1 = &(LXCHandle->LXC_Handle.IN_H1);
+	LXC_RINGBUFFER *in_H2 = &(LXCHandle->LXC_Handle.IN_H2);
+	LXC_BUFFER_CALLBACKS *bufferCallbacks = &(LXCHandle->LXC_Handle.LXC_bufferCallbacks);
+	LXC_RINGBUFFER_CALLBACKS *ringbufferCallbacks = &(LXCHandle->LXC_Handle.LXC_ringbufferCallbacks);
 	LXC_CALLBACKS *lxcCallbacks = &(LXCHandle->LXC_callbacks);
 
 	// convert format external, fft, convert format internal
-	fft->fmtc_external_TO_fft_2Ch(x, y, fftPlan, timeFrameLength);
-	fft->fft(fftPlan);
+	fft->LXC_fmtc_external_TO_fft_2Ch(x, y, fftPlan, timeFrameLength);
+	fft->LXC_fft(fftPlan);
 	void* Z0 = bufferCallbacks->LXC_Buffer_getPart(results_H1, 0);
-	fft->fmtc_fft_TO_internal(fftPlan, Z0, freqFrameLength);
+	fft->LXC_fmtc_fft_TO_internal(fftPlan, Z0, freqFrameLength);
 
 	// split channels
 	void *X = ringbufferCallbacks->LXC_Ringbuffer_getNextPart(in_H1);
@@ -606,9 +606,9 @@ LXC_ERROR_CODE LXC_Core_convolve2Ch(LXC_HANDLE *LXCHandle, float *x, float *y, f
 	}
 
 	// do inverse fast fourier transform
-	fft->fmtc_internal_TO_fft(Z, fftPlan, freqFrameLength);
-	fft->ifft(fftPlan);
-	fft->fmtc_fft_TO_external_2Ch(fftPlan, z1, z2, timeFrameLength);
+	fft->LXC_fmtc_internal_TO_fft(Z, fftPlan, freqFrameLength);
+	fft->LXC_ifft(fftPlan);
+	fft->LXC_fmtc_fft_TO_external_2Ch(fftPlan, z1, z2, timeFrameLength);
 
 	return LXC_NO_ERR;
 }
@@ -681,46 +681,46 @@ void LXC_Core_clearHandle(LXC_HANDLE *LXCHandle)
 	if(LXCHandle)
 	{
 		// reset fft module
-		LXCHandle->fftHandle.fftCallbacks.clearBuffers						= NULL;
-		LXCHandle->fftHandle.fftCallbacks.create_fft						= NULL;
-		LXCHandle->fftHandle.fftCallbacks.destroy_fft						= NULL;
-		LXCHandle->fftHandle.fftCallbacks.fft								= NULL;
-		LXCHandle->fftHandle.fftCallbacks.fmtc_external_TO_fft				= NULL;
-		LXCHandle->fftHandle.fftCallbacks.fmtc_external_TO_fft_2Ch			= NULL;
-		LXCHandle->fftHandle.fftCallbacks.fmtc_fft_TO_external				= NULL;
-		LXCHandle->fftHandle.fftCallbacks.fmtc_fft_TO_external_2Ch			= NULL;
-		LXCHandle->fftHandle.fftCallbacks.fmtc_fft_TO_internal				= NULL;
-		LXCHandle->fftHandle.fftCallbacks.fmtc_internal_TO_fft				= NULL;
-		LXCHandle->fftHandle.fftCallbacks.ifft								= NULL;
+		LXCHandle->LXC_fftHandle.LXC_fftCallbacks.LXC_clearBuffers					= NULL;
+		LXCHandle->LXC_fftHandle.LXC_fftCallbacks.LXC_create_fft					= NULL;
+		LXCHandle->LXC_fftHandle.LXC_fftCallbacks.LXC_destroy_fft					= NULL;
+		LXCHandle->LXC_fftHandle.LXC_fftCallbacks.LXC_fft							= NULL;
+		LXCHandle->LXC_fftHandle.LXC_fftCallbacks.LXC_fmtc_external_TO_fft			= NULL;
+		LXCHandle->LXC_fftHandle.LXC_fftCallbacks.LXC_fmtc_external_TO_fft_2Ch		= NULL;
+		LXCHandle->LXC_fftHandle.LXC_fftCallbacks.LXC_fmtc_fft_TO_external			= NULL;
+		LXCHandle->LXC_fftHandle.LXC_fftCallbacks.LXC_fmtc_fft_TO_external_2Ch		= NULL;
+		LXCHandle->LXC_fftHandle.LXC_fftCallbacks.LXC_fmtc_fft_TO_internal			= NULL;
+		LXCHandle->LXC_fftHandle.LXC_fftCallbacks.LXC_fmtc_internal_TO_fft			= NULL;
+		LXCHandle->LXC_fftHandle.LXC_fftCallbacks.LXC_ifft							= NULL;
 
-		LXCHandle->fftHandle.fftModule										= LXC_fftModule_Min;
-		LXCHandle->fftHandle.fftPlan.fftSize								= 0;
-		LXCHandle->fftHandle.fftPlan.fftZeros								= 0;
-		LXCHandle->fftHandle.fftPlan.maxInputFrameLength					= 0;
-		LXCHandle->fftHandle.fftPlan.scaleFactor							= 0.0f;
-		LXCHandle->fftHandle.fftPlan.specific_fftPlan						= NULL;
+		LXCHandle->LXC_fftHandle.LXC_fftModule										= LXC_fftModule_Min;
+		LXCHandle->LXC_fftHandle.LXC_fftPlan.LXC_fftSize							= 0;
+		LXCHandle->LXC_fftHandle.LXC_fftPlan.LXC_fftZeros							= 0;
+		LXCHandle->LXC_fftHandle.LXC_fftPlan.LXC_maxInputFrameLength				= 0;
+		LXCHandle->LXC_fftHandle.LXC_fftPlan.LXC_scaleFactor						= 0.0f;
+		LXCHandle->LXC_fftHandle.LXC_fftPlan.LXC_specific_fftPlan					= NULL;
 
 
 		// reset buffer callbacks
-		LXCHandle->LXCHandle.bufferCallbacks.LXC_Buffer_create				= NULL;
-		LXCHandle->LXCHandle.bufferCallbacks.LXC_Buffer_destroy				= NULL;
-		LXCHandle->LXCHandle.bufferCallbacks.LXC_Buffer_getPart				= NULL;
+		LXCHandle->LXC_Handle.LXC_bufferCallbacks.LXC_Buffer_create					= NULL;
+		LXCHandle->LXC_Handle.LXC_bufferCallbacks.LXC_Buffer_destroy				= NULL;
+		LXCHandle->LXC_Handle.LXC_bufferCallbacks.LXC_Buffer_getPart				= NULL;
 
 		// reset ringbuffer callbacks
-		LXCHandle->LXCHandle.ringbufferCallbacks.LXC_Ringbuffer_create		= NULL;
-		LXCHandle->LXCHandle.ringbufferCallbacks.LXC_Ringbuffer_destroy		= NULL;
-		LXCHandle->LXCHandle.ringbufferCallbacks.LXC_Ringbuffer_getNextPart = NULL;
-		LXCHandle->LXCHandle.ringbufferCallbacks.LXC_Ringbuffer_getPart		= NULL;
+		LXCHandle->LXC_Handle.LXC_ringbufferCallbacks.LXC_Ringbuffer_create		= NULL;
+		LXCHandle->LXC_Handle.LXC_ringbufferCallbacks.LXC_Ringbuffer_destroy		= NULL;
+		LXCHandle->LXC_Handle.LXC_ringbufferCallbacks.LXC_Ringbuffer_getNextPart = NULL;
+		LXCHandle->LXC_Handle.LXC_ringbufferCallbacks.LXC_Ringbuffer_getPart		= NULL;
 
-		LXCHandle->LXCHandle.maxChannels									= 0;
+		LXCHandle->LXC_Handle.LXC_maxChannels									= 0;
 		
-		LXC_Core_clearBuffer(&(LXCHandle->LXCHandle.H1));
-		LXC_Core_clearBuffer(&(LXCHandle->LXCHandle.H2));
-		LXC_Core_clearBuffer(&(LXCHandle->LXCHandle.results_H1));
-		LXC_Core_clearBuffer(&(LXCHandle->LXCHandle.results_H2));
+		LXC_Core_clearBuffer(&(LXCHandle->LXC_Handle.H1));
+		LXC_Core_clearBuffer(&(LXCHandle->LXC_Handle.H2));
+		LXC_Core_clearBuffer(&(LXCHandle->LXC_Handle.results_H1));
+		LXC_Core_clearBuffer(&(LXCHandle->LXC_Handle.results_H2));
 
-		LXC_Core_clearRingbuffer(&(LXCHandle->LXCHandle.IN_H1));
-		LXC_Core_clearRingbuffer(&(LXCHandle->LXCHandle.IN_H2));
+		LXC_Core_clearRingbuffer(&(LXCHandle->LXC_Handle.IN_H1));
+		LXC_Core_clearRingbuffer(&(LXCHandle->LXC_Handle.IN_H2));
 
 		LXCHandle->LXC_config.LXC_maxChannels								= 0;
 		LXCHandle->LXC_config.LXC_maxInputFrameLength						= 0;
@@ -782,12 +782,12 @@ LXC_ERROR_CODE LXC_Core_initializeFilter(	LXC_BUFFER_CALLBACKS *BufferCallbacks,
 		return LXC_ERR_INVALID_INPUT;
 	}
 
-	LXC_FFT_PLAN *fftPlan = &(fftHandle->fftPlan);
+	LXC_FFT_PLAN *fftPlan = &(fftHandle->LXC_fftPlan);
 
 	FilterBuffer->maxFilterLength = MaxFilterLength;
 	FilterBuffer->sampleFrequency = SampleFrequency;
-	FilterBuffer->maxFilterPartLength = fftHandle->fftPlan.fftSize;
-	FilterBuffer->maxFilterPartLength_NonZero = fftHandle->fftPlan.maxInputFrameLength;
+	FilterBuffer->maxFilterPartLength = fftHandle->LXC_fftPlan.LXC_fftSize;
+	FilterBuffer->maxFilterPartLength_NonZero = fftHandle->LXC_fftPlan.LXC_maxInputFrameLength;
 	FilterBuffer->maxFilterParts = FilterBuffer->maxFilterLength / FilterBuffer->maxFilterPartLength_NonZero;
 	if(FilterBuffer->maxFilterLength % FilterBuffer->maxFilterPartLength_NonZero != 0)
 		(FilterBuffer->maxFilterParts)++;
@@ -824,16 +824,16 @@ LXC_ERROR_CODE LXC_Core_initializeFilter(	LXC_BUFFER_CALLBACKS *BufferCallbacks,
 		for(uint ii = FilterBuffer->maxFilterPartLength_NonZero; ii < FilterBuffer->maxFilterPartLength; ii++)
 			TempSamples[ii] = 0.0f;
 
-		err = fftCallbacks->fmtc_external_TO_fft(TempSamples, fftPlan, 
+		err = fftCallbacks->LXC_fmtc_external_TO_fft(TempSamples, fftPlan, 
 												 FilterBuffer->maxFilterPartLength);
 		if(err != LXC_NO_ERR)
 			return err;
 
-		err = fftCallbacks->fft(fftPlan);
+		err = fftCallbacks->LXC_fft(fftPlan);
 		if(err != LXC_NO_ERR)
 			return err;
 
-		err = fftCallbacks->fmtc_fft_TO_internal(fftPlan, 
+		err = fftCallbacks->LXC_fmtc_fft_TO_internal(fftPlan, 
 												 BufferCallbacks->LXC_Buffer_getPart(FilterBuffer, uiPart),
 												 FilterBuffer->maxFilterPartLength);
 		if(err != LXC_NO_ERR)
@@ -850,15 +850,15 @@ LXC_ERROR_CODE LXC_Core_initializeFilter(	LXC_BUFFER_CALLBACKS *BufferCallbacks,
 	for(uint ii = lastSamples; ii < FilterBuffer->maxFilterPartLength; ii++)
 		TempSamples[ii] = 0.0f;
 
-	err = fftCallbacks->fmtc_external_TO_fft(TempSamples, fftPlan, FilterBuffer->maxFilterPartLength);
+	err = fftCallbacks->LXC_fmtc_external_TO_fft(TempSamples, fftPlan, FilterBuffer->maxFilterPartLength);
 	if(err != LXC_NO_ERR)
 		return err;
 
-	err = fftCallbacks->fft(fftPlan);
+	err = fftCallbacks->LXC_fft(fftPlan);
 	if(err != LXC_NO_ERR)
 		return err;
 
-	err = fftCallbacks->fmtc_fft_TO_internal(fftPlan, 
+	err = fftCallbacks->LXC_fmtc_fft_TO_internal(fftPlan, 
 											 BufferCallbacks->LXC_Buffer_getPart(FilterBuffer, FilterBuffer->maxFilterParts -1), 
 											 FilterBuffer->maxFilterPartLength);
 	if(err != LXC_NO_ERR)

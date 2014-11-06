@@ -26,19 +26,18 @@ using namespace std;
 
 #include "sndfile.hh"
 
-#include "../LibXConvolverUtils/timer/CPUTimer.h"
-#include "../LibXConvolverUtils/signal/wavLoader.h"
-#include "../LibXConvolverUtils/errorHandle/errorHandle.h"
-#include "../LibXConvolverUtils/errorHandle/errorCout.h"
-#include "../LibXConvolverUtils/constants.h"
-#include "../LibXConvolverUtils/system/LXC_OptimizationTranslator.h"
+#include "../LibXConvolverUtils/LXC_Timer/LXC_CPUTimer.h"
+#include "../LibXConvolverUtils/LXC_Signal/LXC_WavLoader.h"
+#include "../LibXConvolverUtils/LXC_Exceptions/LXC_CExceptionCout.h"
+#include "../LibXConvolverUtils/LXC_constants.h"
+#include "../LibXConvolverUtils/LXC_System/LXC_OptimizationTranslator.h"
 
 #include "../LibXConvolverCore/include/LXC_Core.h"
-#include "../LibXConvolverCore/LXCHandles/LXC_SSE3/LXC_SSE3Buffer.h"
-#include "../LibXConvolverCore/LXCHandles/LXC_SSE3/LXC_SSE3.h"
-#include "../LibXConvolverCore/LXCHandles/LXC_SSE3/LXC_SSE3_types.h"
-#include "../LibXConvolverCore/LXCHandles/LXC_Native/LXC_Native.h"
-#include "../LibXConvolverCore/fftHandles/fftwf/fftwfHandle.h"
+#include "../LibXConvolverCore/LXC_Handles/LXC_SSE3/LXC_SSE3Buffer.h"
+#include "../LibXConvolverCore/LXC_Handles/LXC_SSE3/LXC_SSE3.h"
+#include "../LibXConvolverCore/LXC_Handles/LXC_SSE3/LXC_SSE3_types.h"
+#include "../LibXConvolverCore/LXC_Handles/LXC_Native/LXC_Native.h"
+#include "../LibXConvolverCore/LXC_fftHandles/LXC_fftwf/LXC_fftwfHandle.h"
 
 
 LXC_ERROR_CODE test_LXC_SSE3Kernels(uint MaxSamples, uint MaxLoops, bool ShowAllResults=false);
@@ -140,36 +139,36 @@ double test_LXC_ConvolverWav(string filterFilename, string InSigFilename,
 							 LXC_OPTIMIZATION_MODULE Module, 
 							 uint InputFrameLength)
 {
-	CPUTimer timer;
+	LXC_CCPUTimer timer;
 	double elapsedTime = 0.0;
 	LXC_ERROR_CODE err = LXC_NO_ERR;
 
 	string optString = LXC_OptimizationToString(Module);
 
 	// load test filter
-	WavStruct filter;
+	LXC_WavStruct filter;
 	filter.samples = NULL;
-	if(CWavLoader::openWavFile(filterFilename, &filter) == 0)
+	if(LXC_CWavLoader::openWavFile(filterFilename, &filter) == 0)
 	{
-		throw EXCEPTION_COUT_HANDLER("Can't load " + filterFilename);
+		throw LXC_EXCEPTION_COUT_HANDLER("Can't load " + filterFilename);
 	}
 	if( filter.maxChannels > 1 )
 	{
 		cout << "2 channel filter loaded" << endl;
-		CWavLoader::reorderChannels(&filter);
+		LXC_CWavLoader::reorderChannels(&filter);
 	}
 
 	// load input signal
-	WavStruct inputSignal;
+	LXC_WavStruct inputSignal;
 	inputSignal.samples = NULL;
-	if(CWavLoader::openWavFile(InSigFilename, &inputSignal) == 0)
+	if(LXC_CWavLoader::openWavFile(InSigFilename, &inputSignal) == 0)
 	{
-		CWavLoader::deleteWav(&filter);
-		throw EXCEPTION_COUT_HANDLER("Can't load " + InSigFilename);
+		LXC_CWavLoader::deleteWav(&filter);
+		throw LXC_EXCEPTION_COUT_HANDLER("Can't load " + InSigFilename);
 	}
 	if( inputSignal.maxChannels > 1 )
 	{
-		CWavLoader::reorderChannels(&inputSignal);
+		LXC_CWavLoader::reorderChannels(&inputSignal);
 	}
 
 	// create LXC_[OPT] Convolver
@@ -179,7 +178,7 @@ double test_LXC_ConvolverWav(string filterFilename, string InSigFilename,
 	LXC_ptrFilterHandle *lxc_filterHandle = LXC_Core_createFilter2Ch(h1, filter.maxSamples, h2, filter.maxSamples, (uint)filter.sampleFrequency);
 	if(!lxc_filterHandle)
 	{
-		throw EXCEPTION_COUT_HANDLER("Filter setup failed!");
+		throw LXC_EXCEPTION_COUT_HANDLER("Filter setup failed!");
 		//return LXC_Core_getLastError();
 	}
 
@@ -187,20 +186,20 @@ double test_LXC_ConvolverWav(string filterFilename, string InSigFilename,
 	LXC_HANDLE *lxcHandle = LXC_Core_getConvolver(lxc_filterHandle, inputFrameLength, Module, LXC_fftModule_fftwf);
 	if(!lxcHandle)
 	{
-		throw EXCEPTION_COUT_HANDLER("Can't get " + optString);
+		throw LXC_EXCEPTION_COUT_HANDLER("Can't get " + optString);
 	}
 
 	// convolve with x1 and x2 with h1 and h2
 	float *z1 = new float[inputFrameLength];
 	if(!z1)
 	{
-		throw EXCEPTION_COUT_HANDLER("Can't create buffer for z1!");
+		throw LXC_EXCEPTION_COUT_HANDLER("Can't create buffer for z1!");
 	}
 
 	float *z2 = new float[inputFrameLength];
 	if(!z2)
 	{
-		throw EXCEPTION_COUT_HANDLER("Can't create buffer for z2!");
+		throw LXC_EXCEPTION_COUT_HANDLER("Can't create buffer for z2!");
 	}
 
 	// open wave file for writting
@@ -211,7 +210,7 @@ double test_LXC_ConvolverWav(string filterFilename, string InSigFilename,
 	if(sndError != SF_ERR_NO_ERROR)
 	{
 		string sndErrorStr(sf_error_number(sndError));
-		throw EXCEPTION_COUT_HANDLER("libsndfile error: " + sndErrorStr);
+		throw LXC_EXCEPTION_COUT_HANDLER("libsndfile error: " + sndErrorStr);
 	}
 
 	SndfileHandle wavFile_z2(string("out_ch2_") + optString + string(".wav"),
@@ -221,7 +220,7 @@ double test_LXC_ConvolverWav(string filterFilename, string InSigFilename,
 	if(sndError != SF_ERR_NO_ERROR)
 	{
 		string sndErrorStr(sf_error_number(sndError));
-		throw EXCEPTION_COUT_HANDLER("libsndfile error: " + sndErrorStr);
+		throw LXC_EXCEPTION_COUT_HANDLER("libsndfile error: " + sndErrorStr);
 	}
 	
 
@@ -261,11 +260,11 @@ double test_LXC_ConvolverWav(string filterFilename, string InSigFilename,
 		if(err != LXC_NO_ERR)
 		{
 			LXC_Core_destroy(lxcHandle);
-			CWavLoader::deleteWav(&inputSignal);
-			CWavLoader::deleteWav(&filter);
+			LXC_CWavLoader::deleteWav(&inputSignal);
+			LXC_CWavLoader::deleteWav(&filter);
 			delete [] z1;
 			delete [] z2;
-			throw EXCEPTION_COUT_HANDLER("LXC convolution error!");
+			throw LXC_EXCEPTION_COUT_HANDLER("LXC convolution error!");
 		}
 	}
 	printf("]\n");
@@ -273,8 +272,8 @@ double test_LXC_ConvolverWav(string filterFilename, string InSigFilename,
 		elapsedTime*100.0/(((double)(blocks*inputFrameLength)) / ((double)inputSignal.sampleFrequency)) 
 		<< "%" << endl;
 
-	CWavLoader::deleteWav(&inputSignal);
-	CWavLoader::deleteWav(&filter);
+	LXC_CWavLoader::deleteWav(&inputSignal);
+	LXC_CWavLoader::deleteWav(&filter);
 	delete [] z1;
 	delete [] z2;
 
@@ -287,7 +286,7 @@ LXC_ERROR_CODE test_LXC_SSE3Kernels(uint MaxSamples, uint MaxLoops, bool ShowAll
 {
 	uint fastesKernel = 0;
 	double elapsedMinTime = 10.0f;
-	CPUTimer timer;
+	LXC_CCPUTimer timer;
 	const uint maxSamples = MaxSamples;
 	const uint maxLoops = MaxLoops;
 	cout << "using " << maxSamples << " Samples and ";
@@ -607,14 +606,14 @@ int main()
 
 		return err;
 	}
-	catch(errorHandle &e)
+	catch(LXC_CException &e)
 	{
 		LXC_Core_close();
 		e.showError();
 		system("PAUSE");
 		return -1;
 	}
-	HANDLE_BAD_ALLOC
-	HANDLE_RANGE_EXCEPTION
-	HANDLE_UNKNOWN_EXCEPTION
+	LXC_HANDLE_BAD_ALLOC
+	LXC_HANDLE_RANGE_EXCEPTION
+	LXC_HANDLE_UNKNOWN_EXCEPTION
 }

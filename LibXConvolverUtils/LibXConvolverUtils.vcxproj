@@ -11,26 +11,26 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="constants.h" />
-    <ClInclude Include="errorHandle\errorCout.h" />
-    <ClInclude Include="errorHandle\errorHandle.h" />
-    <ClInclude Include="logging\LXC_Logging.h" />
-    <ClInclude Include="logging\LXC_Logging_config.h" />
-    <ClInclude Include="signal\resampler.h" />
-    <ClInclude Include="signal\wavLoader.h" />
-    <ClInclude Include="system\LXC_OptimizationTranslator.h" />
-    <ClInclude Include="system\windows\windows_definitions.h" />
-    <ClInclude Include="timer\CPUTimer.h" />
+    <ClInclude Include="LXC_Constants.h" />
+    <ClInclude Include="LXC_Exceptions\LXC_CException.h" />
+    <ClInclude Include="LXC_Exceptions\LXC_CExceptionCout.h" />
+    <ClInclude Include="LXC_Logging\LXC_Logging.h" />
+    <ClInclude Include="LXC_Logging\LXC_Logging_config.h" />
+    <ClInclude Include="LXC_Signal\LXC_Resampler.h" />
+    <ClInclude Include="LXC_Signal\LXC_WavLoader.h" />
+    <ClInclude Include="LXC_System\LXC_OptimizationTranslator.h" />
+    <ClInclude Include="LXC_System\windows\LXC_WindowsDefinitions.h" />
+    <ClInclude Include="LXC_Timer\LXC_CPUTimer.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="errorHandle\errorCout.cpp" />
-    <ClCompile Include="errorHandle\errorHandle.cpp" />
-    <ClCompile Include="logging\LXC_LoggingFile.cpp" />
-    <ClCompile Include="logging\LXC_LoggingPrintf.cpp" />
-    <ClCompile Include="signal\resampler.cpp" />
-    <ClCompile Include="signal\wavLoader.cpp" />
-    <ClCompile Include="system\LXC_OptimizationTranslator.cpp" />
-    <ClCompile Include="timer\CPUTimer.cpp" />
+    <ClCompile Include="LXC_Exceptions\LXC_CException.cpp" />
+    <ClCompile Include="LXC_Exceptions\LXC_CExceptionCout.cpp" />
+    <ClCompile Include="LXC_Logging\LXC_LoggingFile.cpp" />
+    <ClCompile Include="LXC_Logging\LXC_LoggingPrintf.cpp" />
+    <ClCompile Include="LXC_Signal\LXC_Resampler.cpp" />
+    <ClCompile Include="LXC_Signal\LXC_WavLoader.cpp" />
+    <ClCompile Include="LXC_System\LXC_OptimizationTranslator.cpp" />
+    <ClCompile Include="LXC_Timer\LXC_CPUTimer.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{EFBB38AE-74F4-49D1-9B58-843BB952958B}</ProjectGuid>

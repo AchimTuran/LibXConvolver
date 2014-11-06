@@ -24,7 +24,7 @@
 
 
 #include "LXC_Core_types.h"
-#include "common_types.h"
+#include "LXC_CommonTypes.h"
 
 LXC_ERROR_CODE LXC_Core_init(const char *HomePath);
 LXC_ERROR_CODE LXC_Core_close();

@@ -23,8 +23,8 @@
 
 
 
-#include "common_types.h"
-#include "../fftHandles/fftHandles_types.h"
+#include "LXC_CommonTypes.h"
+#include "../LXC_fftHandles/LXC_fftHandles_types.h"
 
 typedef enum {  LXC_OPT_MIN	=0,
 				LXC_OPT_NATIVE,
@@ -151,19 +151,19 @@ typedef struct
 	LXC_BUFFER results_H1;
 	LXC_BUFFER results_H2;
 
-	uint maxChannels;
+	uint LXC_maxChannels;
 
 	// callbacks for buffer processing
-	LXC_BUFFER_CALLBACKS bufferCallbacks;
-	LXC_RINGBUFFER_CALLBACKS ringbufferCallbacks;
+	LXC_BUFFER_CALLBACKS LXC_bufferCallbacks;
+	LXC_RINGBUFFER_CALLBACKS LXC_ringbufferCallbacks;
 } LXC_PLAN;
 
 typedef struct
 {
 	LXC_CALLBACKS	LXC_callbacks;
 	LXC_CONFIG		LXC_config;
-	LXC_FFT_HANDLE	fftHandle;
-	LXC_PLAN		LXCHandle;
+	LXC_FFT_HANDLE	LXC_fftHandle;
+	LXC_PLAN		LXC_Handle;
 } LXC_HANDLE;
 
 typedef struct

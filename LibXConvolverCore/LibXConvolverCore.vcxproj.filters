@@ -1,32 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="fftHandles\fftwf\fftwfHandle.h">
-      <Filter>fftHandles\fftwfHandle</Filter>
-    </ClInclude>
-    <ClInclude Include="fftHandles\fftwf\fftwfHandle_types.h">
-      <Filter>fftHandles\fftwfHandle</Filter>
-    </ClInclude>
-    <ClInclude Include="fftHandles\fftHandles_types.h">
-      <Filter>fftHandles</Filter>
-    </ClInclude>
-    <ClInclude Include="fftHandles\fftwf\fftwf_fmtc.h">
-      <Filter>fftHandles\fftwfHandle</Filter>
-    </ClInclude>
     <ClInclude Include="LXCHandles\LXC_Native\LXC_Native.h">
-      <Filter>LXCHandles\LXC_Native</Filter>
+      <Filter>LXC_Handles\LXC_Native</Filter>
     </ClInclude>
     <ClInclude Include="LXCHandles\LXC_Native\LXC_NativeBuffer.h">
-      <Filter>LXCHandles\LXC_Native</Filter>
+      <Filter>LXC_Handles\LXC_Native</Filter>
     </ClInclude>
     <ClInclude Include="LXCHandles\LXC_Native\LXC_NativeRingBuffer.h">
-      <Filter>LXCHandles\LXC_Native</Filter>
+      <Filter>LXC_Handles\LXC_Native</Filter>
     </ClInclude>
     <ClInclude Include="include\LXC_Core.h">
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="LXCHandles\LXC_Native\LXC_Native_types.h">
-      <Filter>LXCHandles\LXC_Native</Filter>
+      <Filter>LXC_Handles\LXC_Native</Filter>
     </ClInclude>
     <ClInclude Include="include\LXC_Core_types.h">
       <Filter>include</Filter>
@@ -34,103 +22,115 @@
     <ClInclude Include="include\LXC_Core_config.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\common_types.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="fftHandles\fftHandles.h">
-      <Filter>fftHandles</Filter>
-    </ClInclude>
     <ClInclude Include="include\LXC_Core_helper.h">
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="LXCHandles\LXC_SSE3\LXC_SSE3_types.h">
-      <Filter>LXCHandles\LXC_SSE3</Filter>
+      <Filter>LXC_Handles\LXC_SSE3</Filter>
     </ClInclude>
     <ClInclude Include="LXCHandles\LXC_SSE3\LXC_SSE3Buffer.h">
-      <Filter>LXCHandles\LXC_SSE3</Filter>
+      <Filter>LXC_Handles\LXC_SSE3</Filter>
     </ClInclude>
     <ClInclude Include="LXCHandles\LXC_SSE3\LXC_SSE3Helper.h">
-      <Filter>LXCHandles\LXC_SSE3</Filter>
+      <Filter>LXC_Handles\LXC_SSE3</Filter>
     </ClInclude>
     <ClInclude Include="LXCHandles\LXC_SSE3\LXC_SSE3RingBuffer.h">
-      <Filter>LXCHandles\LXC_SSE3</Filter>
+      <Filter>LXC_Handles\LXC_SSE3</Filter>
     </ClInclude>
     <ClInclude Include="LXCHandles\LXC_SSE3\LXC_SSE3.h">
-      <Filter>LXCHandles\LXC_SSE3</Filter>
+      <Filter>LXC_Handles\LXC_SSE3</Filter>
+    </ClInclude>
+    <ClInclude Include="include\LXC_CommonTypes.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="LXC_fftHandles\LXC_fftwf\LXC_fftwf_fmtc.h">
+      <Filter>LXC_fftHandles\LXC_fftwfHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="LXC_fftHandles\LXC_fftwf\LXC_fftwfHandle.h">
+      <Filter>LXC_fftHandles\LXC_fftwfHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="LXC_fftHandles\LXC_fftwf\LXC_fftwfHandle_types.h">
+      <Filter>LXC_fftHandles\LXC_fftwfHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="LXC_fftHandles\LXC_fftHandles.h">
+      <Filter>LXC_fftHandles</Filter>
+    </ClInclude>
+    <ClInclude Include="LXC_fftHandles\LXC_fftHandles_types.h">
+      <Filter>LXC_fftHandles</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="fftHandles\fftwf\fftwfHandle.cpp">
-      <Filter>fftHandles\fftwfHandle</Filter>
-    </ClCompile>
-    <ClCompile Include="fftHandles\fftHandles.cpp">
-      <Filter>fftHandles</Filter>
-    </ClCompile>
-    <ClCompile Include="fftHandles\fftwf\fftwf_fmtc.cpp">
-      <Filter>fftHandles\fftwfHandle</Filter>
-    </ClCompile>
     <ClCompile Include="LXCHandles\LXC_Native\LXC_Native.cpp">
-      <Filter>LXCHandles\LXC_Native</Filter>
+      <Filter>LXC_Handles\LXC_Native</Filter>
     </ClCompile>
     <ClCompile Include="LXCHandles\LXC_Native\LXC_NativeBuffer.cpp">
-      <Filter>LXCHandles\LXC_Native</Filter>
+      <Filter>LXC_Handles\LXC_Native</Filter>
     </ClCompile>
     <ClCompile Include="LXCHandles\LXC_Native\LXC_NativeRingBuffer.cpp">
-      <Filter>LXCHandles\LXC_Native</Filter>
+      <Filter>LXC_Handles\LXC_Native</Filter>
     </ClCompile>
     <ClCompile Include="LXC_Core.cpp" />
     <ClCompile Include="LXCHandles\LXC_SSE3\LXC_SSE3Buffer.cpp">
-      <Filter>LXCHandles\LXC_SSE3</Filter>
+      <Filter>LXC_Handles\LXC_SSE3</Filter>
     </ClCompile>
     <ClCompile Include="LXCHandles\LXC_SSE3\LXC_SSE3RingBuffer.cpp">
-      <Filter>LXCHandles\LXC_SSE3</Filter>
+      <Filter>LXC_Handles\LXC_SSE3</Filter>
     </ClCompile>
     <ClCompile Include="LXCHandles\LXC_SSE3\LXC_SSE3.cpp">
-      <Filter>LXCHandles\LXC_SSE3</Filter>
+      <Filter>LXC_Handles\LXC_SSE3</Filter>
+    </ClCompile>
+    <ClCompile Include="LXC_fftHandles\LXC_fftwf\LXC_fftwfHandle.cpp">
+      <Filter>LXC_fftHandles\LXC_fftwfHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="LXC_fftHandles\LXC_fftwf\LXC_fftwf_fmtc.cpp">
+      <Filter>LXC_fftHandles\LXC_fftwfHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="LXC_fftHandles\LXC_fftHandles.cpp">
+      <Filter>LXC_fftHandles</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="fftHandles">
-      <UniqueIdentifier>{b1cf9186-557f-4ac2-8fb9-400722995da9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="fftHandles\fftwfHandle">
-      <UniqueIdentifier>{e09ed2c4-4798-478e-91d6-4b783746b751}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="LXCHandles">
-      <UniqueIdentifier>{45333014-be2f-40b8-a622-3fad3b6aef9b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="LXCHandles\LXC_AVX">
-      <UniqueIdentifier>{9b3c48fd-fd17-421d-9bc2-bfd087a3a944}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="LXCHandles\LXC_AVX2">
-      <UniqueIdentifier>{fb442e89-2ad5-4a69-8d6f-7ac1c34b5138}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="LXCHandles\LXC_CUDA">
-      <UniqueIdentifier>{ac38a51b-b89d-4d75-8aa5-9e1002301bb0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="LXCHandles\LXC_FMA">
-      <UniqueIdentifier>{8abd8a0b-39ef-4400-95a9-e9104694a2ce}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="LXCHandles\LXC_Native">
-      <UniqueIdentifier>{0cc850f4-4193-4414-b9ec-b5290b2b4241}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="LXCHandles\LXC_NEON">
-      <UniqueIdentifier>{319a0a1d-abe6-4112-8cfe-11da77f7e38c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="LXCHandles\LXC_OpenCL">
-      <UniqueIdentifier>{8e7891c8-7e34-48c8-893f-34eb3af4a6ac}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="LXCHandles\LXC_SSE2">
-      <UniqueIdentifier>{7eba81f4-93b6-4071-acda-f374f7bd6f00}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="LXCHandles\LXC_SSE3">
-      <UniqueIdentifier>{93efecf8-1686-4e49-9b8b-9a217a045033}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="LXCHandles\LXC_SSE4">
-      <UniqueIdentifier>{47e6a3b1-abfe-4f01-918f-9acedc9bb118}</UniqueIdentifier>
-    </Filter>
     <Filter Include="include">
       <UniqueIdentifier>{04001400-369e-4351-b5ed-aa1540a73d5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LXC_Handles">
+      <UniqueIdentifier>{45333014-be2f-40b8-a622-3fad3b6aef9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LXC_Handles\LXC_AVX">
+      <UniqueIdentifier>{9b3c48fd-fd17-421d-9bc2-bfd087a3a944}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LXC_Handles\LXC_AVX2">
+      <UniqueIdentifier>{fb442e89-2ad5-4a69-8d6f-7ac1c34b5138}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LXC_Handles\LXC_CUDA">
+      <UniqueIdentifier>{ac38a51b-b89d-4d75-8aa5-9e1002301bb0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LXC_Handles\LXC_FMA">
+      <UniqueIdentifier>{8abd8a0b-39ef-4400-95a9-e9104694a2ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LXC_Handles\LXC_Native">
+      <UniqueIdentifier>{0cc850f4-4193-4414-b9ec-b5290b2b4241}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LXC_Handles\LXC_NEON">
+      <UniqueIdentifier>{319a0a1d-abe6-4112-8cfe-11da77f7e38c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LXC_Handles\LXC_OpenCL">
+      <UniqueIdentifier>{8e7891c8-7e34-48c8-893f-34eb3af4a6ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LXC_Handles\LXC_SSE2">
+      <UniqueIdentifier>{7eba81f4-93b6-4071-acda-f374f7bd6f00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LXC_Handles\LXC_SSE3">
+      <UniqueIdentifier>{93efecf8-1686-4e49-9b8b-9a217a045033}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LXC_Handles\LXC_SSE4">
+      <UniqueIdentifier>{47e6a3b1-abfe-4f01-918f-9acedc9bb118}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LXC_fftHandles">
+      <UniqueIdentifier>{b1cf9186-557f-4ac2-8fb9-400722995da9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LXC_fftHandles\LXC_fftwfHandle">
+      <UniqueIdentifier>{e09ed2c4-4798-478e-91d6-4b783746b751}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

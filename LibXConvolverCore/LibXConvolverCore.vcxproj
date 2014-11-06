@@ -80,12 +80,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="fftHandles\fftHandles.h" />
-    <ClInclude Include="fftHandles\fftHandles_types.h" />
-    <ClInclude Include="fftHandles\fftwf\fftwfHandle.h" />
-    <ClInclude Include="fftHandles\fftwf\fftwfHandle_types.h" />
-    <ClInclude Include="fftHandles\fftwf\fftwf_fmtc.h" />
-    <ClInclude Include="include\common_types.h" />
+    <ClInclude Include="include\LXC_CommonTypes.h" />
     <ClInclude Include="include\LXC_Core.h" />
     <ClInclude Include="include\LXC_Core_config.h" />
     <ClInclude Include="include\LXC_Core_helper.h" />
@@ -99,11 +94,13 @@
     <ClInclude Include="LXCHandles\LXC_SSE3\LXC_SSE3Helper.h" />
     <ClInclude Include="LXCHandles\LXC_SSE3\LXC_SSE3RingBuffer.h" />
     <ClInclude Include="LXCHandles\LXC_SSE3\LXC_SSE3_types.h" />
+    <ClInclude Include="LXC_fftHandles\LXC_fftHandles.h" />
+    <ClInclude Include="LXC_fftHandles\LXC_fftHandles_types.h" />
+    <ClInclude Include="LXC_fftHandles\LXC_fftwf\LXC_fftwfHandle.h" />
+    <ClInclude Include="LXC_fftHandles\LXC_fftwf\LXC_fftwfHandle_types.h" />
+    <ClInclude Include="LXC_fftHandles\LXC_fftwf\LXC_fftwf_fmtc.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="fftHandles\fftHandles.cpp" />
-    <ClCompile Include="fftHandles\fftwf\fftwfHandle.cpp" />
-    <ClCompile Include="fftHandles\fftwf\fftwf_fmtc.cpp" />
     <ClCompile Include="LXCHandles\LXC_SSE3\LXC_SSE3.cpp" />
     <ClCompile Include="LXCHandles\LXC_SSE3\LXC_SSE3Buffer.cpp" />
     <ClCompile Include="LXCHandles\LXC_SSE3\LXC_SSE3RingBuffer.cpp" />
@@ -111,6 +108,9 @@
     <ClCompile Include="LXCHandles\LXC_Native\LXC_Native.cpp" />
     <ClCompile Include="LXCHandles\LXC_Native\LXC_NativeBuffer.cpp" />
     <ClCompile Include="LXCHandles\LXC_Native\LXC_NativeRingBuffer.cpp" />
+    <ClCompile Include="LXC_fftHandles\LXC_fftHandles.cpp" />
+    <ClCompile Include="LXC_fftHandles\LXC_fftwf\LXC_fftwfHandle.cpp" />
+    <ClCompile Include="LXC_fftHandles\LXC_fftwf\LXC_fftwf_fmtc.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
