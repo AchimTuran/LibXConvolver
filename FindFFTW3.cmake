@@ -16,7 +16,7 @@ if(NOT FFTW3_FOUND)
   find_library(FFTW3_LIBRARIES NAMES fftw3f)
 endif()
 
-include(FindPackageHandleStandardArgs)
-find_package_handle_standard_args(FFTW3 DEFAULT_MSG FFTW3_INCLUDE_DIRS FFTW3_LIBRARIES)
+#include(FindPackageHandleStandardArgs)
+#find_package_handle_standard_args(FFTW3 DEFAULT_MSG FFTW3_INCLUDE_DIRS FFTW3_LIBRARIES)
 
-mark_as_advanced(FFTW3_INCLUDE_DIRS FFTW3_LIBRARIES)
+#mark_as_advanced(FFTW3_INCLUDE_DIRS FFTW3_LIBRARIES)
