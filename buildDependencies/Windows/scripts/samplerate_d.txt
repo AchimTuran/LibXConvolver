@@ -1,0 +1,2 @@
+; filename			mirror of the file
+libsamplerate-0.1.8.tar.gz	http://www.mega-nerd.com/SRC/

@@ -1,0 +1,10 @@
+@ECHO OFF
+
+SET LOC_PATH=%CD%
+SET OUTDIR="%LIBXCONVOLVER_PATH%\Libs\fftw3_dll32\"
+
+CD %OUTDIR%
+
+lib /def:libfftw3f-3.def /MACHINE:X86
+
+CD %LOC_PATH%

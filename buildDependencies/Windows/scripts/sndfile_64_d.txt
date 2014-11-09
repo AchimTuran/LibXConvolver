@@ -1,0 +1,3 @@
+; filename						mirror of the file
+;libsndfile-1.0.25.tar.gz	http://www.mega-nerd.com/libsndfile/files/
+libsndfile-1.0.25-w64.zip		http://www.mega-nerd.com/libsndfile/files/

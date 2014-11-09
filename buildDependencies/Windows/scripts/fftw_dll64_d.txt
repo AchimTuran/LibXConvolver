@@ -1,0 +1,2 @@
+; filename		mirror of the file
+fftw-3.3.4-dll64.zip	ftp://ftp.fftw.org/pub/fftw/
