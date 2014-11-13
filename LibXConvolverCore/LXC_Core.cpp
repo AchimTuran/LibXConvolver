@@ -116,11 +116,11 @@ LXC_ERROR_CODE LXC_Core_close()
 {
 	LXC_LOG_DESTROY();
 
-  if (g_LXC_HomePath)
-  {
-    free(g_LXC_HomePath);
-    g_LXC_HomePath = NULL;
-  }
+	if (g_LXC_HomePath)
+	{
+		free(g_LXC_HomePath);
+		g_LXC_HomePath = NULL;
+	}
 	
 	return LXC_NO_ERR;
 }
@@ -817,6 +817,11 @@ LXC_ERROR_CODE LXC_Core_initializeFilter(	LXC_BUFFER_CALLBACKS *BufferCallbacks,
 	FilterBuffer->maxFilterParts = FilterBuffer->maxFilterLength / FilterBuffer->maxFilterPartLength_NonZero;
 	if(FilterBuffer->maxFilterLength % FilterBuffer->maxFilterPartLength_NonZero != 0)
 		(FilterBuffer->maxFilterParts)++;
+
+	if(FilterBuffer->maxFilterParts < 2)
+	{
+		FilterBuffer->maxFilterParts = 2;
+	}
 
 	err = BufferCallbacks->LXC_Buffer_create(FilterBuffer);
 	if(err != LXC_NO_ERR)
