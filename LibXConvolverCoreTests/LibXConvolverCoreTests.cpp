@@ -24,6 +24,9 @@
 #include <iostream>
 using namespace std;
 
+#include "../LibXConvolverBenchmarks/LXC_CBenchmark_combinedChannels.h"
+#include "../LibXConvolverBenchmarks/LXC_CBenchmark_seperateChannels.h"
+
 #include "sndfile.hh"
 
 #include "../LibXConvolverUtils/LXC_Timer/LXC_CPUTimer.h"
@@ -47,6 +50,10 @@ double test_LXC_ConvolverWav(string filterFilename, string InSigFilename,
 							 LXC_OPTIMIZATION_MODULE Module, 
 							 uint InputFrameLength = 1024);
 LXC_ERROR_CODE test_SSE3vsNative(uint inputFramelength);
+void benchmark_combinedVSseperate(uint FromInputeFrameLength, 
+								  uint ToInputFrameLength, 
+								  LXC_OPTIMIZATION_MODULE Module,
+								  uint MaxIterations);
 
 LXC_ERROR_CODE test_LXC_Convolver_1Ch(LXC_OPTIMIZATION_MODULE Module)
 {
@@ -547,6 +554,71 @@ LXC_ERROR_CODE test_SSE3vsNative(uint inputFramelength)
 	return err;
 }
 
+void benchmark_combinedVSseperate(uint FromInputeFrameLength, 
+								  uint ToInputFrameLength, 
+								  LXC_OPTIMIZATION_MODULE Module,
+								  uint MaxIterations)
+{
+	if(!MaxIterations)
+	{
+		cout << "Skipped combined VS. seperate channels Benchmark! Proof that MaxIterations>0!" << endl;
+		return;
+	}
+
+	if(FromInputeFrameLength>=ToInputFrameLength)
+	{
+		cout << "Skipped combined VS. seperate channels Benchmark! Proof that FromInputeFrameLength<ToInputFrameLength!" << endl;
+		return;
+	}
+
+	uint startFrameLength = 4;
+	uint endFrameLength = 4;
+	LXC_Core_checkPowerOfTwo(FromInputeFrameLength, &startFrameLength);
+	LXC_Core_checkPowerOfTwo(ToInputFrameLength,	&endFrameLength);
+
+	cout << endl << " Running combined VS. seperate channels Benchmark with " << MaxIterations << " iterations";
+	cout << "from framelength " << startFrameLength << " to " << endFrameLength;
+	cout << " in steps of 2^x" << endl;
+
+	for(uint frameLength = startFrameLength; frameLength <= endFrameLength; frameLength*=2)
+	{
+		try
+		{
+			// run combined channels benchmark
+			double elapsedTimeCombined = 0.0;
+			double elapsedTimeSeperate = 0.0;
+
+			LXC_CBenchmark_combinedChannels benchmarkCombined(frameLength, 44100, Module, MaxIterations);
+			elapsedTimeCombined = benchmarkCombined.RunBenchmark();
+
+			
+			LXC_CBenchmark_seperateChannels benchmarkSeperate(frameLength, 44100, Module, MaxIterations);
+			elapsedTimeSeperate = benchmarkSeperate.RunBenchmark();
+
+			// run seperate channels benchmark
+
+			cout << endl << "====Benchmark results with " << frameLength << " framelength====" << endl;
+			cout << " combined channels elapsed time: " << elapsedTimeCombined << " s" << endl;
+			cout << " seperate channels elapsed time: " << elapsedTimeSeperate << " s" << endl;
+			cout << " Speed Up: " << elapsedTimeSeperate/elapsedTimeCombined << endl;
+		}
+		catch(LXC_CException &e)
+		{
+			// ToDo: show a better error message
+			cout << "ERROR: benchmark_combinedVSseperate skipped " << frameLength << " framelength" << endl;
+			e.showError();
+
+			#ifdef TARGET_WINDOWS
+				system("PAUSE");
+			#endif
+		}
+		LXC_HANDLE_BAD_ALLOC
+		LXC_HANDLE_RANGE_EXCEPTION
+		LXC_HANDLE_UNKNOWN_EXCEPTION
+	}
+
+}
+
 // main function
 int main()
 {
@@ -596,6 +668,14 @@ int main()
 		if(err != LXC_NO_ERR)
 			return err;
 	
+		cout << endl << endl;
+		cout << "====Benchmarking combined vs seperate channels for LXC_Native====" << endl;
+		benchmark_combinedVSseperate(4, 8192, LXC_OPT_NATIVE, 20);
+
+		cout << endl << endl;
+		cout << "====Benchmarking combined vs seperate channels for LXC_SSE3====" << endl;
+		benchmark_combinedVSseperate(4, 8192, LXC_OPT_SSE3, 20);
+		
 
 	#ifdef TARGET_WINDOWS
 		cout << endl << endl;
