@@ -610,7 +610,11 @@ int main()
 	{
 		LXC_Core_close();
 		e.showError();
-		system("PAUSE");
+
+		#ifdef TARGET_WINDOWS
+			system("PAUSE");
+		#endif
+
 		return -1;
 	}
 	LXC_HANDLE_BAD_ALLOC
