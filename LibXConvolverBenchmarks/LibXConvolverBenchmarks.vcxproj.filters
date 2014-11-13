@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="LXC_IBenchmark.h" />
+    <ClInclude Include="LXC_CBenchmark_combinedChannels.h" />
+    <ClInclude Include="LXC_CBenchmark_seperateChannels.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="LXC_CBenchmark_combinedChannels.cpp" />
+    <ClCompile Include="LXC_CBenchmark_seperateChannels.cpp" />
+  </ItemGroup>
+</Project>

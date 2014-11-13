@@ -1,20 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="LXCHandles\LXC_Native\LXC_Native.h">
-      <Filter>LXC_Handles\LXC_Native</Filter>
-    </ClInclude>
-    <ClInclude Include="LXCHandles\LXC_Native\LXC_NativeBuffer.h">
-      <Filter>LXC_Handles\LXC_Native</Filter>
-    </ClInclude>
-    <ClInclude Include="LXCHandles\LXC_Native\LXC_NativeRingBuffer.h">
-      <Filter>LXC_Handles\LXC_Native</Filter>
-    </ClInclude>
     <ClInclude Include="include\LXC_Core.h">
       <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="LXCHandles\LXC_Native\LXC_Native_types.h">
-      <Filter>LXC_Handles\LXC_Native</Filter>
     </ClInclude>
     <ClInclude Include="include\LXC_Core_types.h">
       <Filter>include</Filter>
@@ -24,21 +12,6 @@
     </ClInclude>
     <ClInclude Include="include\LXC_Core_helper.h">
       <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="LXCHandles\LXC_SSE3\LXC_SSE3_types.h">
-      <Filter>LXC_Handles\LXC_SSE3</Filter>
-    </ClInclude>
-    <ClInclude Include="LXCHandles\LXC_SSE3\LXC_SSE3Buffer.h">
-      <Filter>LXC_Handles\LXC_SSE3</Filter>
-    </ClInclude>
-    <ClInclude Include="LXCHandles\LXC_SSE3\LXC_SSE3Helper.h">
-      <Filter>LXC_Handles\LXC_SSE3</Filter>
-    </ClInclude>
-    <ClInclude Include="LXCHandles\LXC_SSE3\LXC_SSE3RingBuffer.h">
-      <Filter>LXC_Handles\LXC_SSE3</Filter>
-    </ClInclude>
-    <ClInclude Include="LXCHandles\LXC_SSE3\LXC_SSE3.h">
-      <Filter>LXC_Handles\LXC_SSE3</Filter>
     </ClInclude>
     <ClInclude Include="include\LXC_CommonTypes.h">
       <Filter>include</Filter>
@@ -58,27 +31,36 @@
     <ClInclude Include="LXC_fftHandles\LXC_fftHandles_types.h">
       <Filter>LXC_fftHandles</Filter>
     </ClInclude>
+    <ClInclude Include="LXC_Handles\LXC_Native\LXC_Native.h">
+      <Filter>LXC_Handles\LXC_Native</Filter>
+    </ClInclude>
+    <ClInclude Include="LXC_Handles\LXC_Native\LXC_Native_types.h">
+      <Filter>LXC_Handles\LXC_Native</Filter>
+    </ClInclude>
+    <ClInclude Include="LXC_Handles\LXC_Native\LXC_NativeBuffer.h">
+      <Filter>LXC_Handles\LXC_Native</Filter>
+    </ClInclude>
+    <ClInclude Include="LXC_Handles\LXC_Native\LXC_NativeRingBuffer.h">
+      <Filter>LXC_Handles\LXC_Native</Filter>
+    </ClInclude>
+    <ClInclude Include="LXC_Handles\LXC_SSE3\LXC_SSE3.h">
+      <Filter>LXC_Handles\LXC_SSE3</Filter>
+    </ClInclude>
+    <ClInclude Include="LXC_Handles\LXC_SSE3\LXC_SSE3_types.h">
+      <Filter>LXC_Handles\LXC_SSE3</Filter>
+    </ClInclude>
+    <ClInclude Include="LXC_Handles\LXC_SSE3\LXC_SSE3Buffer.h">
+      <Filter>LXC_Handles\LXC_SSE3</Filter>
+    </ClInclude>
+    <ClInclude Include="LXC_Handles\LXC_SSE3\LXC_SSE3Helper.h">
+      <Filter>LXC_Handles\LXC_SSE3</Filter>
+    </ClInclude>
+    <ClInclude Include="LXC_Handles\LXC_SSE3\LXC_SSE3RingBuffer.h">
+      <Filter>LXC_Handles\LXC_SSE3</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="LXCHandles\LXC_Native\LXC_Native.cpp">
-      <Filter>LXC_Handles\LXC_Native</Filter>
-    </ClCompile>
-    <ClCompile Include="LXCHandles\LXC_Native\LXC_NativeBuffer.cpp">
-      <Filter>LXC_Handles\LXC_Native</Filter>
-    </ClCompile>
-    <ClCompile Include="LXCHandles\LXC_Native\LXC_NativeRingBuffer.cpp">
-      <Filter>LXC_Handles\LXC_Native</Filter>
-    </ClCompile>
     <ClCompile Include="LXC_Core.cpp" />
-    <ClCompile Include="LXCHandles\LXC_SSE3\LXC_SSE3Buffer.cpp">
-      <Filter>LXC_Handles\LXC_SSE3</Filter>
-    </ClCompile>
-    <ClCompile Include="LXCHandles\LXC_SSE3\LXC_SSE3RingBuffer.cpp">
-      <Filter>LXC_Handles\LXC_SSE3</Filter>
-    </ClCompile>
-    <ClCompile Include="LXCHandles\LXC_SSE3\LXC_SSE3.cpp">
-      <Filter>LXC_Handles\LXC_SSE3</Filter>
-    </ClCompile>
     <ClCompile Include="LXC_fftHandles\LXC_fftwf\LXC_fftwfHandle.cpp">
       <Filter>LXC_fftHandles\LXC_fftwfHandle</Filter>
     </ClCompile>
@@ -87,6 +69,24 @@
     </ClCompile>
     <ClCompile Include="LXC_fftHandles\LXC_fftHandles.cpp">
       <Filter>LXC_fftHandles</Filter>
+    </ClCompile>
+    <ClCompile Include="LXC_Handles\LXC_Native\LXC_Native.cpp">
+      <Filter>LXC_Handles\LXC_Native</Filter>
+    </ClCompile>
+    <ClCompile Include="LXC_Handles\LXC_Native\LXC_NativeBuffer.cpp">
+      <Filter>LXC_Handles\LXC_Native</Filter>
+    </ClCompile>
+    <ClCompile Include="LXC_Handles\LXC_Native\LXC_NativeRingBuffer.cpp">
+      <Filter>LXC_Handles\LXC_Native</Filter>
+    </ClCompile>
+    <ClCompile Include="LXC_Handles\LXC_SSE3\LXC_SSE3.cpp">
+      <Filter>LXC_Handles\LXC_SSE3</Filter>
+    </ClCompile>
+    <ClCompile Include="LXC_Handles\LXC_SSE3\LXC_SSE3Buffer.cpp">
+      <Filter>LXC_Handles\LXC_SSE3</Filter>
+    </ClCompile>
+    <ClCompile Include="LXC_Handles\LXC_SSE3\LXC_SSE3RingBuffer.cpp">
+      <Filter>LXC_Handles\LXC_SSE3</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -10,20 +10,28 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="LXC_CBenchmark_combinedChannels.h" />
+    <ClInclude Include="LXC_CBenchmark_seperateChannels.h" />
+    <ClInclude Include="LXC_IBenchmark.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="LXC_CBenchmark_combinedChannels.cpp" />
+    <ClCompile Include="LXC_CBenchmark_seperateChannels.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{E40CC568-89C3-44D4-9DA7-B6412BEA888F}</ProjectGuid>
-    <RootNamespace>LibXConvolver</RootNamespace>
-    <ProjectName>LibXConvolverCoreTests</ProjectName>
+    <ProjectGuid>{F5386A45-C23B-4901-AAA9-EC5901993A38}</ProjectGuid>
+    <RootNamespace>LibXConvolverCore</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v110</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v110</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -40,33 +48,27 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(SolutionDir)Build\$(Configuration)\</OutDir>
+    <OutDir>$(SolutionDir)Libs\</OutDir>
+    <TargetExt>.lib</TargetExt>
+    <TargetName>$(ProjectName)_d</TargetName>
+    <IntDir>LibXConvolverUtils\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>$(SolutionDir)Build\$(Configuration)\</OutDir>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LibraryPath>$(SolutionDir)Libs\;$(SolutionDir)Libs\fftw3_dll32\;$(SolutionDir)Libs\samplerate\;$(SolutionDir)Libs\sndfile_32\;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(IncludePath)</IncludePath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <LibraryPath>$(SolutionDir)Libs\;$(SolutionDir)Libs\fftw3_dll32\;$(SolutionDir)Libs\samplerate\;$(SolutionDir)Libs\sndfile_32\;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(IncludePath)</IncludePath>
+    <OutDir>$(SolutionDir)Libs\</OutDir>
+    <TargetExt>.lib</TargetExt>
+    <IntDir>LibXConvolverUtils\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <UndefinePreprocessorDefinitions>
-      </UndefinePreprocessorDefinitions>
-      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">TARGET_WINDOWS;LXC_SSE3_USE_KERNELS=1;_CRT_SECURE_NO_WARNINGS;USE_LXC_LOGGING_FILE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>USE_LXC_NATIVE;USE_LXC_SSE3;USE_LXC_LOGGING_FILE;TARGET_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)Libs\fftw3_dll32\;$(SolutionDir)Libs\samplerate\;$(SolutionDir)Libs\sndfile_32\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>LibXConvolverCore_d.lib;LibXConvolverUtils_d.lib;LibXConvolverBenchmarks_d.lib;libfftw3f-3.lib;libsndfile-1.lib;%(AdditionalDependencies);samplerate.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -76,22 +78,16 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <UndefinePreprocessorDefinitions>
-      </UndefinePreprocessorDefinitions>
-      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">TARGET_WINDOWS;LXC_SSE3_USE_KERNELS=1;_CRT_SECURE_NO_WARNINGS;USE_LXC_LOGGING_FILE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)Libs\fftw3_dll32\;$(SolutionDir)Libs\samplerate\;$(SolutionDir)Libs\sndfile_32\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>USE_LXC_NATIVE;USE_LXC_SSE3;USE_LXC_LOGGING_FILE;TARGET_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>LibXConvolverCore.lib;LibXConvolverUtils.lib;LibXConvolverBenchmarks.lib;libfftw3f-3.lib;libsndfile-1.lib;%(AdditionalDependencies);samplerate.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="LibXConvolverCoreTests.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
