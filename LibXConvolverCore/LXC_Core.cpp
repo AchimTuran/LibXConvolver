@@ -187,6 +187,32 @@ LXC_ptrFilterHandle* LXC_Core_createFilter(float *h, uint Size_h, uint SampleFre
 	return (LXC_ptrFilterHandle*)lxc_filterHandle;
 }
 
+void LXC_Core_destroyFilter(LXC_ptrFilterHandle **Filter)
+{
+	if(!Filter && !*Filter)
+		return;
+	
+	LXC_FILTER_HANDLE_CH *lxc_filterHandle = (LXC_FILTER_HANDLE_CH*)(*Filter);
+
+	if(lxc_filterHandle->h1)
+	{
+		free(lxc_filterHandle->h1);
+		lxc_filterHandle->h1 = NULL;
+	}
+
+	if(lxc_filterHandle->h2)
+	{
+		free(lxc_filterHandle->h2);
+		lxc_filterHandle->h2 = NULL;
+	}
+
+	lxc_filterHandle->LXC_filterConfig.maxFilterLength_h1 = 0;
+	lxc_filterHandle->LXC_filterConfig.maxFilterLength_h2 = 0;
+	lxc_filterHandle->LXC_filterConfig.sampleFrequency = 0;
+
+	free(*Filter);
+	*Filter = NULL;
+}
 
 LXC_ptrFilterHandle* LXC_Core_createFilter2Ch(float *h1, uint Size_h1, float *h2, uint Size_h2, uint SampleFreq)
 {

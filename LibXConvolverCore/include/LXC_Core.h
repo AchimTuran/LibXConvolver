@@ -35,6 +35,7 @@ LXC_HANDLE* LXC_Core_getConvolver(LXC_ptrFilterHandle *Filter, uint InputFrameLe
 LXC_ERROR_CODE LXC_Core_getModuleCallbacks(LXC_CALLBACKS *Callbacks, LXC_BUFFER_CALLBACKS *Buffer, LXC_RINGBUFFER_CALLBACKS *Ringbuffer, LXC_OPTIMIZATION_MODULE LXC_module);
 LXC_ptrFilterHandle* LXC_Core_createFilter(float *h, uint Size_h, uint SampleFreq);
 LXC_ptrFilterHandle* LXC_Core_createFilter2Ch(float *h1, uint Size_h1, float *h2, uint Size_h2, uint SampleFreq);
+void LXC_Core_destroyFilter(LXC_ptrFilterHandle **Filter);
 LXC_ERROR_CODE LXC_Core_getLastError();
 char LXC_Core_checkPowerOfTwo(uint Number, uint *NextPowerOfTwo);
 uint LXC_Core_calcMaxFilterParts(uint MaxFilterLength, uint MaxFilterPartLength);
