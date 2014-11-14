@@ -202,3 +202,4 @@ LibXConvolverCore/LXC_Handles/LXC_ARM_VFP/Documents/
 buildDependencies/temp/
 buildDependencies/Windows/downloads/
 project/
+*.csv

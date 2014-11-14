@@ -49,6 +49,9 @@
     <ClInclude Include="LXC_Exceptions\LXC_CExceptionCout.h">
       <Filter>LXC_Exceptions</Filter>
     </ClInclude>
+    <ClInclude Include="LXC_Logging\LXC_CBenchmarkCSVExporter.h">
+      <Filter>LXC_Logging</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="LXC_Timer\LXC_CPUTimer.cpp">
@@ -74,6 +77,9 @@
     </ClCompile>
     <ClCompile Include="LXC_Exceptions\LXC_CExceptionCout.cpp">
       <Filter>LXC_Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="LXC_Logging\LXC_CBenchmarkCSVExporter.cpp">
+      <Filter>LXC_Logging</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -26,6 +26,7 @@ using namespace std;
 
 #include "../LibXConvolverBenchmarks/LXC_CBenchmark_combinedChannels.h"
 #include "../LibXConvolverBenchmarks/LXC_CBenchmark_seperateChannels.h"
+#include "../LibXConvolverUtils/LXC_Logging/LXC_CBenchmarkCSVExporter.h"
 
 #include "sndfile.hh"
 
@@ -571,52 +572,79 @@ void benchmark_combinedVSseperate(uint FromInputeFrameLength,
 		return;
 	}
 
-	uint startFrameLength = 4;
-	uint endFrameLength = 4;
-	LXC_Core_checkPowerOfTwo(FromInputeFrameLength, &startFrameLength);
-	LXC_Core_checkPowerOfTwo(ToInputFrameLength,	&endFrameLength);
-
-	cout << endl << " Running combined VS. seperate channels Benchmark with " << MaxIterations << " iterations";
-	cout << "from framelength " << startFrameLength << " to " << endFrameLength;
-	cout << " in steps of 2^x" << endl;
-
-	for(uint frameLength = startFrameLength; frameLength <= endFrameLength; frameLength*=2)
+	try
 	{
-		try
-		{
-			// run combined channels benchmark
-			double elapsedTimeCombined = 0.0;
-			double elapsedTimeSeperate = 0.0;
+		LXC_CBenchmarkCSVExporter benchmarkCSV("benchmark_combinedVSseperate_" + LXC_OptimizationToString(Module) + ".csv",
+											   "InputFrameLength;elapsedTimeCombined;elapsedTimeSeperate;SpeedUp;sampleFrequency",
+											   5);
 
-			LXC_CBenchmark_combinedChannels benchmarkCombined(frameLength, 44100, Module, MaxIterations);
-			elapsedTimeCombined = benchmarkCombined.RunBenchmark();
+		uint startFrameLength = 4;
+		uint endFrameLength = 4;
+		LXC_Core_checkPowerOfTwo(FromInputeFrameLength, &startFrameLength);
+		LXC_Core_checkPowerOfTwo(ToInputFrameLength,	&endFrameLength);
+
+		cout << endl << " Running combined VS. seperate channels Benchmark with " << MaxIterations << " iterations";
+		cout << "from framelength " << startFrameLength << " to " << endFrameLength;
+		cout << " in steps of 2^x" << endl;
+
+		for(uint frameLength = startFrameLength; frameLength <= endFrameLength; frameLength*=2)
+		{
+			try
+			{
+				// run combined channels benchmark
+				double elapsedTimeCombined = 0.0;
+				double elapsedTimeSeperate = 0.0;
+
+				LXC_CBenchmark_combinedChannels benchmarkCombined(frameLength, 44100, Module, MaxIterations);
+				elapsedTimeCombined = benchmarkCombined.RunBenchmark();
 
 			
-			LXC_CBenchmark_seperateChannels benchmarkSeperate(frameLength, 44100, Module, MaxIterations);
-			elapsedTimeSeperate = benchmarkSeperate.RunBenchmark();
+				LXC_CBenchmark_seperateChannels benchmarkSeperate(frameLength, 44100, Module, MaxIterations);
+				elapsedTimeSeperate = benchmarkSeperate.RunBenchmark();
 
-			// run seperate channels benchmark
+				// run seperate channels benchmark
 
-			cout << endl << "====Benchmark results with " << frameLength << " framelength====" << endl;
-			cout << " combined channels elapsed time: " << elapsedTimeCombined << " s" << endl;
-			cout << " seperate channels elapsed time: " << elapsedTimeSeperate << " s" << endl;
-			cout << " Speed Up: " << elapsedTimeSeperate/elapsedTimeCombined << endl;
+				// print results
+				cout << endl << "====Benchmark results with " << frameLength << " framelength====" << endl;
+				cout << " combined channels elapsed time: " << elapsedTimeCombined << " s" << endl;
+				cout << " seperate channels elapsed time: " << elapsedTimeSeperate << " s" << endl;
+				cout << " Speed Up: " << elapsedTimeSeperate/elapsedTimeCombined << endl;
+
+				// write results to benchmark file
+				benchmarkCSV.WriteElement(frameLength);
+				benchmarkCSV.WriteElement(elapsedTimeCombined);
+				benchmarkCSV.WriteElement(elapsedTimeSeperate);
+				benchmarkCSV.WriteElement(elapsedTimeSeperate/elapsedTimeCombined);
+				benchmarkCSV.WriteElement((uint)44100);
+			}
+			catch(LXC_CException &e)
+			{
+				// ToDo: show a better error message
+				cout << "ERROR: benchmark_combinedVSseperate skipped " << frameLength << " framelength" << endl;
+				e.showError();
+
+				#ifdef TARGET_WINDOWS
+					system("PAUSE");
+				#endif
+			}
+			LXC_HANDLE_BAD_ALLOC
+			LXC_HANDLE_RANGE_EXCEPTION
+			LXC_HANDLE_UNKNOWN_EXCEPTION
 		}
-		catch(LXC_CException &e)
-		{
-			// ToDo: show a better error message
-			cout << "ERROR: benchmark_combinedVSseperate skipped " << frameLength << " framelength" << endl;
-			e.showError();
-
-			#ifdef TARGET_WINDOWS
-				system("PAUSE");
-			#endif
-		}
-		LXC_HANDLE_BAD_ALLOC
-		LXC_HANDLE_RANGE_EXCEPTION
-		LXC_HANDLE_UNKNOWN_EXCEPTION
 	}
+	catch(LXC_CException &e)
+	{
+		// ToDo: show a better error message
+		cout << "ERROR: benchmark_combinedVSseperate skipped " << endl;
+		e.showError();
 
+		#ifdef TARGET_WINDOWS
+			system("PAUSE");
+		#endif
+	}
+	LXC_HANDLE_BAD_ALLOC
+	LXC_HANDLE_RANGE_EXCEPTION
+	LXC_HANDLE_UNKNOWN_EXCEPTION
 }
 
 // main function
@@ -691,9 +719,9 @@ int main()
 		LXC_Core_close();
 		e.showError();
 
-		#ifdef TARGET_WINDOWS
-			system("PAUSE");
-		#endif
+	#ifdef TARGET_WINDOWS
+		system("PAUSE");
+	#endif
 
 		return -1;
 	}
