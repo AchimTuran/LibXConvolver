@@ -203,3 +203,5 @@ buildDependencies/temp/
 buildDependencies/Windows/downloads/
 project/
 *.csv
+LibXConvolverCore/LXC_Handles/LXC_CUDA/Documents/
+LibXConvolverCore/LXC_Handles/LXC_CUDA/old/
