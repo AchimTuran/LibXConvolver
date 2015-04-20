@@ -206,7 +206,7 @@ LXC_ERROR_CODE LXC_fftwf_create(LXC_FFT_PLAN *fftPlan, uint FreqSize, uint TimeS
 		newPlans += 2;
 	}
 
-	if( !fftwfHandle->ifftPlan || !fftwfHandle->ifftPlan )
+	if( !fftwfHandle->fftPlan || !fftwfHandle->ifftPlan )
 	{
 		// ToDo: show some error message
 		//throw EXCEPTION_COUT_HANDLER("fftw plans not created! FATAL ERROR!!!");
