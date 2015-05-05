@@ -205,3 +205,5 @@ project/
 *.csv
 LibXConvolverCore/LXC_Handles/LXC_CUDA/Documents/
 LibXConvolverCore/LXC_Handles/LXC_CUDA/old/
+Libs_src/samplerate/
+Libs_src/KissFFT/
