@@ -50,8 +50,8 @@ LXC_ERROR_CODE LXC_fmtc_float_TO_KissFFT(void *In, LXC_FFT_PLAN *fftHandle_out, 
 	  kiss_fft_cpx *oldIn = out + fftHandle_out->LXC_maxInputFrameLength;
 		for(uint ii=0; ii < fftHandle_out->LXC_fftZeros; ii++)
 		{
-			out[ii][0] = oldIn[ii][0];
-			out[ii][1] = oldIn[ii][1];
+			out[ii].r = oldIn[ii].r;
+			out[ii].i = oldIn[ii].i;
 		}
 		
 		out = ((LXC_KISSFFT_HANDLE*)fftHandle_out->LXC_specific_fftPlan)->x_in + fftHandle_out->LXC_fftZeros;
@@ -60,8 +60,8 @@ LXC_ERROR_CODE LXC_fmtc_float_TO_KissFFT(void *In, LXC_FFT_PLAN *fftHandle_out, 
 	// copy new samples into fft buffer
 	for(uint ii=0; ii < Size; ii++)
 	{
-		out[ii][0] = in[ii];
-		out[ii][1] = 0.0f;
+		out[ii].r = in[ii];
+		out[ii].i = 0.0f;
 	}
 
 	return LXC_NO_ERR;
@@ -86,14 +86,14 @@ LXC_ERROR_CODE LXC_fmtc_KissFFT_TO_float(LXC_FFT_PLAN *fftHandle_in, void *Out, 
 		in += fftHandle_in->LXC_fftZeros;
 		for(uint ii=0; ii < inputFramelength; ii++)
 		{
-			out[ii] = in[ii][0];
+			out[ii] = in[ii].r;
 		}
 	}
 	else
 	{
 		for(uint ii=0; ii < Size; ii++)
 		{
-			out[ii] = in[ii][0];
+			out[ii] = in[ii].r;
 		}
 	}
 
@@ -119,8 +119,8 @@ LXC_ERROR_CODE LXC_fmtc_float_TO_KissFFT_2Ch(void *In1, void *In2, LXC_FFT_PLAN 
 		kiss_fft_cpx *oldIn = out + fftHandle_out->LXC_maxInputFrameLength;
 		for(uint ii=0; ii < fftHandle_out->LXC_fftZeros; ii++)
 		{
-			out[ii][0] = oldIn[ii][0];
-			out[ii][1] = oldIn[ii][1];
+			out[ii].r = oldIn[ii].r;
+			out[ii].i = oldIn[ii].i;
 		}
 		
 		out = ((LXC_KISSFFT_HANDLE*)fftHandle_out->LXC_specific_fftPlan)->x_in + fftHandle_out->LXC_fftZeros;
@@ -129,8 +129,8 @@ LXC_ERROR_CODE LXC_fmtc_float_TO_KissFFT_2Ch(void *In1, void *In2, LXC_FFT_PLAN 
 	// copy new samples into fft buffer
 	for(uint ii=0; ii < Size; ii++)
 	{
-		out[ii][0] = in1[ii];
-		out[ii][1] = in2[ii];
+		out[ii].r = in1[ii];
+		out[ii].i = in2[ii];
 	}
 
 
@@ -158,16 +158,16 @@ LXC_ERROR_CODE LXC_fmtc_KissFFT_TO_float_2Ch(LXC_FFT_PLAN *fftHandle_in, void *O
 		in += fftHandle_in->LXC_fftZeros;
 		for(uint ii=0; ii < inputFramelength; ii++)
 		{
-			out1[ii] = in[ii][0];
-			out2[ii] = in[ii][1];
+			out1[ii] = in[ii].r;
+			out2[ii] = in[ii].i;
 		}
 	}
 	else
 	{
 		for(uint ii=0; ii < Size; ii++)
 		{
-			out1[ii] = in[ii][0];
-			out2[ii] = in[ii][1];
+			out1[ii] = in[ii].r;
+			out2[ii] = in[ii].i;
 		}
 	}
 
@@ -186,8 +186,8 @@ LXC_ERROR_CODE LXC_fmtc_LXCcpxFloat_TO_KissFFT(void *In, LXC_FFT_PLAN *fftHandle
 	kiss_fft_cpx *out = ((LXC_KISSFFT_HANDLE*)fftHandle_out->LXC_specific_fftPlan)->X;
 	for(uint ii=0; ii < Size; ii++)
 	{
-		out[ii][0] = in[ii][0];
-		out[ii][1] = in[ii][1];
+		out[ii].r = in[ii][0];
+		out[ii].i = in[ii][1];
 	}
 
 	return LXC_NO_ERR;
@@ -207,8 +207,8 @@ LXC_ERROR_CODE LXC_fmtc_KissFFT_TO_LXCcpxFloat(LXC_FFT_PLAN *fftHandle_in, void 
 	LXC_cpxFloat *out = (LXC_cpxFloat*)Out;
 	for(uint ii=0; ii < Size; ii++)
 	{
-		out[ii][0] = in[ii][0];
-		out[ii][1] = in[ii][1];
+		out[ii][0] = in[ii].r;
+		out[ii][1] = in[ii].i;
 	}
 
 	return LXC_NO_ERR;

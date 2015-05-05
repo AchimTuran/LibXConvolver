@@ -97,10 +97,10 @@ LXC_ERROR_CODE LXC_KissFFT_create(LXC_FFT_PLAN *fftPlan, uint FreqSize, uint Tim
 	fftPlan->LXC_fftSize = 0;
 
 	// reset KissFFT library
-  if (g_LXC_FirstPlan)
+  if(g_KissFFT_needCleanup)
   {
     kiss_fft_cleanup();
-    g_LXC_FirstPlan = 0;
+    g_KissFFT_needCleanup = 0;
   }
 
 	LXC_KISSFFT_HANDLE* KissFFTHandle = (LXC_KISSFFT_HANDLE*)malloc(sizeof(LXC_KISSFFT_HANDLE));
@@ -146,14 +146,14 @@ LXC_ERROR_CODE LXC_KissFFT_create(LXC_FFT_PLAN *fftPlan, uint FreqSize, uint Tim
 	// initialize fft buffers
 	for(uint ii=0; ii < FreqSize; ii++)
 	{
-		x_in[ii][0] = 0.0f;
-		x_in[ii][1] = 0.0f;
+		x_in[ii].r = 0.0f;
+		x_in[ii].i = 0.0f;
 
-		x_out[ii][0] = 0.0f;
-		x_out[ii][1] = 0.0f;
+		x_out[ii].r = 0.0f;
+		x_out[ii].i = 0.0f;
 
-		X[ii][0] = 0.0f;
-		X[ii][1] = 0.0f;
+		X[ii].r = 0.0f;
+		X[ii].i = 0.0f;
 	}
 
 	// init fftw library and plans
