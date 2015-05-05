@@ -215,7 +215,7 @@ LXC_ERROR_CODE LXC_fftwf_create(LXC_FFT_PLAN *fftPlan, uint FreqSize, uint TimeS
 		fftwf_free(X);
 		free(fftwfHandle);
     free(wisdomPath);
-    return LXC_ERR_FFTWF_PLAN_CREATION;
+    return LXC_ERR_FFT_CREATION_FAILED;
 	}
 
 	if( newPlans > 0 )

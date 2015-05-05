@@ -27,18 +27,21 @@
 
 
 typedef enum {  LXC_fftModule_Min=0, 
-				LXC_fftModule_fftwf,
-				LXC_fftModule_Max
+
+                LXC_fftModule_fftwf,
+                LXC_fftModule_KissFFT,
+
+                LXC_fftModule_Max
 } LXC_FFT_MODULE;
 
 
 typedef struct
 {
-	uint LXC_fftSize;					// full fft length
-	uint LXC_maxInputFrameLength;		// max input frame length in samples
-	uint LXC_fftZeros;					// quantity of zeros (zero padding)
-	float LXC_scaleFactor;				// scaling factor for ifft(X)
-	void *LXC_specific_fftPlan;			// specific fftHandle
+  uint LXC_fftSize;               // full fft length
+  uint LXC_maxInputFrameLength;   // max input frame length in samples
+  uint LXC_fftZeros;              // quantity of zeros (zero padding)
+  float LXC_scaleFactor;          // scaling factor for ifft(X)
+  void *LXC_specific_fftPlan;     // specific fftHandle
 } LXC_FFT_PLAN;
 
 
@@ -52,12 +55,12 @@ typedef struct
 	LXC_ERROR_CODE	(*LXC_ifft)(LXC_FFT_PLAN *fftHandle);
 
 	// format conversion functions
-	LXC_ERROR_CODE	(*LXC_fmtc_external_TO_fft)(void *In, LXC_FFT_PLAN *fftHandle_out, uint Size);						// outside LXC format to fft format
-	LXC_ERROR_CODE	(*LXC_fmtc_fft_TO_external)(LXC_FFT_PLAN *fftHandle_in, void *Out, uint Size);						// fft format to outside LXC format
-	LXC_ERROR_CODE	(*LXC_fmtc_external_TO_fft_2Ch)(void *In1, void *In2, LXC_FFT_PLAN *fftHandle_out, uint Size);		// outside LXC format to fft format (2 Channels)
-	LXC_ERROR_CODE	(*LXC_fmtc_fft_TO_external_2Ch)(LXC_FFT_PLAN *fftHandle_in, void *Out1, void *Out2, uint Size);		// fft format to outside LXC format (2 Channels)
-	LXC_ERROR_CODE	(*LXC_fmtc_internal_TO_fft)(void *In, LXC_FFT_PLAN *fftHandle_out, uint Size);						// intern LXC format to fft format
-	LXC_ERROR_CODE	(*LXC_fmtc_fft_TO_internal)(LXC_FFT_PLAN *fftHandle_in, void *Out, uint Size);						// fft format to intern LXC format
+	LXC_ERROR_CODE	(*LXC_fmtc_external_TO_fft)(void *In, LXC_FFT_PLAN *fftHandle_out, uint Size);                    // outside LXC format to fft format
+	LXC_ERROR_CODE	(*LXC_fmtc_fft_TO_external)(LXC_FFT_PLAN *fftHandle_in, void *Out, uint Size);                    // fft format to outside LXC format
+	LXC_ERROR_CODE	(*LXC_fmtc_external_TO_fft_2Ch)(void *In1, void *In2, LXC_FFT_PLAN *fftHandle_out, uint Size);    // outside LXC format to fft format (2 Channels)
+	LXC_ERROR_CODE	(*LXC_fmtc_fft_TO_external_2Ch)(LXC_FFT_PLAN *fftHandle_in, void *Out1, void *Out2, uint Size);   // fft format to outside LXC format (2 Channels)
+	LXC_ERROR_CODE	(*LXC_fmtc_internal_TO_fft)(void *In, LXC_FFT_PLAN *fftHandle_out, uint Size);                    // intern LXC format to fft format
+	LXC_ERROR_CODE	(*LXC_fmtc_fft_TO_internal)(LXC_FFT_PLAN *fftHandle_in, void *Out, uint Size);                    // fft format to intern LXC format
 } LXC_FFT_CALLBACKS;
 
 
