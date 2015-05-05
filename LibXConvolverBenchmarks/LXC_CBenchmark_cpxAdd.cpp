@@ -57,12 +57,13 @@ LXC_CBenchmark_cpxAdd::LXC_CBenchmark_cpxAdd(uint InputFrameLength,
 		throw LXC_EXCEPTION_COUT_HANDLER("Couldn't get LXC Module Callbacks!");
 	}
 
-	m_Buffer.buffer = NULL;
-	m_Buffer.maxFilterLength = ;
-	m_Buffer.maxFilterPartLength = 2*InputFrameLength;
-	m_Buffer.maxFilterPartLength_NonZero = InputFrameLength;
-	m_Buffer.maxFilterParts = ;
-	m_Buffer.sampleFrequency = m_SampleFrequency;
+  // ToDo: add correct parameters
+	//m_Buffer.buffer = NULL;
+	//m_Buffer.maxFilterLength = ;
+	//m_Buffer.maxFilterPartLength = 2*InputFrameLength;
+	//m_Buffer.maxFilterPartLength_NonZero = InputFrameLength;
+	//m_Buffer.maxFilterParts = ;
+	//m_Buffer.sampleFrequency = m_SampleFrequency;
 
 	// create LXC Buffer
 	err = m_BufferCallbacks.LXC_Buffer_create(&m_Buffer);

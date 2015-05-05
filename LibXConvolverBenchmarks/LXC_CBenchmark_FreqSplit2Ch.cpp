@@ -26,11 +26,11 @@
 #include "../LibXConvolverCore/include/LXC_Core.h"
 #include "../LibXConvolverCore/LXC_fftHandles/LXC_fftHandles.h"
 
-LXC_CBenchmark_cpxMul::LXC_CBenchmark_cpxMul(uint InputFrameLength, 
-														 uint SampleFrequency, 
-														 LXC_OPTIMIZATION_MODULE OptModule, 
-														 uint MaxItererations,
-														 LXC_FFT_MODULE fftModule) :
+LXC_CBenchmark_cpxMul::LXC_CBenchmark_cpxMul( uint InputFrameLength, 
+                                              uint SampleFrequency, 
+                                              LXC_OPTIMIZATION_MODULE OptModule, 
+                                              uint MaxItererations,
+                                              LXC_FFT_MODULE fftModule) :
 	LXC_IBenchmark("LXC combined channels")
 {
 	if(!InputFrameLength || !SampleFrequency || !MaxItererations)

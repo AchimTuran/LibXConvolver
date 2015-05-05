@@ -60,8 +60,6 @@ LXC_CBenchmark_cpxMul::LXC_CBenchmark_cpxMul(uint InputFrameLength,
 		throw LXC_EXCEPTION_COUT_HANDLER("Couldn't get LXC Module Callbacks!");
 	}
 
-	
-
 	// create LXC Buffer
 	err = m_BufferCallbacks.LXC_Buffer_create(&m_Buffer[0]);
 	if(err != LXC_NO_ERR)
@@ -89,7 +87,9 @@ LXC_CBenchmark_cpxMul::~LXC_CBenchmark_cpxMul()
 {
 	if(m_BufferCallbacks.LXC_Buffer_destroy)
 	{
-		m_BufferCallbacks.LXC_Buffer_destroy(&m_Buffer);
+		m_BufferCallbacks.LXC_Buffer_destroy(&m_Buffer[0]);
+    m_BufferCallbacks.LXC_Buffer_destroy(&m_Buffer[1]);
+    m_BufferCallbacks.LXC_Buffer_destroy(&m_Buffer[2]);
 	}
 }
 	
