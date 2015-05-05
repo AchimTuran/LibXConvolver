@@ -23,7 +23,6 @@
 
 
 
-#include "LXC_fftwf/LXC_fftwfHandle.h"
 #include "LXC_fftHandles_types.h"
 #include "../include/LXC_Core_types.h"
 

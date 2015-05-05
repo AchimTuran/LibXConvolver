@@ -36,10 +36,10 @@ public:
 									uint MaxIterations=1,
 									LXC_FFT_MODULE fftModule=LXC_fftModule_fftwf);
 
-	~LXC_CBenchmark_combinedChannels();
+	virtual ~LXC_CBenchmark_combinedChannels();
 
 	virtual double RunBenchmark();
-protected:
+
 private:
 	uint m_InputFrameLength;
 	uint m_SampleFrequency;

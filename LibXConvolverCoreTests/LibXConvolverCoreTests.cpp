@@ -32,8 +32,8 @@ using namespace std;
 
 #include "../LibXConvolverUtils/LXC_Timer/LXC_CPUTimer.h"
 #include "../LibXConvolverUtils/LXC_Signal/LXC_WavLoader.h"
-#include "../LibXConvolverUtils/LXC_Exceptions/LXC_CExceptionCout.h"
-#include "../LibXConvolverUtils/LXC_constants.h"
+#include "../LibXConvolverUtils/LXC_Exceptions/LXC_CException.h"
+#include "../LibXConvolverUtils/LXC_Constants.h"
 #include "../LibXConvolverUtils/LXC_System/LXC_OptimizationTranslator.h"
 
 #include "../LibXConvolverCore/include/LXC_Core.h"
