@@ -29,7 +29,7 @@
 #include "../../LXC_Handles/LXC_SSE3/LXC_SSE3_types.h"
 #include "../../../LibXConvolverUtils/LXC_Logging/LXC_Logging.h"
 
-#include "fftw3.h"
+#include <fftw3.h>
 #include <malloc.h>
 #include <string.h>
 

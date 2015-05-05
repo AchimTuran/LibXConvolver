@@ -24,7 +24,7 @@
 
 
 #include <string>
-#include "samplerate.h"
+#include <samplerate.h>
 #include "../../LibXConvolverCore/include/LXC_CommonTypes.h"
 
 typedef enum
