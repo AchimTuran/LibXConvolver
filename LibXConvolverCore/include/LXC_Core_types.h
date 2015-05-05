@@ -27,14 +27,16 @@
 #include "../LXC_fftHandles/LXC_fftHandles_types.h"
 
 typedef enum {  LXC_OPT_MIN	=0,
-				LXC_OPT_NATIVE,
-				LXC_OPT_SSE2,
-				LXC_OPT_SSE3,
-				LXC_OPT_AVX,
-				LXC_OPT_NEON,
-				LXC_OPT_CUDA,
-				LXC_OPT_OPENCL,
-				LXC_OPT_MAX
+
+                LXC_OPT_NATIVE,
+                LXC_OPT_SSE2,
+                LXC_OPT_SSE3,
+                LXC_OPT_AVX,
+                LXC_OPT_NEON,
+                LXC_OPT_CUDA,
+                LXC_OPT_OPENCL,
+
+                LXC_OPT_MAX
 } LXC_OPTIMIZATION_MODULE;
 
 #define LXC_OPT_NATIVE_BIT		1<<(LXC_OPT_NATIVE -1)
@@ -46,32 +48,32 @@ typedef enum {  LXC_OPT_MIN	=0,
 #define LXC_OPT_OPENCL_BIT		1<<(LXC_OPT_OPENCL -1)
 
 // ERROR CODES
-#define LXC_NO_ERR								0x00000000
-#define LXC_ERR_INVALID_INPUT					0x10000001
-#define LXC_ERR_NOT_INIT                        0x10000002
-#define LXC_ERR_RESAMPLER   					0x10000030
-#define LXC_ERR_FFTWF_PLAN_CREATION             0x10000040
-#define LXC_ERR_FFTWF_WISDOM_EXPORT             0x10000041
+#define LXC_NO_ERR                            0x00000000
+#define LXC_ERR_INVALID_INPUT                 0x10000001
+#define LXC_ERR_NOT_INIT                      0x10000002
+#define LXC_ERR_RESAMPLER                     0x10000030
+#define LXC_ERR_FFT_CREATION_FAILED           0x10000040
+#define LXC_ERR_FFTWF_WISDOM_EXPORT           0x10000041
 
-#define LXC_ERR_DYNAMIC_MEMORY					0x10000100
-#define LXC_ERR_NULL_POINTER					0x10000101
+#define LXC_ERR_DYNAMIC_MEMORY                0x10000100
+#define LXC_ERR_NULL_POINTER                  0x10000101
 
-#define LXC_ERR_UNSUPPORTED_CONVOLVER			0x10000200
-#define LXC_ERR_UNSUPPORTED_MODULE_CALLBACKS    0x10000201
+#define LXC_ERR_UNSUPPORTED_CONVOLVER         0x10000200
+#define LXC_ERR_UNSUPPORTED_MODULE_CALLBACKS  0x10000201
 
-#define LXC_ERR_UNSUPPORTED_FFT_MODULE			0x10000300
+#define LXC_ERR_UNSUPPORTED_FFT_MODULE        0x10000300
 
-#define LXC_ERR_UNSUPPORTED_FFT_FMTC			0x10000400
+#define LXC_ERR_UNSUPPORTED_FFT_FMTC          0x10000400
 
 
 // WARNING CODES
-#define LXC_WARN_SIZE							0x10010000
+#define LXC_WARN_SIZE                         0x10010000
 
 
 // Input Data flags
-#define LXC_CONSECUTIVE_SAMPLES 1<<1		// ch1_1, ch2_1, ..., chM_1, ch1_2, ch2_2, ..., chM_2, ...
-#define LXC_SEPERATE_SAMPLES	1<<2		// ch1_1, ..., ch1_N, ... chM_1, ..., chM_N
-#define LXC_DYNAMIC_STRUCT		1<<5		// struct was created with new or malloc
+#define LXC_CONSECUTIVE_SAMPLES 1<<1  // ch1_1, ch2_1, ..., chM_1, ch1_2, ch2_2, ..., chM_2, ...
+#define LXC_SEPERATE_SAMPLES    1<<2  // ch1_1, ..., ch1_N, ... chM_1, ..., chM_N
+#define LXC_DYNAMIC_STRUCT      1<<5  // struct was created with new or malloc
 
 typedef float LXC_cpx_sseFloat[2];
 typedef float LXC_cpx_cuFloat[2];
