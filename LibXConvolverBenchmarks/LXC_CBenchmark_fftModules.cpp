@@ -30,7 +30,7 @@
 
 LXC_CBenchmark_fftModules::LXC_CBenchmark_fftModules( uint fftSize,
                                                       LXC_FFT_MODULE fftModule,
-                                                      uint MaxIterations=1) :
+                                                      uint MaxIterations) :
   LXC_IBenchmark("LXC combined channels")
 {
   if(!fftSize)
