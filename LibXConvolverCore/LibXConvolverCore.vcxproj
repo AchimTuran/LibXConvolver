@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -18,13 +18,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -41,13 +41,16 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)Libs\</OutDir>
     <TargetExt>.lib</TargetExt>
-    <TargetName>$(ProjectName)_d</TargetName>
-    <IntDir>LibXConvolverCore\$(Configuration)\</IntDir>
+    <TargetName>$(ProjectName)_x86d</TargetName>
+    <IntDir>$(SolutionDir)build\$(ProjectName)\$(Configuration)\</IntDir>
+    <IncludePath>$(SolutionDir)Libs_src\KissFFT\;$(SolutionDir)Libs\fftw3_dll32\;$(SolutionDir)Libs\sndfile_32\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)Libs\</OutDir>
     <TargetExt>.lib</TargetExt>
-    <IntDir>LibXConvolverCore\$(Configuration)\</IntDir>
+    <IntDir>$(SolutionDir)build\$(ProjectName)\$(Configuration)\</IntDir>
+    <IncludePath>$(SolutionDir)Libs_src\KissFFT\;$(SolutionDir)Libs\fftw3_dll32\;$(SolutionDir)Libs\sndfile_32\;$(IncludePath)</IncludePath>
+    <TargetName>$(ProjectName)_x86</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -90,6 +93,9 @@
     <ClInclude Include="LXC_fftHandles\LXC_fftwf\LXC_fftwfHandle.h" />
     <ClInclude Include="LXC_fftHandles\LXC_fftwf\LXC_fftwfHandle_types.h" />
     <ClInclude Include="LXC_fftHandles\LXC_fftwf\LXC_fftwf_fmtc.h" />
+    <ClInclude Include="LXC_fftHandles\LXC_KissFFT\LXC_KissFFTHandle.h" />
+    <ClInclude Include="LXC_fftHandles\LXC_KissFFT\LXC_KissFFTHandle_types.h" />
+    <ClInclude Include="LXC_fftHandles\LXC_KissFFT\LXC_KissFFT_fmtc.h" />
     <ClInclude Include="LXC_Handles\LXC_Native\LXC_Native.h" />
     <ClInclude Include="LXC_Handles\LXC_Native\LXC_NativeBuffer.h" />
     <ClInclude Include="LXC_Handles\LXC_Native\LXC_NativeRingBuffer.h" />
@@ -105,6 +111,8 @@
     <ClCompile Include="LXC_fftHandles\LXC_fftHandles.cpp" />
     <ClCompile Include="LXC_fftHandles\LXC_fftwf\LXC_fftwfHandle.cpp" />
     <ClCompile Include="LXC_fftHandles\LXC_fftwf\LXC_fftwf_fmtc.cpp" />
+    <ClCompile Include="LXC_fftHandles\LXC_KissFFT\LXC_KissFFTHandle.cpp" />
+    <ClCompile Include="LXC_fftHandles\LXC_KissFFT\LXC_KissFFT_fmtc.cpp" />
     <ClCompile Include="LXC_Handles\LXC_Native\LXC_Native.cpp" />
     <ClCompile Include="LXC_Handles\LXC_Native\LXC_NativeBuffer.cpp" />
     <ClCompile Include="LXC_Handles\LXC_Native\LXC_NativeRingBuffer.cpp" />

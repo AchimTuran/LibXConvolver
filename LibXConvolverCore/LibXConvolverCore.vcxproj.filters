@@ -58,6 +58,15 @@
     <ClInclude Include="LXC_Handles\LXC_SSE3\LXC_SSE3RingBuffer.h">
       <Filter>LXC_Handles\LXC_SSE3</Filter>
     </ClInclude>
+    <ClInclude Include="LXC_fftHandles\LXC_KissFFT\LXC_KissFFTHandle.h">
+      <Filter>LXC_fftHandles\LXC_KissFFT</Filter>
+    </ClInclude>
+    <ClInclude Include="LXC_fftHandles\LXC_KissFFT\LXC_KissFFTHandle_types.h">
+      <Filter>LXC_fftHandles\LXC_KissFFT</Filter>
+    </ClInclude>
+    <ClInclude Include="LXC_fftHandles\LXC_KissFFT\LXC_KissFFT_fmtc.h">
+      <Filter>LXC_fftHandles\LXC_KissFFT</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="LXC_Core.cpp" />
@@ -87,6 +96,12 @@
     </ClCompile>
     <ClCompile Include="LXC_Handles\LXC_SSE3\LXC_SSE3RingBuffer.cpp">
       <Filter>LXC_Handles\LXC_SSE3</Filter>
+    </ClCompile>
+    <ClCompile Include="LXC_fftHandles\LXC_KissFFT\LXC_KissFFTHandle.cpp">
+      <Filter>LXC_fftHandles\LXC_KissFFT</Filter>
+    </ClCompile>
+    <ClCompile Include="LXC_fftHandles\LXC_KissFFT\LXC_KissFFT_fmtc.cpp">
+      <Filter>LXC_fftHandles\LXC_KissFFT</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -131,6 +146,9 @@
     </Filter>
     <Filter Include="LXC_fftHandles\LXC_fftwfHandle">
       <UniqueIdentifier>{e09ed2c4-4798-478e-91d6-4b783746b751}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LXC_fftHandles\LXC_KissFFT">
+      <UniqueIdentifier>{7f7abcb9-86a4-48b3-a844-37e85e6eb527}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -1,12 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="LXC_IBenchmark.h" />
-    <ClInclude Include="LXC_CBenchmark_combinedChannels.h" />
-    <ClInclude Include="LXC_CBenchmark_seperateChannels.h" />
+    <ClCompile Include="LXC_CBenchmark_combinedChannels.cpp" />
+    <ClCompile Include="LXC_CBenchmark_cpxAdd.cpp" />
+    <ClCompile Include="LXC_CBenchmark_cpxMul.cpp" />
+    <ClCompile Include="LXC_CBenchmark_fftModules.cpp" />
+    <ClCompile Include="LXC_CBenchmark_FreqCombine2Ch.cpp" />
+    <ClCompile Include="LXC_CBenchmark_FreqSplit2Ch.cpp" />
+    <ClCompile Include="LXC_CBenchmark_seperateChannels.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="LXC_CBenchmark_combinedChannels.cpp" />
-    <ClCompile Include="LXC_CBenchmark_seperateChannels.cpp" />
+    <ClInclude Include="LXC_CBenchmark_combinedChannels.h" />
+    <ClInclude Include="LXC_CBenchmark_cpxAdd.h" />
+    <ClInclude Include="LXC_CBenchmark_cpxMul.h" />
+    <ClInclude Include="LXC_CBenchmark_fftModules.h" />
+    <ClInclude Include="LXC_CBenchmark_FreqCombine2Ch.h" />
+    <ClInclude Include="LXC_CBenchmark_FreqSplit2Ch.h" />
+    <ClInclude Include="LXC_CBenchmark_seperateChannels.h" />
+    <ClInclude Include="LXC_IBenchmark.h" />
   </ItemGroup>
 </Project>

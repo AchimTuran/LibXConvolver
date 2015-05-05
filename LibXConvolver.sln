@@ -1,20 +1,35 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LibXConvolverCore", "LibXConvolverCore\LibXConvolverCore.vcxproj", "{0F97AF29-2C8C-4F26-A33F-B9571714CD8E}"
 	ProjectSection(ProjectDependencies) = postProject
 		{EFBB38AE-74F4-49D1-9B58-843BB952958B} = {EFBB38AE-74F4-49D1-9B58-843BB952958B}
+		{C4FD23F8-29A4-4E13-BBCF-1E55AD24834D} = {C4FD23F8-29A4-4E13-BBCF-1E55AD24834D}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LibXConvolverCoreTests", "LibXConvolverCoreTests\LibXConvolverCoreTests.vcxproj", "{E40CC568-89C3-44D4-9DA7-B6412BEA888F}"
 	ProjectSection(ProjectDependencies) = postProject
 		{0F97AF29-2C8C-4F26-A33F-B9571714CD8E} = {0F97AF29-2C8C-4F26-A33F-B9571714CD8E}
+		{F5386A45-C23B-4901-AAA9-EC5901993A38} = {F5386A45-C23B-4901-AAA9-EC5901993A38}
 		{EFBB38AE-74F4-49D1-9B58-843BB952958B} = {EFBB38AE-74F4-49D1-9B58-843BB952958B}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LibXConvolverUtils", "LibXConvolverUtils\LibXConvolverUtils.vcxproj", "{EFBB38AE-74F4-49D1-9B58-843BB952958B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3DDDD4FF-1791-4FBB-8FE0-F5A0473A59C7} = {3DDDD4FF-1791-4FBB-8FE0-F5A0473A59C7}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LibXConvolverBenchmarks", "LibXConvolverBenchmarks\LibXConvolverBenchmarks.vcxproj", "{F5386A45-C23B-4901-AAA9-EC5901993A38}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0F97AF29-2C8C-4F26-A33F-B9571714CD8E} = {0F97AF29-2C8C-4F26-A33F-B9571714CD8E}
+		{EFBB38AE-74F4-49D1-9B58-843BB952958B} = {EFBB38AE-74F4-49D1-9B58-843BB952958B}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "samplerate", "Libs_src\samplerate.vcxproj", "{3DDDD4FF-1791-4FBB-8FE0-F5A0473A59C7}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KissFFT", "Libs_src\KissFFT.vcxproj", "{C4FD23F8-29A4-4E13-BBCF-1E55AD24834D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -48,6 +63,18 @@ Global
 		{F5386A45-C23B-4901-AAA9-EC5901993A38}.Release|Win32.ActiveCfg = Release|Win32
 		{F5386A45-C23B-4901-AAA9-EC5901993A38}.Release|Win32.Build.0 = Release|Win32
 		{F5386A45-C23B-4901-AAA9-EC5901993A38}.Release|x64.ActiveCfg = Release|Win32
+		{3DDDD4FF-1791-4FBB-8FE0-F5A0473A59C7}.Debug|Win32.ActiveCfg = Debug|Win32
+		{3DDDD4FF-1791-4FBB-8FE0-F5A0473A59C7}.Debug|Win32.Build.0 = Debug|Win32
+		{3DDDD4FF-1791-4FBB-8FE0-F5A0473A59C7}.Debug|x64.ActiveCfg = Debug|Win32
+		{3DDDD4FF-1791-4FBB-8FE0-F5A0473A59C7}.Release|Win32.ActiveCfg = Release|Win32
+		{3DDDD4FF-1791-4FBB-8FE0-F5A0473A59C7}.Release|Win32.Build.0 = Release|Win32
+		{3DDDD4FF-1791-4FBB-8FE0-F5A0473A59C7}.Release|x64.ActiveCfg = Release|Win32
+		{C4FD23F8-29A4-4E13-BBCF-1E55AD24834D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C4FD23F8-29A4-4E13-BBCF-1E55AD24834D}.Debug|Win32.Build.0 = Debug|Win32
+		{C4FD23F8-29A4-4E13-BBCF-1E55AD24834D}.Debug|x64.ActiveCfg = Debug|Win32
+		{C4FD23F8-29A4-4E13-BBCF-1E55AD24834D}.Release|Win32.ActiveCfg = Release|Win32
+		{C4FD23F8-29A4-4E13-BBCF-1E55AD24834D}.Release|Win32.Build.0 = Release|Win32
+		{C4FD23F8-29A4-4E13-BBCF-1E55AD24834D}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

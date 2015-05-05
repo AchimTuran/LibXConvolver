@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="samplerate\src\src_zoh.c" />
+    <ClCompile Include="samplerate\src\samplerate.c" />
+    <ClCompile Include="samplerate\src\src_linear.c" />
+    <ClCompile Include="samplerate\src\src_sinc.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="samplerate\src\common.h" />
+    <ClInclude Include="samplerate\src\fastest_coeffs.h" />
+    <ClInclude Include="samplerate\src\float_cast.h" />
+    <ClInclude Include="samplerate\src\high_qual_coeffs.h" />
+    <ClInclude Include="samplerate\src\mid_qual_coeffs.h" />
+    <ClInclude Include="samplerate\src\samplerate.h" />
+  </ItemGroup>
+</Project>

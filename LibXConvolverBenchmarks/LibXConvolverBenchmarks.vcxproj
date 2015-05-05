@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -11,13 +11,38 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="LXC_CBenchmark_combinedChannels.h" />
-    <ClInclude Include="LXC_CBenchmark_seperateChannels.h" />
-    <ClInclude Include="LXC_IBenchmark.h" />
+    <ClCompile Include="LXC_CBenchmark_combinedChannels.cpp" />
+    <ClCompile Include="LXC_CBenchmark_cpxAdd.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="LXC_CBenchmark_cpxMul.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="LXC_CBenchmark_fftModules.cpp" />
+    <ClCompile Include="LXC_CBenchmark_FreqCombine2Ch.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="LXC_CBenchmark_FreqSplit2Ch.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="LXC_CBenchmark_seperateChannels.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="LXC_CBenchmark_combinedChannels.cpp" />
-    <ClCompile Include="LXC_CBenchmark_seperateChannels.cpp" />
+    <ClInclude Include="LXC_CBenchmark_combinedChannels.h" />
+    <ClInclude Include="LXC_CBenchmark_cpxAdd.h" />
+    <ClInclude Include="LXC_CBenchmark_cpxMul.h" />
+    <ClInclude Include="LXC_CBenchmark_fftModules.h" />
+    <ClInclude Include="LXC_CBenchmark_FreqCombine2Ch.h" />
+    <ClInclude Include="LXC_CBenchmark_FreqSplit2Ch.h" />
+    <ClInclude Include="LXC_CBenchmark_seperateChannels.h" />
+    <ClInclude Include="LXC_IBenchmark.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{F5386A45-C23B-4901-AAA9-EC5901993A38}</ProjectGuid>
@@ -27,13 +52,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -50,13 +75,16 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)Libs\</OutDir>
     <TargetExt>.lib</TargetExt>
-    <TargetName>$(ProjectName)_d</TargetName>
-    <IntDir>LibXConvolverUtils\$(Configuration)\</IntDir>
+    <TargetName>$(ProjectName)_x86d</TargetName>
+    <IntDir>$(SolutionDir)build\$(ProjectName)\$(Configuration)\</IntDir>
+    <IncludePath>$(SolutionDir)Libs\KissFFT\;$(SolutionDir)Libs\samplerate\src\src\;$(SolutionDir)Libs\fftw3_dll32\;$(SolutionDir)Libs\sndfile_32\;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)Libs\</OutDir>
     <TargetExt>.lib</TargetExt>
-    <IntDir>LibXConvolverUtils\$(Configuration)\</IntDir>
+    <IntDir>$(SolutionDir)build\$(ProjectName)\$(Configuration)\</IntDir>
+    <IncludePath>$(SolutionDir)Libs\KissFFT\;$(SolutionDir)Libs\samplerate\src\src\;$(SolutionDir)Libs\fftw3_dll32\;$(SolutionDir)Libs\sndfile_32\;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <TargetName>$(ProjectName)_x86</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
