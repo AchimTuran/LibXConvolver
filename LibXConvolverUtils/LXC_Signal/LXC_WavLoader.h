@@ -23,8 +23,7 @@
 
 
 
-#include "sndfile.hh"
-#include "sndfile.h"
+#include <sndfile.hh>
 #include "../../LibXConvolverCore/include/LXC_CommonTypes.h"
 
 #include <string>
