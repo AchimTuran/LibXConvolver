@@ -26,4 +26,5 @@
 #include "../../LibXConvolverCore/include/LXC_Core_types.h"
 #include <string>
 
-std::string LXC_OptimizationToString(LXC_OPTIMIZATION_MODULE Module);
+std::string LXC_optModuleToString(LXC_OPTIMIZATION_MODULE optModule);
+std::string LXC_fftModuleToString(LXC_FFT_MODULE fftModule);
