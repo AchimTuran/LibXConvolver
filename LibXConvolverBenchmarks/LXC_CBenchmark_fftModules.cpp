@@ -31,42 +31,52 @@
 LXC_CBenchmark_fftModules::LXC_CBenchmark_fftModules( uint fftSize,
                                                       LXC_FFT_MODULE fftModule,
                                                       uint MaxIterations) :
-  LXC_IBenchmark("LXC combined channels")
+  LXC_IBenchmark("LXC fft modules")
 {
   if(!fftSize)
   {
-    throw LXC_EXCEPTION_COUT_HANDLER("Invalid fft size!");
+    throw LXC_EXCEPTION_COUT_HANDLER("Invalid fft size! Please use a value > 0.");
   }
   m_fftSize = fftSize;
+  if(!MaxIterations)
+  {
+    throw LXC_EXCEPTION_COUT_HANDLER("Invalid maximum iterations! Please use a value > 0.");
+  }
+  m_MaxIterations = MaxIterations;
 
   LXC_ERROR_CODE err = LXC_get_fftHandle(&m_fftHandle, fftModule, LXC_OPT_NATIVE, m_fftSize, m_fftSize);
   if(err != LXC_NO_ERR)
   {
-    throw LXC_EXCEPTION_COUT_HANDLER("Failed getting fftHandle!");
+    throw LXC_EXCEPTION_COUT_HANDLER("Getting fftHandle failed!");
   }
+  m_fftModule = fftModule;
 }
 
 LXC_CBenchmark_fftModules::~LXC_CBenchmark_fftModules()
 {
+  if(m_fftHandle.LXC_fftCallbacks.LXC_destroy_fft)
+  {
+    m_fftHandle.LXC_fftCallbacks.LXC_destroy_fft(&m_fftHandle);
+  }
 }
 
 double LXC_CBenchmark_fftModules::RunBenchmark()
 {
   double elapsedTime = 0.0;
-    uint loopIteration = 0;
-    do
+  uint loopIteration = 0;
+  do
+  {
+    m_Timer.start_Timer();
+    LXC_ERROR_CODE err = m_fftHandle.LXC_fftCallbacks.LXC_fft(&m_fftHandle);
+    m_Timer.stop_Timer();
+    elapsedTime += m_Timer.get_ElapsedTime();
+    if(err != LXC_NO_ERR)
     {
-      m_Timer.start_Timer();
-      LXC_ERROR_CODE err = 0;
-      m_Timer.stop_Timer();
-      elapsedTime += m_Timer.get_ElapsedTime();
-      if(err != LXC_NO_ERR)
-      {
-        throw LXC_EXCEPTION_COUT_HANDLER("Combined channels Benchmark skipped!");
-      }
+      throw LXC_EXCEPTION_COUT_HANDLER("fftModules benchmark skipped!");
+    }
 
-      loopIteration++;
-    }while(loopIteration < m_MaxIterations);
+    loopIteration++;
+  }while(loopIteration < m_MaxIterations);
 
-    return elapsedTime/((double)m_MaxIterations);
+  return elapsedTime/((double)m_MaxIterations);
 }

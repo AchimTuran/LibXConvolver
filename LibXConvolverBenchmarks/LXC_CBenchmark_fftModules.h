@@ -41,9 +41,6 @@ private:
   uint m_fftSize;
   uint m_MaxIterations;
 
-  float		*m_InSignal;
-  float		*m_OutSignal;
-
   LXC_FFT_MODULE  m_fftModule;
   LXC_FFT_HANDLE  m_fftHandle;
 };
