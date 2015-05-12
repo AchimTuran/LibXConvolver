@@ -23,6 +23,7 @@
 
 
 
+#include <memory.h>
 #include "../include/LXC_CommonTypes.h"
 
 
@@ -35,17 +36,26 @@ typedef enum {  LXC_fftModule_Min=0,
 } LXC_FFT_MODULE;
 
 
-typedef struct
+typedef struct LXC_FFT_PLAN
 {
   uint LXC_fftSize;               // full fft length
   uint LXC_maxInputFrameLength;   // max input frame length in samples
   uint LXC_fftZeros;              // quantity of zeros (zero padding)
   float LXC_scaleFactor;          // scaling factor for ifft(X)
   void *LXC_specific_fftPlan;     // specific fftHandle
+
+  LXC_FFT_PLAN()
+  {
+      LXC_fftSize = 0;
+      LXC_maxInputFrameLength = 0;
+      LXC_fftZeros = 0;
+      LXC_scaleFactor = 1.0f;
+      LXC_specific_fftPlan = NULL;
+  }
 } LXC_FFT_PLAN;
 
 
-typedef struct
+typedef struct LXC_FFT_CALLBACKS
 {
 	// fft functions
 	LXC_ERROR_CODE	(*LXC_create_fft)(LXC_FFT_PLAN *fftPlan, uint FreqSize, uint TimeSize);
@@ -61,12 +71,33 @@ typedef struct
 	LXC_ERROR_CODE	(*LXC_fmtc_fft_TO_external_2Ch)(LXC_FFT_PLAN *fftHandle_in, void *Out1, void *Out2, uint Size);   // fft format to outside LXC format (2 Channels)
 	LXC_ERROR_CODE	(*LXC_fmtc_internal_TO_fft)(void *In, LXC_FFT_PLAN *fftHandle_out, uint Size);                    // intern LXC format to fft format
 	LXC_ERROR_CODE	(*LXC_fmtc_fft_TO_internal)(LXC_FFT_PLAN *fftHandle_in, void *Out, uint Size);                    // fft format to intern LXC format
+
+	LXC_FFT_CALLBACKS()
+	{
+	  LXC_create_fft = NULL;
+	  LXC_destroy_fft = NULL;
+	  LXC_clearBuffers = NULL;
+	  LXC_fft = NULL;
+	  LXC_ifft = NULL;
+
+	  LXC_fmtc_external_TO_fft = NULL;
+	  LXC_fmtc_fft_TO_external = NULL;
+	  LXC_fmtc_external_TO_fft_2Ch = NULL;
+	  LXC_fmtc_fft_TO_external_2Ch = NULL;
+	  LXC_fmtc_internal_TO_fft = NULL;
+	  LXC_fmtc_fft_TO_internal = NULL;
+	}
 } LXC_FFT_CALLBACKS;
 
 
-typedef struct
+typedef struct LXC_FFT_HANDLE
 {
 	LXC_FFT_CALLBACKS LXC_fftCallbacks;
 	int LXC_fftModule;
 	LXC_FFT_PLAN LXC_fftPlan;
+
+	LXC_FFT_HANDLE()
+	{
+	  LXC_fftModule = LXC_fftModule_Min;
+	}
 } LXC_FFT_HANDLE;
