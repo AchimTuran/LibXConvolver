@@ -29,10 +29,10 @@
 	void LXC_LoggingPrintf_close();
 	void LXC_LoggingPrintf_open();
 	void LXC_LoggingPrintf(const char* Tag, const char* Message, ...);
-	#define LXC_LOG_DEBUG(Message, ...) LXC_LoggingPrintf(LXC_LOGGING_DEBUG_STR, Message, ## __VA_ARGS__)
-	#define LXC_LOG_INFO(Message, ...) LXC_LoggingPrintf(LXC_LOGGING_INFO_STR, Message, ## __VA_ARGS__)
+	#define LXC_LOG_DEBUG(Message, ...)   LXC_LoggingPrintf(LXC_LOGGING_DEBUG_STR, Message, ## __VA_ARGS__)
+	#define LXC_LOG_INFO(Message, ...)    LXC_LoggingPrintf(LXC_LOGGING_INFO_STR, Message, ## __VA_ARGS__)
 	#define LXC_LOG_WARNING(Message, ...) LXC_LoggingPrintf(LXC_LOGGING_WARNING_STR, Message, ## __VA_ARGS__)
-	#define LXC_LOG_ERROR(Message, ...) LXC_LoggingPrintf(LXC_LOGGING_ERROR_STR, Message, ## __VA_ARGS__)
+	#define LXC_LOG_ERROR(Message, ...)   LXC_LoggingPrintf(LXC_LOGGING_ERROR_STR, Message, ## __VA_ARGS__)
 	#define LXC_LOG_CLOSE()
 	#define LXC_LOG_OPEN()
   #define LXC_LOG_DESTROY()
@@ -42,12 +42,24 @@
 	void LXC_LoggingFile_close();
 	void LXC_LoggingFile_open();
   void LXC_LoggingFile_destroy();
-  #define LXC_LOG_DEBUG(Message, ...)   LXC_LoggingFile_open(); LXC_LoggingFile(LXC_LOGGING_DEBUG_STR, Message, ## __VA_ARGS__); LXC_LoggingFile_close()
-  #define LXC_LOG_INFO(Message, ...)    LXC_LoggingFile_open(); LXC_LoggingFile(LXC_LOGGING_INFO_STR, Message, ## __VA_ARGS__); LXC_LoggingFile_close()
-  #define LXC_LOG_WARNING(Message, ...) LXC_LoggingFile_open(); LXC_LoggingFile(LXC_LOGGING_WARNING_STR, Message, ## __VA_ARGS__); LXC_LoggingFile_close()
-  #define LXC_LOG_ERROR(Message, ...)   LXC_LoggingFile_open(); LXC_LoggingFile(LXC_LOGGING_ERROR_STR, Message, ## __VA_ARGS__); LXC_LoggingFile_close()
-	#define LXC_LOG_CLOSE() LXC_LoggingFile_close()
-	#define LXC_LOG_OPEN()	LXC_LoggingFile_open()
+  #define LXC_LOG_DEBUG(Message, ...)     LXC_LoggingFile_open();                                            \
+                                          LXC_LoggingFile(LXC_LOGGING_DEBUG_STR, Message, ## __VA_ARGS__);   \
+                                          LXC_LoggingFile_close()
+
+#define LXC_LOG_INFO(Message, ...)        LXC_LoggingFile_open();                                            \
+                                          LXC_LoggingFile(LXC_LOGGING_INFO_STR, Message, ## __VA_ARGS__);    \
+                                          LXC_LoggingFile_close()
+
+  #define LXC_LOG_WARNING(Message, ...)   LXC_LoggingFile_open();                                            \
+                                          LXC_LoggingFile(LXC_LOGGING_WARNING_STR, Message, ## __VA_ARGS__); \
+                                          LXC_LoggingFile_close()
+
+  #define LXC_LOG_ERROR(Message, ...)     LXC_LoggingFile_open();                                            \
+                                          LXC_LoggingFile(LXC_LOGGING_ERROR_STR, Message, ## __VA_ARGS__);   \
+                                          LXC_LoggingFile_close()
+
+  #define LXC_LOG_CLOSE()   LXC_LoggingFile_close()
+	#define LXC_LOG_OPEN()	  LXC_LoggingFile_open()
   #define LXC_LOG_DESTROY()	LXC_LoggingFile_destroy();
 #else
 	#define LXC_LOG_DEBUG(Message, ...)
