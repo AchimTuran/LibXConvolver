@@ -201,6 +201,7 @@ LibXConvolverCore/LXC_fftHandles/LXC_clFFT/Documents/
 LibXConvolverCore/LXC_Handles/LXC_ARM_VFP/Documents/
 buildDependencies/temp/
 buildDependencies/Windows/downloads/
+buildDependencies/Linux/downloads/
 project/
 *.csv
 LibXConvolverCore/LXC_Handles/LXC_CUDA/Documents/
