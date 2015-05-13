@@ -22,6 +22,7 @@
 
 
 #include <iostream>
+#include <math.h>
 using namespace std;
 
 #include "LXC_Resampler.h"

@@ -41,7 +41,11 @@ LXC_CBenchmarkCSVExporter::LXC_CBenchmarkCSVExporter(string Filename, string Fil
 	m_Filename = Filename;
 	m_FileHeader = FileHeader;
 
+#if defined(TARGET_WINDOWs)
 	m_OutputFile.open(m_Filename);
+#else
+	m_OutputFile.open(m_Filename.c_str());
+#endif
 	if(!m_OutputFile.is_open())
 	{
 		throw LXC_EXCEPTION_COUT_HANDLER("Could not open benchmark export file: " + Filename);

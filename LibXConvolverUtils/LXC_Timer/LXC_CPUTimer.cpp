@@ -25,7 +25,7 @@
 using namespace std;
 
 #include "LXC_CPUTimer.h"
-#include "../LXC_constants.h"
+#include "../LXC_Constants.h"
 
 #if defined(TARGET_WINDOWS)
 	#include <windows.h>
@@ -132,7 +132,7 @@ double LXC_CCPUTimer::get_ElapsedTime()
         else
         {
             timeDiff.tv_sec = m_endTime.tv_sec - m_startTime.tv_sec;
-            timeDiff.tv_nsec = endTime.tv_nsec - startTime.tv_nsec;
+            timeDiff.tv_nsec = m_endTime.tv_nsec - m_startTime.tv_nsec;
         }
 
         return (double)timeDiff.tv_sec + ((double)timeDiff.tv_nsec)*E_m9;

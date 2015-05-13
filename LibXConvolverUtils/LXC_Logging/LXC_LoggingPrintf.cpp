@@ -38,7 +38,13 @@ void LXC_LoggingPrintf(const char* Tag, const char* Message, ...)
 	time(&timeNow);
 	struct tm calendarTime;
 	char timeBuf[MAX_LOGGING_TIME_SYMBOLS];
-	localtime_s(&calendarTime, &timeNow);
+#if defined(TARGET_WINDOWS)
+  localtime_s(&calendarTime, &timeNow);
+#elif defined(TARGET_LINUX)
+  localtime_r(&timeNow, &calendarTime);
+#else
+  #error "Unimplemented date function!"
+#endif
 
 	// Time format: Dayname Day. Month. Year, HH:MM:SS
 	// for details see http://www2.hs-fulda.de/~klingebiel/c-stdlib/time.htm
