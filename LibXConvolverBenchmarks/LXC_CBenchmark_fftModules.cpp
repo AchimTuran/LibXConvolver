@@ -56,7 +56,7 @@ LXC_CBenchmark_fftModules::~LXC_CBenchmark_fftModules()
 {
   if(m_fftHandle.LXC_fftCallbacks.LXC_destroy_fft)
   {
-    m_fftHandle.LXC_fftCallbacks.LXC_destroy_fft(&m_fftHandle);
+    m_fftHandle.LXC_fftCallbacks.LXC_destroy_fft(&m_fftHandle.LXC_fftPlan);
   }
 }
 
@@ -67,7 +67,7 @@ double LXC_CBenchmark_fftModules::RunBenchmark()
   do
   {
     m_Timer.start_Timer();
-    LXC_ERROR_CODE err = m_fftHandle.LXC_fftCallbacks.LXC_fft(&m_fftHandle);
+    LXC_ERROR_CODE err = m_fftHandle.LXC_fftCallbacks.LXC_fft(&m_fftHandle.LXC_fftPlan);
     m_Timer.stop_Timer();
     elapsedTime += m_Timer.get_ElapsedTime();
     if(err != LXC_NO_ERR)
