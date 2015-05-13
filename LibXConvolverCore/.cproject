@@ -30,9 +30,11 @@
 								<option id="gnu.cpp.compiler.lib.debug.option.debugging.level.1848158046" name="Debug Level" superClass="gnu.cpp.compiler.lib.debug.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.include.paths.1402613132" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/KissFFT}&quot;"/>
+									<listOptionValue builtIn="false" value="/home/user/libs/fftw/include"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.preprocessor.def.1958608003" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="USE_LXC_NATIVE"/>
+									<listOptionValue builtIn="false" value="USE_LXC_LOGGING_FILE"/>
 									<listOptionValue builtIn="false" value="USE_LXC_SSE3"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.619127745" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
@@ -40,6 +42,12 @@
 							<tool id="cdt.managedbuild.tool.gnu.c.compiler.lib.debug.1214632405" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.lib.debug">
 								<option defaultValue="gnu.c.optimization.level.none" id="gnu.c.compiler.lib.debug.option.optimization.level.964956908" name="Optimization Level" superClass="gnu.c.compiler.lib.debug.option.optimization.level" valueType="enumerated"/>
 								<option id="gnu.c.compiler.lib.debug.option.debugging.level.558654320" name="Debug Level" superClass="gnu.c.compiler.lib.debug.option.debugging.level" value="gnu.c.debugging.level.max" valueType="enumerated"/>
+								<option id="gnu.c.compiler.option.include.files.695601591" name="Include files (-include)" superClass="gnu.c.compiler.option.include.files" valueType="includeFiles">
+									<listOptionValue builtIn="false" value="libfftw3.a"/>
+								</option>
+								<option id="gnu.c.compiler.option.include.paths.1533817138" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="/home/user/libs/fftw/lib"/>
+								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1996849713" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.linker.base.516108959" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.base"/>
@@ -118,4 +126,5 @@
 		</scannerConfigBuildInfo>
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
+	<storageModule moduleId="refreshScope"/>
 </cproject>

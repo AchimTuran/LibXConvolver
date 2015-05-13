@@ -3,6 +3,7 @@
 	<name>LibXConvolverCore</name>
 	<comment></comment>
 	<projects>
+		<project>KissFFT</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
