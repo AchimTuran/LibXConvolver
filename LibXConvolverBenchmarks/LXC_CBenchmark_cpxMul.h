@@ -35,7 +35,7 @@ public:
 						  LXC_OPTIMIZATION_MODULE OptModule, 
 						  uint MaxIterations=1);
 
-	~LXC_CBenchmark_cpxMul();
+	virtual ~LXC_CBenchmark_cpxMul();
 
 	virtual double RunBenchmark();
 protected:

@@ -41,6 +41,10 @@ public:
 		}
 	}
 
+	virtual ~LXC_IBenchmark()
+	{
+	}
+
 	// Gets the current Benchmark name.
 	std::string GetName()
 	{

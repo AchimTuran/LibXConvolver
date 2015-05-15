@@ -27,15 +27,15 @@
 #include "../LibXConvolverCore/include/LXC_CommonTypes.h"
 #include "../LibXConvolverCore/include/LXC_Core_types.h"
 
-class LXC_CBenchmark_cpxMul : public LXC_IBenchmark
+class LXC_CBenchmark_FreqSplit2Ch : public LXC_IBenchmark
 {
 public:
-	LXC_CBenchmark_cpxMul(uint InputFrameLength, 
-									uint SampleFrequency, 
-									LXC_OPTIMIZATION_MODULE OptModule, 
-									uint MaxIterations=1);
+	LXC_CBenchmark_FreqSplit2Ch(uint InputFrameLength,
+                              uint SampleFrequency,
+                              LXC_OPTIMIZATION_MODULE OptModule,
+                              uint MaxIterations=1);
 
-	~LXC_CBenchmark_cpxMul();
+	virtual ~LXC_CBenchmark_FreqSplit2Ch();
 
 	virtual double RunBenchmark();
 protected:

@@ -21,29 +21,28 @@
 
 
 
-#include "LXC_CBenchmark_cpxMul.h"
+#include "LXC_CBenchmark_FreqSplit2Ch.h"
 #include "../LibXConvolverUtils/LXC_Exceptions/LXC_CExceptionCout.h"
 #include "../LibXConvolverCore/include/LXC_Core.h"
 #include "../LibXConvolverCore/LXC_fftHandles/LXC_fftHandles.h"
 
-LXC_CBenchmark_cpxMul::LXC_CBenchmark_cpxMul( uint InputFrameLength, 
-                                              uint SampleFrequency, 
-                                              LXC_OPTIMIZATION_MODULE OptModule, 
-                                              uint MaxItererations,
-                                              LXC_FFT_MODULE fftModule) :
+LXC_CBenchmark_FreqSplit2Ch::LXC_CBenchmark_FreqSplit2Ch( uint InputFrameLength,
+                                                          uint SampleFrequency,
+                                                          LXC_OPTIMIZATION_MODULE OptModule,
+                                                          uint MaxIterations) :
 	LXC_IBenchmark("LXC combined channels")
 {
-	if(!InputFrameLength || !SampleFrequency || !MaxItererations)
+	if(!InputFrameLength || !SampleFrequency || !MaxIterations)
 	{
 		throw LXC_EXCEPTION_COUT_HANDLER("Invalid initialization parameters! Please proof that InputFrameLength>0, SampleFrequency>0 and Itererations>0.");
 	}
 
 	m_InputFrameLength = InputFrameLength;
 	m_SampleFrequency = SampleFrequency;
-	m_MaxIterations = MaxItererations;
+	m_MaxIterations = MaxIterations;
 
 	m_OptModule = OptModule;
-	m_fftModule = fftModule;
+	m_fftModule = LXC_fftModule_fftwf;
 
 	// initialize filter
 	m_InSignal[0] = new float[m_InputFrameLength];
@@ -101,7 +100,7 @@ LXC_CBenchmark_cpxMul::LXC_CBenchmark_cpxMul( uint InputFrameLength,
 	LXC_Core_destroyFilter(&filter1);
 }
 
-LXC_CBenchmark_cpxMul::~LXC_CBenchmark_cpxMul()
+LXC_CBenchmark_FreqSplit2Ch::~LXC_CBenchmark_FreqSplit2Ch()
 {
 	if(m_InSignal[0])
 	{
@@ -140,7 +139,7 @@ LXC_CBenchmark_cpxMul::~LXC_CBenchmark_cpxMul()
 	}
 }
 	
-double LXC_CBenchmark_cpxMul::RunBenchmark()
+double LXC_CBenchmark_FreqSplit2Ch::RunBenchmark()
 {
 	double elapsedTime = 0.0;
 	uint loopIteration = 0;
