@@ -27,7 +27,12 @@
 #include "LXC_SSE3_types.h"
 #include "LXC_SSE3RingBuffer.h"
 
-#include <intrin.h>		//types
+#if defined(TARGET_WINDOWS)
+  #include <intrin.h>		//types
+#endif
+#if defined(TARGET_LINUX)
+  #include <mm_malloc.h>
+#endif
 #include <mmintrin.h>	//SSE Intrinsics
 
 void* LXC_SSE3Ringbuffer_getPart(LXC_RINGBUFFER *Ringbuffer, uint Element)
@@ -82,8 +87,12 @@ LXC_ERROR_CODE LXC_SSE3Ringbuffer_create(LXC_RINGBUFFER *Ringbuffer)
 	}
 
 	const uint maxElements = Ringbuffer->maxPartLength*Ringbuffer->maxElements;
-		
+
+#if defined(TARGET_WINDOWS)
 	LXC_SSE3cpxFloat *p	= (LXC_SSE3cpxFloat*)_aligned_malloc(sizeof(LXC_SSE3cpxFloat)*maxElements, LXC_SSE3_ALIGN);
+#elif defined(TARGET_LINUX)
+	LXC_SSE3cpxFloat *p = (LXC_SSE3cpxFloat*)_mm_malloc(sizeof(LXC_SSE3cpxFloat)*maxElements, LXC_SSE3_ALIGN);
+#endif
 	// http://stackoverflow.com/questions/21328985/sse-reinterpret-cast-m128-instead-of-mm-load-ps
 	// float *C = _mm_malloc(size * sizeof(*C), 16); 
 	// or

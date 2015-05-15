@@ -23,8 +23,9 @@
 
 
 
-#include <intrin.h>		//SSE types
-#include <mmintrin.h>	//SSE Intrinsics
+//#include <intrin.h>		//SSE types
+//#include <mmintrin.h>	//SSE Intrinsics
+#include <pmmintrin.h>
 //-----------------------------------------------------------------------------------------
 // SSE Intrinsic functions
 //-----------------------------------------------------------------------------------------

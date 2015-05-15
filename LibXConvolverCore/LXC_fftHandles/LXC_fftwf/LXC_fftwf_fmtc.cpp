@@ -23,10 +23,14 @@
 
 #include "LXC_fftwf_fmtc.h"
 #include "LXC_fftwfHandle_types.h"
+#include "../../include/LXC_Core_types.h"
 #include "../../LXC_Handles/LXC_Native/LXC_Native_types.h"
 #if defined(USE_LXC_SSE3)
 	#include "../../LXC_Handles/LXC_SSE3/LXC_SSE3_types.h"
-	#include <xmmintrin.h>
+	#include <pmmintrin.h>
+  #if defined(TARGET_LINUX)
+    #pragma GCC target("sse3")
+  #endif
 #endif
 
 // -------------------------------------
@@ -224,7 +228,7 @@ LXC_ERROR_CODE LXC_fmtc_LXCcpxSSE3Float_TO_fftwf(void *In, LXC_FFT_PLAN *fftHand
 	}
 
 	Size = Size*2;
-	float *in = (float*)In;
+	const float *in = (const float*)In;
 	float *out = (float*)((LXC_FFTWF_HANDLE*)fftHandle_out->LXC_specific_fftPlan)->X;
 	for(uint ii=0; ii < Size; ii+=4)
 	{
