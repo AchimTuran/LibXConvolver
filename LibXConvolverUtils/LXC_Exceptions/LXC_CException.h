@@ -42,7 +42,7 @@ protected: // protected Variablen
 public: // public Funktionen
 	LXC_CException(std::string strError, std::string strFilename, std::string strFunction, int iLine, void *vPointer=NULL);
 	LXC_CException(std::string strError, std::string strErrorModule, std::string strFilename, std::string strFunction, int iLine, void *vPointer=NULL);
-	~LXC_CException(void);
+	virtual ~LXC_CException(void);
 
 	virtual void showError() = 0;
 };
