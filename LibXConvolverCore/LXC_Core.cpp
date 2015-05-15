@@ -355,7 +355,7 @@ LXC_ERROR_CODE LXC_Core_getModuleCallbacks( LXC_CALLBACKS *Callbacks,
 {
   if (!Callbacks || !Buffer || !Ringbuffer)
   {
-    LXC_ERR_INVALID_INPUT;
+    return LXC_ERR_INVALID_INPUT;
   }
 
   LXC_ERROR_CODE err = LXC_NO_ERR;
@@ -425,7 +425,6 @@ LXC_ERROR_CODE LXC_Core_storeFilter(LXC_HANDLE *LXCHandle, LXC_FILTER_HANDLE_CH 
 	LXC_BUFFER_CALLBACKS *bufferCallbacks = &(LXCHandle->LXC_Handle.LXC_bufferCallbacks);
 	LXC_RINGBUFFER_CALLBACKS *ringbufferCallbacks = &(LXCHandle->LXC_Handle.LXC_ringbufferCallbacks);
 	LXC_FFT_CALLBACKS *fftCallbacks = &(LXCHandle->LXC_fftHandle.LXC_fftCallbacks);
-	LXC_FFT_PLAN *fftPlan = &(LXCHandle->LXC_fftHandle.LXC_fftPlan);
 	LXC_CONFIG *lxcConfig = &(LXCHandle->LXC_config);
 	
 	
