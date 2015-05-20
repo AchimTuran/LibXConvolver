@@ -16,12 +16,13 @@ LXC Software Architecture
 Dependencies
 ==============
 - fftw
+- KissFFT
 - libsndfile
 - libsamplerate
 
 Done
 ==============
-- download and build dependencies with scripts
+- download build dependencies with scripts
 - include compiler flags to select for which platform the library will be build
 - implement convolution algorithm with Native and SSE3 instructions
 
