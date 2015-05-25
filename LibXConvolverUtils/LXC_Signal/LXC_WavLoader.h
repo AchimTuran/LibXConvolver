@@ -30,13 +30,20 @@
 
 #define DEFAULT_BLOCKLENGTH 256	// Default length of a block that will be read in openFilterFile
 
-typedef struct
+typedef struct LXC_WavStruct
 {
 	uint sampleFrequency;
 	unsigned int maxSamples;
 	unsigned int maxChannels;
 	float *samples;
-}LXC_WavStruct;
+  LXC_WavStruct()
+  {
+    sampleFrequency = 0;
+    maxSamples = 0;
+    maxChannels = 0;
+    samples = NULL;
+  }
+};
 
 //typedef enum filterDatatype {FLOAT = 0, BIT8, };
 
