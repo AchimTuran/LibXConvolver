@@ -61,6 +61,7 @@ unsigned int LXC_CWavLoader::openWavFile(string WavFile, LXC_WavStruct *WavHandl
 	if(sndError != SF_ERR_NO_ERROR)
 	{
 		string sndErrorStr(sf_error_number(sndError));
+		LXC_LOG_DEBUG("Error while trying to load filter from file. sndfile erro message: %s.", sndErrorStr.c_str());
 		deleteWav(WavHandle);
     // ToDo show some error message
     return 0;
@@ -176,7 +177,7 @@ bool LXC_CWavLoader::checkWavStruct(LXC_WavStruct *WavHandle)
 	// get channels of the file
 	if(WavHandle->maxChannels <= 0)
 	{
-		deleteWav( WavHandle );
+		deleteWav(WavHandle);
 		throw LXC_EXCEPTION_COUT_HANDLER("WavFile has <= 0 channels! Invalid input file!");
 	}
 
@@ -192,8 +193,8 @@ bool LXC_CWavLoader::checkWavStruct(LXC_WavStruct *WavHandle)
 		deleteWav(WavHandle);
 		throw LXC_EXCEPTION_COUT_HANDLER("Filter file was empty! No filter taps were loaded!");
 	}	
-	LXC_LOG_DEBUG(	"LXC_CWavLoader::checkWavStruct channels: %i, sample frequency: %i Hz, max. samples: %i", 
-					WavHandle->maxChannels, WavHandle->sampleFrequency, WavHandle->maxSamples);
+	LXC_LOG_DEBUG("LXC_CWavLoader::checkWavStruct channels: %i, sample frequency: %i Hz, max. samples: %i",
+	              WavHandle->maxChannels, WavHandle->sampleFrequency, WavHandle->maxSamples);
 
 	if(!WavHandle->samples)
 	{
