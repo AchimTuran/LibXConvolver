@@ -23,10 +23,10 @@
 
 
 
-#define LXC_LOGGING_DEBUG_STR	"  [DEBUG]: "
-#define LXC_LOGGING_INFO_STR	"   [INFO]: "
-#define LXC_LOGGING_WARNING_STR "[WARNING]: "
-#define LXC_LOGGING_ERROR_STR	"  [ERROR]: "
+#define LXC_LOGGING_DEBUG_STR   "   [DEBUG]: "
+#define LXC_LOGGING_INFO_STR    "   [INFO]: "
+#define LXC_LOGGING_WARNING_STR "   [WARNING]: "
+#define LXC_LOGGING_ERROR_STR   "   [ERROR]: "
 
 #define MAX_LOGGING_TIME_SYMBOLS	128
 #define LXC_LOGGING_FILE_NAME		"LXC.log"
